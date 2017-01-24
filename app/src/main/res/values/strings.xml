@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">MovieKade</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="openDrawer">open_drawer</string>
+    <string name="closeDrawer">close_drawer</string>
+
+    // Navigation Items
+    <string name="nav_popular_movies">Popular Movies</string>
+    <string name="nav_top_rated_movies">Top Rated Movies</string>
+    <string name="nav_up_coming_movies">Upcoming</string>
+    <string name="nav_favorite_movies">Bookmarked Movies</string>
+    <string name="nav_about">About</string>
+    <string name="nav_settings">Settings</string>
+
+</resources>
