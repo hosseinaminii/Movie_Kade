@@ -7,7 +7,7 @@
             android:title="@string/nav_now_playing_movies" />
 
         <item android:id="@+id/navPopular"
-            android:icon="@android:drawable/alert_dark_frame"
+            android:icon="@drawable/ic_movie_popular"
             android:title="@string/nav_popular_movies" />
 
         <item
@@ -17,7 +17,7 @@
 
         <item
             android:id="@+id/navUpComing"
-            android:icon="@drawable/ic_movie_top_rate"
+            android:icon="@drawable/ic_movie_up_coming"
             android:title="@string/nav_up_coming_movies" />
 
         <item
@@ -29,9 +29,11 @@
     <item android:title="@string/title_other">
         <menu>
             <item android:id="@+id/navAbout"
-                android:title="@string/nav_about" />
+                android:title="@string/nav_about"
+                android:icon="@drawable/ic_info"/>
             <item android:id="@+id/navSetting"
-                android:title="@string/nav_settings" />
+                android:title="@string/nav_settings"
+                android:icon="@drawable/ic_setting"/>
         </menu>
     </item>
 </menu>

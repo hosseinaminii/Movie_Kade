@@ -1,5 +1,6 @@
 package com.aminiam.moviekade.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -82,6 +83,14 @@ public class MainActivity extends AppCompatActivity {
                         mNavItemIndex = 4;
                         mCurrentTag = TAG_BOOKMARK;
                         break;
+                    } case R.id.navAbout: {
+                        startActivity(new Intent(MainActivity.this, AboutActivity.class));
+                        mDrawerLayout.closeDrawers();
+                        return true;
+                    } case R.id.navSetting: {
+                        startActivity(new Intent(MainActivity.this, SettingActivity.class));
+                        mDrawerLayout.closeDrawers();
+                        return true;
                     } default: {
                         mNavItemIndex = 0;
                     }
