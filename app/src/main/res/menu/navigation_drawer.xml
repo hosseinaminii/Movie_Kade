@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_playing"
+            android:icon="@drawable/ic_movie_now_palying"
+            android:title="@string/nav_now_playing_movies" />
+        <item android:id="@+id/nav_popular"
+            android:icon="@drawable/ic_movie_popular"
+            android:title="@string/nav_popular_movies" />
+        <item
+            android:id="@+id/nav_top_rate"
+            android:icon="@drawable/ic_movie_top_rate"
+            android:title="@string/nav_top_rated_movies" />
+        <item
+            android:id="@+id/nav_bookmark"
+            android:icon="@drawable/ic_movie_book_mark"
+            android:title="@string/nav_bookmark_movies" />
+    </group>
+
+    <item android:title="@string/title_other">
+        <menu>
+            <item android:id="@+id/nav_about"
+                android:title="@string/nav_about" />
+            <item android:id="@+id/nav_setting"
+                android:title="@string/nav_settings" />
+        </menu>
+    </item>
+</menu>
