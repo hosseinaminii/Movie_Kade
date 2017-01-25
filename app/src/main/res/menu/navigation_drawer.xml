@@ -14,6 +14,12 @@
             android:id="@+id/navTopRate"
             android:icon="@drawable/ic_movie_top_rate"
             android:title="@string/nav_top_rated_movies" />
+
+        <item
+            android:id="@+id/navUpComing"
+            android:icon="@drawable/ic_movie_top_rate"
+            android:title="@string/nav_up_coming_movies" />
+
         <item
             android:id="@+id/navBookmark"
             android:icon="@drawable/ic_movie_book_mark"

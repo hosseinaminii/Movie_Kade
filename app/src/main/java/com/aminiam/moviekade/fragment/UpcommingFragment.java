@@ -9,10 +9,10 @@ import android.view.ViewGroup;
 
 import com.aminiam.moviekade.R;
 
-public class Upcomming extends Fragment {
+public class UpcommingFragment extends Fragment {
 
 
-    public Upcomming() {
+    public UpcommingFragment() {
         // Required empty public constructor
     }
 

@@ -18,6 +18,7 @@ import com.aminiam.moviekade.fragment.BookmarkFragment;
 import com.aminiam.moviekade.fragment.PlayingFragment;
 import com.aminiam.moviekade.fragment.PopularFragment;
 import com.aminiam.moviekade.fragment.TopRateFragment;
+import com.aminiam.moviekade.fragment.UpcommingFragment;
 
 import static com.aminiam.moviekade.R.id.navigationView;
 
@@ -73,8 +74,12 @@ public class MainActivity extends AppCompatActivity {
                         mNavItemIndex = 2;
                         mCurrentTag = TAG_TOP_RATED;
                         break;
-                    } case R.id.navBookmark: {
+                    }case R.id.navUpComing: {
                         mNavItemIndex = 3;
+                        mCurrentTag = TAG_UP_COMING;
+                        break;
+                    } case R.id.navBookmark: {
+                        mNavItemIndex = 4;
                         mCurrentTag = TAG_BOOKMARK;
                         break;
                     } default: {
@@ -136,7 +141,9 @@ public class MainActivity extends AppCompatActivity {
                 return new PopularFragment();
             } case 2: {
                 return new TopRateFragment();
-            } case 3: {
+            }case 3: {
+                return new UpcommingFragment();
+            } case 4: {
                 return new BookmarkFragment();
             } default: {
                 return new PlayingFragment();
