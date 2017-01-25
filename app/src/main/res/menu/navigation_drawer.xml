@@ -5,9 +5,11 @@
             android:id="@+id/nav_playing"
             android:icon="@drawable/ic_movie_now_palying"
             android:title="@string/nav_now_playing_movies" />
+
         <item android:id="@+id/nav_popular"
-            android:icon="@drawable/ic_movie_popular"
+            android:icon="@android:drawable/alert_dark_frame"
             android:title="@string/nav_popular_movies" />
+
         <item
             android:id="@+id/nav_top_rate"
             android:icon="@drawable/ic_movie_top_rate"
