@@ -1,7 +1,9 @@
-package com.aminiam.moviekade;
+package com.aminiam.moviekade.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.aminiam.moviekade.R;
 
 public class MainActivity extends AppCompatActivity {
 
