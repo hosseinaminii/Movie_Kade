@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="titles">
+        <item>@string/nav_now_playing_movies</item>
+        <item>@string/nav_popular_movies</item>
+        <item>@string/nav_top_rated_movies</item>
+        <item>@string/nav_up_coming_movies</item>
+        <item>@string/nav_bookmark_movies</item>
+    </array>
+</resources>

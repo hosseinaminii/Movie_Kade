@@ -2,29 +2,29 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_playing"
+            android:id="@+id/navPlaying"
             android:icon="@drawable/ic_movie_now_palying"
             android:title="@string/nav_now_playing_movies" />
 
-        <item android:id="@+id/nav_popular"
+        <item android:id="@+id/navPopular"
             android:icon="@android:drawable/alert_dark_frame"
             android:title="@string/nav_popular_movies" />
 
         <item
-            android:id="@+id/nav_top_rate"
+            android:id="@+id/navTopRate"
             android:icon="@drawable/ic_movie_top_rate"
             android:title="@string/nav_top_rated_movies" />
         <item
-            android:id="@+id/nav_bookmark"
+            android:id="@+id/navBookmark"
             android:icon="@drawable/ic_movie_book_mark"
             android:title="@string/nav_bookmark_movies" />
     </group>
 
     <item android:title="@string/title_other">
         <menu>
-            <item android:id="@+id/nav_about"
+            <item android:id="@+id/navAbout"
                 android:title="@string/nav_about" />
-            <item android:id="@+id/nav_setting"
+            <item android:id="@+id/navSetting"
                 android:title="@string/nav_settings" />
         </menu>
     </item>
