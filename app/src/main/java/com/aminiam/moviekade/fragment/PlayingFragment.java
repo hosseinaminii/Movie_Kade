@@ -3,14 +3,19 @@ package com.aminiam.moviekade.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.aminiam.moviekade.R;
+import com.aminiam.moviekade.utility.NetworkUtility;
+
+import java.io.IOException;
+import java.net.URL;
 
 public class PlayingFragment extends Fragment {
-
+    private static final String LOG_TAG = PlayingFragment.class.getSimpleName();
 
     public PlayingFragment() {
         // Required empty public constructor
@@ -19,7 +24,20 @@ public class PlayingFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
+        final URL url = NetworkUtility.getMoviesUrl(getContext(), NetworkUtility.POPULAR_PATH);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    String result = NetworkUtility.getResponseFromHttpUrl(url);
+                    Log.d(LOG_TAG, result);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+
         return inflater.inflate(R.layout.fragment_playing, container, false);
     }
 }
