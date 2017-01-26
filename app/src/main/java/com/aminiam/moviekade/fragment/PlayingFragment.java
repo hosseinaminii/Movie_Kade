@@ -9,7 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.aminiam.moviekade.R;
+import com.aminiam.moviekade.utility.JsonUtility;
 import com.aminiam.moviekade.utility.NetworkUtility;
+
+import org.json.JSONException;
 
 import java.io.IOException;
 import java.net.URL;
@@ -25,14 +28,17 @@ public class PlayingFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        final URL url = NetworkUtility.getMoviesUrl(getContext(), NetworkUtility.POPULAR_PATH);
+        final URL url = NetworkUtility.getMoviesUrl(NetworkUtility.POPULAR_PATH);
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
                     String result = NetworkUtility.getResponseFromHttpUrl(url);
+                    JsonUtility.getMoviesDataFromJson(result);
                     Log.d(LOG_TAG, result);
                 } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }

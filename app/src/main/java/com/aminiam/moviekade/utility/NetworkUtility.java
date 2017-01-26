@@ -1,11 +1,11 @@
 package com.aminiam.moviekade.utility;
 
-import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
 
 import com.aminiam.moviekade.BuildConfig;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -27,11 +27,10 @@ public class NetworkUtility {
 
     /**
      * Create URL for getting all movies from api
-     * @param context
      * @param collectionPath for specify which collection we want to get EXP popular, top_rate and ...
      * @return URL
      */
-    public static URL getMoviesUrl(Context context, String collectionPath) {
+    public static URL getMoviesUrl(String collectionPath) {
         Uri moviesQueryUri = Uri.parse(DB_MOVIE_BASE_URL).buildUpon()
                 .appendPath(MOVIE_PATH)
                 .appendPath(collectionPath)
@@ -68,7 +67,7 @@ public class NetworkUtility {
             }
             stream = connection.getInputStream();
             if(stream != null) {
-                result = readStream(stream, 500);
+                result = convertStreamToString(stream);
             }
 
         } finally {
@@ -84,28 +83,29 @@ public class NetworkUtility {
     }
 
     /**
-     * Convert InputStream to String
-     * @param stream that get from api
-     * @param maxLength for reading from stream
-     * @return converted stream to string
-     * @throws IOException
+     * Convert Stream to String
+     * @param inputStream that we want to convert to String
+     * @return converted inputStream as String
      */
-    private static String readStream(InputStream stream, int maxLength) throws IOException{
-        String result = null;
-        InputStreamReader reader = new InputStreamReader(stream, "UTF-8");
-        char[] buffer = new char[maxLength];
-        int numChars = 0;
-        int readSize = 0;
-        while(numChars < maxLength && readSize != -1) {
-            numChars += readSize;
-            readSize = reader.read(buffer, numChars, buffer.length - numChars);
-        }
-        if(numChars != -1) {
-            numChars = Math.min(numChars, maxLength);
-            result = new String(buffer, 0, numChars);
-        }
+    private static String convertStreamToString(InputStream inputStream) {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+        StringBuilder sb = new StringBuilder();
 
-        return result;
+        String line = null;
+        try {
+            while ((line = reader.readLine()) != null) {
+                sb.append(line).append('\n');
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                inputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return sb.toString();
     }
 
 }
