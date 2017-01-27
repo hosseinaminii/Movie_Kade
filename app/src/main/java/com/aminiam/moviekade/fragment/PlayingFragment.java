@@ -56,14 +56,6 @@ public class PlayingFragment extends Fragment implements LoaderManager.LoaderCal
         mLoadingIndicator = (ProgressBar) rootView.findViewById(R.id.loadingIndicator);
         mTextView = (TextView) rootView.findViewById(R.id.textView);
 
-        int spanCount = Utility.calculateNoOfColumns(getActivity());
-        mAdapter = new MovieAdapter();
-        mRecPlayingMovie.setLayoutManager(new GridLayoutManager(getContext(), spanCount));
-        int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.grid_layout_margin);
-        mRecPlayingMovie.addItemDecoration(new GridSpacingItemDecoration(spanCount, spacingInPixels, true, 0));
-
-        mRecPlayingMovie.setAdapter(mAdapter);
-
         return rootView;
     }
 
@@ -97,6 +89,12 @@ public class PlayingFragment extends Fragment implements LoaderManager.LoaderCal
             try {
                 updateView(false);
                 MovieStructure[] movieStructures = JsonUtility.getMoviesDataFromJson(data);
+                int spanCount = Utility.calculateNoOfColumns(getActivity());
+                mAdapter = new MovieAdapter(getActivity(), movieStructures);
+                mRecPlayingMovie.setLayoutManager(new GridLayoutManager(getContext(), spanCount));
+                int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.grid_layout_margin);
+                mRecPlayingMovie.addItemDecoration(new GridSpacingItemDecoration(spanCount, spacingInPixels, true, 0));
+                mRecPlayingMovie.setAdapter(mAdapter);
             } catch (JSONException e) {
                 e.printStackTrace();
             }

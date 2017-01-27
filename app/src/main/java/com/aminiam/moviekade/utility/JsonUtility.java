@@ -1,8 +1,6 @@
 package com.aminiam.moviekade.utility;
 
 
-import android.util.Log;
-
 import com.aminiam.moviekade.other.MovieStructure;
 
 import org.json.JSONArray;
@@ -40,12 +38,10 @@ public class JsonUtility {
             double averageVote = movieJsonObject.getDouble(AVERAGE_VOTE);
 
             movieStructure.title = title;
-            movieStructure.posterPath = posterPath;
-            movieStructure.avarageVote = averageVote;
+            movieStructure.posterName = posterPath;
+            movieStructure.averageVote = averageVote;
 
-            movieStructureList[0] = movieStructure;
-            Log.d(LOG_TAG, "Title= " + title + " Poster Path= " + posterPath +
-                    " Average Vote= " + averageVote);
+            movieStructureList[i] = movieStructure;
         }
 
         return movieStructureList;

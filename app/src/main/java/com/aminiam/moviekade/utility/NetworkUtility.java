@@ -108,4 +108,7 @@ public class NetworkUtility {
         return sb.toString();
     }
 
+    public static String buildPosterPath(String imageName) {
+        return "http://image.tmdb.org/t/p/w342/".concat(imageName);
+    }
 }
