@@ -17,4 +17,8 @@
     <string name="nav_settings">Settings</string>
 
     <string name="hello_blank_fragment">Hello blank Activity</string>
+
+    <string name="error_message">
+        Failed to get results. Please try again.
+    </string>
 </resources>
