@@ -2,8 +2,11 @@ package com.aminiam.moviekade.fragment;
 
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.AsyncTaskLoader;
+import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,33 +20,64 @@ import org.json.JSONException;
 import java.io.IOException;
 import java.net.URL;
 
-public class PlayingFragment extends Fragment {
+public class PlayingFragment extends Fragment implements LoaderManager.LoaderCallbacks<String> {
     private static final String LOG_TAG = PlayingFragment.class.getSimpleName();
+
+    private static final int LOADER_ID = 99;
 
     public PlayingFragment() {
         // Required empty public constructor
     }
 
     @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        getActivity().getSupportLoaderManager().restartLoader(LOADER_ID, null, this);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_playing, container, false);
+    }
 
-        final URL url = NetworkUtility.getMoviesUrl(NetworkUtility.POPULAR_PATH);
-        new Thread(new Runnable() {
+    @Override
+    public Loader<String> onCreateLoader(int id, Bundle args) {
+        return new AsyncTaskLoader<String>(getActivity()) {
             @Override
-            public void run() {
+            protected void onStartLoading() {
+                forceLoad();
+            }
+
+            @Override
+            public String loadInBackground() {
                 try {
-                    String result = NetworkUtility.getResponseFromHttpUrl(url);
-                    JsonUtility.getMoviesDataFromJson(result);
-                    Log.d(LOG_TAG, result);
+                    final URL url = NetworkUtility.getMoviesUrl(NetworkUtility.POPULAR_PATH);
+                    return NetworkUtility.getResponseFromHttpUrl(url);
                 } catch (IOException e) {
                     e.printStackTrace();
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                    return null;
                 }
             }
-        }).start();
+        };
+    }
 
-        return inflater.inflate(R.layout.fragment_playing, container, false);
+    @Override
+    public void onLoadFinished(Loader<String> loader, String data) {
+        if(data == null) {
+            // Show Error
+        } else {
+            try {
+                JsonUtility.getMoviesDataFromJson(data);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public void onLoaderReset(Loader loader) {
+
     }
 }
