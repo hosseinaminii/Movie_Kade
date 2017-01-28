@@ -22,10 +22,12 @@ public class NetworkUtility {
     private static final String DB_MOVIE_BASE_URL = "http://api.themoviedb.org/3/";
 
     private static final String MOVIE_PATH = "movie";
-    private static final String VIDEO_PATH= "videos";
+    private static final String VIDEO_PATH = "videos";
     private static final String REVIEW_PATH = "review";
-    public static final String TOP_RATE_PATH = "top_rate";
+    public static final String NOW_PLAYING_PATH = "now_playing";
+    public static final String TOP_RATE_PATH = "top_rated";
     public static final String POPULAR_PATH = "popular";
+    public static final String UPCOMING_PATH = "upcoming";
     private static final String API_KEY_PARAM = "api_key";
 
     /**

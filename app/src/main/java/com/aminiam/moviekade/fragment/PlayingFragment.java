@@ -1,6 +1,5 @@
 package com.aminiam.moviekade.fragment;
 
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -19,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.aminiam.moviekade.R;
+import com.aminiam.moviekade.activity.MainActivity;
 import com.aminiam.moviekade.adapter.MovieAdapter;
 import com.aminiam.moviekade.databinding.FragmentPlayingBinding;
 import com.aminiam.moviekade.other.GridSpacingItemDecoration;
@@ -35,9 +35,10 @@ import java.net.URL;
 public class PlayingFragment extends Fragment implements LoaderManager.LoaderCallbacks<String>, View.OnClickListener {
     private static final String LOG_TAG = PlayingFragment.class.getSimpleName();
 
-    private static final int LOADER_ID = 99;
     private MovieAdapter mAdapter;
     private Toast mToast;
+    private String mPath;
+    private int mLoaderId;
 
     private FragmentPlayingBinding mBinding;
     private NetworkReceiver mNetworkReceiver;
@@ -48,14 +49,11 @@ public class PlayingFragment extends Fragment implements LoaderManager.LoaderCal
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-        mNetworkIntentFilter = new IntentFilter();
-        mNetworkIntentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
-        mNetworkReceiver = new NetworkReceiver();
-
-        getActivity().getSupportLoaderManager().initLoader(LOADER_ID, null, this);
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Bundle args = getArguments();
+        mPath = args.getString(MainActivity.PATH_KEY);
+        mLoaderId = args.getInt(MainActivity.LOADER_ID_KEY);
     }
 
     @Override
@@ -65,6 +63,17 @@ public class PlayingFragment extends Fragment implements LoaderManager.LoaderCal
         mBinding.btnTryAgain.setOnClickListener(this);
 
         return mBinding.getRoot();
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        mNetworkIntentFilter = new IntentFilter();
+        mNetworkIntentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+        mNetworkReceiver = new NetworkReceiver();
+
+        getActivity().getSupportLoaderManager().initLoader(mLoaderId, null, this);
     }
 
     @Override
@@ -92,7 +101,7 @@ public class PlayingFragment extends Fragment implements LoaderManager.LoaderCal
             @Override
             public String loadInBackground() {
                 try {
-                    final URL url = NetworkUtility.getMoviesUrl(NetworkUtility.POPULAR_PATH);
+                    final URL url = NetworkUtility.getMoviesUrl(mPath);
                     return NetworkUtility.getResponseFromHttpUrl(url);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -136,7 +145,7 @@ public class PlayingFragment extends Fragment implements LoaderManager.LoaderCal
         switch (v.getId()) {
             case R.id.btnTryAgain: {
                 if(NetworkUtility.isNetworkAvailable(getActivity())) {
-                    getActivity().getSupportLoaderManager().restartLoader(LOADER_ID, null, this);
+                    getActivity().getSupportLoaderManager().initLoader(mLoaderId, null, this);
                 } else {
                     showToast(getString(R.string.error_message_internet));
                 }
@@ -164,6 +173,7 @@ public class PlayingFragment extends Fragment implements LoaderManager.LoaderCal
         mBinding.loadingIndicator.setVisibility(View.INVISIBLE);
         mBinding.recPlayingMovies.setVisibility(View.INVISIBLE);
         mBinding.lneError.setVisibility(View.VISIBLE);
+
         mBinding.txtError.setText(errMessage);
         mBinding.imgErrorIcon.setImageResource(iconResource);
     }
@@ -181,7 +191,7 @@ public class PlayingFragment extends Fragment implements LoaderManager.LoaderCal
         @Override
         public void onReceive(Context context, Intent intent) {
             if(NetworkUtility.isNetworkAvailable(context)) {
-                getActivity().getSupportLoaderManager().initLoader(LOADER_ID, null, PlayingFragment.this);
+                getActivity().getSupportLoaderManager().initLoader(mLoaderId, null, PlayingFragment.this);
             } else {
                 showError(getString(R.string.error_message_internet));
             }
