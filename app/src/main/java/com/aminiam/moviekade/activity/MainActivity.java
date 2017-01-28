@@ -2,6 +2,7 @@ package com.aminiam.moviekade.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -25,6 +26,7 @@ import static com.aminiam.moviekade.R.id.navigationView;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String BUNDLE_KEY = "bundle_key";
     private static final String TAG_NOW_PLAYING = "now_playing";
     private static final String TAG_POPULAR = "popular";
     private static final String TAG_TOP_RATED = "top_rated";
@@ -42,6 +44,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if(savedInstanceState != null) {
+            mCurrentTag = savedInstanceState.getString(BUNDLE_KEY);
+        }
+
         setContentView(R.layout.activity_main);
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -169,5 +176,9 @@ public class MainActivity extends AppCompatActivity {
         super.onBackPressed();
     }
 
-
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+        outState.putString(BUNDLE_KEY, mCurrentTag);
+    }
 }
