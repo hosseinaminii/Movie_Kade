@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.aminiam.moviekade.R;
 import com.aminiam.moviekade.other.MovieStructure;
@@ -33,7 +34,11 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
     @Override
     public void onBindViewHolder(MovieViewHolder holder, int position) {
         String posterName = mMovieStructures[position].posterName;
+        String title = mMovieStructures[position].title;
+        double averageVote = mMovieStructures[position].averageVote;
         Picasso.with(mContext).load(NetworkUtility.buildPosterPath(posterName)).into(holder.imgPosterPath);
+        holder.txtTitle.setText(title);
+        holder.txtAverageVote.setText(String.format(mContext.getString(R.string.average_vote), averageVote));
     }
 
     @Override
@@ -43,9 +48,14 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 
     class MovieViewHolder extends RecyclerView.ViewHolder {
         ImageView imgPosterPath;
+        TextView txtTitle;
+        TextView txtAverageVote;
+
         MovieViewHolder(View itemView) {
             super(itemView);
             imgPosterPath = (ImageView) itemView.findViewById(R.id.imgPosterPath);
+            txtTitle = (TextView) itemView.findViewById(R.id.txtTitle);
+            txtAverageVote = (TextView) itemView.findViewById(R.id.txtAverageVote);
         }
     }
 }

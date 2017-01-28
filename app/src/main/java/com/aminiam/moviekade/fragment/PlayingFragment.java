@@ -8,15 +8,13 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.aminiam.moviekade.R;
 import com.aminiam.moviekade.adapter.MovieAdapter;
+import com.aminiam.moviekade.databinding.FragmentPlayingBinding;
 import com.aminiam.moviekade.other.GridSpacingItemDecoration;
 import com.aminiam.moviekade.other.MovieStructure;
 import com.aminiam.moviekade.utility.JsonUtility;
@@ -32,10 +30,9 @@ public class PlayingFragment extends Fragment implements LoaderManager.LoaderCal
     private static final String LOG_TAG = PlayingFragment.class.getSimpleName();
 
     private static final int LOADER_ID = 99;
-    private RecyclerView mRecPlayingMovie;
-    private ProgressBar mLoadingIndicator;
-    private TextView mTextView;
     private MovieAdapter mAdapter;
+
+    FragmentPlayingBinding mBinding;
 
     public PlayingFragment() {
         // Required empty public constructor
@@ -51,12 +48,9 @@ public class PlayingFragment extends Fragment implements LoaderManager.LoaderCal
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_playing, container, false);
-        mRecPlayingMovie = (RecyclerView) rootView.findViewById(R.id.recPlayingMovies);
-        mLoadingIndicator = (ProgressBar) rootView.findViewById(R.id.loadingIndicator);
-        mTextView = (TextView) rootView.findViewById(R.id.textView);
+        mBinding = FragmentPlayingBinding.inflate(inflater, container, false);
 
-        return rootView;
+        return mBinding.getRoot();
     }
 
     @Override
@@ -84,17 +78,17 @@ public class PlayingFragment extends Fragment implements LoaderManager.LoaderCal
     @Override
     public void onLoadFinished(Loader<String> loader, String data) {
         if(data == null) {
-            showError();
+            showError(getResources().getString(R.string.error_message));
         } else {
             try {
                 updateView(false);
                 MovieStructure[] movieStructures = JsonUtility.getMoviesDataFromJson(data);
                 int spanCount = Utility.calculateNoOfColumns(getActivity());
                 mAdapter = new MovieAdapter(getActivity(), movieStructures);
-                mRecPlayingMovie.setLayoutManager(new GridLayoutManager(getContext(), spanCount));
+                mBinding.recPlayingMovies.setLayoutManager(new GridLayoutManager(getContext(), spanCount));
                 int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.grid_layout_margin);
-                mRecPlayingMovie.addItemDecoration(new GridSpacingItemDecoration(spanCount, spacingInPixels, true, 0));
-                mRecPlayingMovie.setAdapter(mAdapter);
+                mBinding.recPlayingMovies.addItemDecoration(new GridSpacingItemDecoration(spanCount, spacingInPixels, true, 0));
+                mBinding.recPlayingMovies.setAdapter(mAdapter);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -103,22 +97,20 @@ public class PlayingFragment extends Fragment implements LoaderManager.LoaderCal
 
     @Override
     public void onLoaderReset(Loader loader) {
-
     }
 
     private void updateView(boolean isLoading) {
         if(isLoading) {
-            mLoadingIndicator.setVisibility(View.VISIBLE);
-            mTextView.setVisibility(View.INVISIBLE);
+            mBinding.loadingIndicator.setVisibility(View.VISIBLE);
         } else {
-            mLoadingIndicator.setVisibility(View.INVISIBLE);
-            mTextView.setVisibility(View.VISIBLE);
+            mBinding.loadingIndicator.setVisibility(View.INVISIBLE);
         }
+        mBinding.lneError.setVisibility(View.INVISIBLE);
     }
 
-    private void showError() {
-        mLoadingIndicator.setVisibility(View.INVISIBLE);
-        mTextView.setVisibility(View.VISIBLE);
-        mTextView.setText(getResources().getString(R.string.error_message));
+    private void showError(String errMessage) {
+        mBinding.loadingIndicator.setVisibility(View.INVISIBLE);
+        mBinding.lneError.setVisibility(View.VISIBLE);
+        mBinding.txtError.setText(errMessage);
     }
 }

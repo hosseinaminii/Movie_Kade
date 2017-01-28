@@ -5,4 +5,6 @@
     <color name="colorAccent">#00b8d4</color>
     <color name="textColorPrimary">#fff</color>
     <color name="windowBackground">#303030</color>
+    <color name="poster_text_background">#7b000000</color>
+    <color name="poster_background">#758a94</color>
 </resources>
