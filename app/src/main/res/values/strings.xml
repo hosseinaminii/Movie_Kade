@@ -17,6 +17,7 @@
     <string name="nav_settings">Settings</string>
 
     <string name="hello_blank_fragment">Hello blank Activity</string>
-    <string name="error_message">Failed to get results!</string>
+    <string name="error_message_failed">Failed to get results!</string>
+    <string name="error_message_internet">No internet connection!</string>
     <string name="average_vote">%1$.1f/10</string>
 </resources>
