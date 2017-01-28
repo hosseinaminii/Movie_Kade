@@ -8,6 +8,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.GridLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,7 +43,7 @@ public class PlayingFragment extends Fragment implements LoaderManager.LoaderCal
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        getActivity().getSupportLoaderManager().restartLoader(LOADER_ID, null, this);
+        getActivity().getSupportLoaderManager().initLoader(LOADER_ID, null, this);
     }
 
     @Override
@@ -68,7 +69,8 @@ public class PlayingFragment extends Fragment implements LoaderManager.LoaderCal
                     final URL url = NetworkUtility.getMoviesUrl(NetworkUtility.POPULAR_PATH);
                     return NetworkUtility.getResponseFromHttpUrl(url);
                 } catch (IOException e) {
-                    e.printStackTrace();
+//                    e.printStackTrace();
+//                    showError(getResources().getString(R.string.error_message));
                     return null;
                 }
             }
@@ -77,6 +79,7 @@ public class PlayingFragment extends Fragment implements LoaderManager.LoaderCal
 
     @Override
     public void onLoadFinished(Loader<String> loader, String data) {
+        Log.d(LOG_TAG, "onLoadFinished");
         if(data == null) {
             showError(getResources().getString(R.string.error_message));
         } else {
