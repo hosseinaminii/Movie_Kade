@@ -198,4 +198,10 @@ public class PlayingFragment extends Fragment implements LoaderManager.LoaderCal
         }
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        getActivity().getSupportLoaderManager().destroyLoader(mLoaderId);
+    }
+
 }
