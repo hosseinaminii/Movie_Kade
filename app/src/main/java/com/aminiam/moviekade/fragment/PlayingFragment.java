@@ -1,6 +1,5 @@
 package com.aminiam.moviekade.fragment;
 
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -55,7 +54,11 @@ public class PlayingFragment extends Fragment implements LoaderManager.LoaderCal
         mNetworkIntentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
         mNetworkReceiver = new NetworkReceiver();
 
-        getActivity().getSupportLoaderManager().initLoader(LOADER_ID, null, this);
+        if(NetworkUtility.isNetworkAvailable(getActivity())) {
+            getActivity().getSupportLoaderManager().initLoader(LOADER_ID, null, this);
+        } else {
+            showError(getString(R.string.error_message_internet));
+        }
     }
 
     @Override
@@ -96,7 +99,6 @@ public class PlayingFragment extends Fragment implements LoaderManager.LoaderCal
                     return NetworkUtility.getResponseFromHttpUrl(url);
                 } catch (IOException e) {
                     e.printStackTrace();
-//                    showError(getResources().getString(R.string.error_message));
                     return null;
                 }
             }
@@ -188,4 +190,9 @@ public class PlayingFragment extends Fragment implements LoaderManager.LoaderCal
         }
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        getActivity().getSupportLoaderManager().destroyLoader(LOADER_ID);
+    }
 }

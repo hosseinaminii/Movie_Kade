@@ -25,6 +25,7 @@ import com.aminiam.moviekade.fragment.UpcommingFragment;
 import static com.aminiam.moviekade.R.id.navigationView;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String LOG_TAG = MainActivity.class.getSimpleName();
 
     private static final String BUNDLE_KEY = "bundle_key";
     private static final String TAG_NOW_PLAYING = "now_playing";
@@ -46,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         if(savedInstanceState != null) {
-            mCurrentTag = savedInstanceState.getString(BUNDLE_KEY);
+//            mCurrentTag = savedInstanceState.getString(BUNDLE_KEY);
         }
 
         setContentView(R.layout.activity_main);
@@ -64,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
         initNav();
         loadFragment();
     }
+
 
     private void initNav() {
         mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
