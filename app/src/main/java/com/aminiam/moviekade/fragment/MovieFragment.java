@@ -32,8 +32,8 @@ import org.json.JSONException;
 import java.io.IOException;
 import java.net.URL;
 
-public class PlayingFragment extends Fragment implements LoaderManager.LoaderCallbacks<String>, View.OnClickListener {
-    private static final String LOG_TAG = PlayingFragment.class.getSimpleName();
+public class MovieFragment extends Fragment implements LoaderManager.LoaderCallbacks<String>, View.OnClickListener {
+    private static final String LOG_TAG = MovieFragment.class.getSimpleName();
 
     private MovieAdapter mAdapter;
     private Toast mToast;
@@ -44,7 +44,7 @@ public class PlayingFragment extends Fragment implements LoaderManager.LoaderCal
     private NetworkReceiver mNetworkReceiver;
     private IntentFilter mNetworkIntentFilter;
 
-    public PlayingFragment() {
+    public MovieFragment() {
         // Required empty public constructor
     }
 
@@ -62,18 +62,18 @@ public class PlayingFragment extends Fragment implements LoaderManager.LoaderCal
         mBinding = FragmentPlayingBinding.inflate(inflater, container, false);
         mBinding.btnTryAgain.setOnClickListener(this);
 
+        mAdapter = new MovieAdapter(getActivity());
+        int spanCount = Utility.calculateNoOfColumns(getActivity());
+        mBinding.recPlayingMovies.setLayoutManager(new GridLayoutManager(getContext(), spanCount));
+        int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.grid_layout_margin);
+        mBinding.recPlayingMovies.addItemDecoration(new GridSpacingItemDecoration(spanCount, spacingInPixels, true, 0));
+
         return mBinding.getRoot();
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if(savedInstanceState == null) {
-            int spanCount = Utility.calculateNoOfColumns(getActivity());
-            mBinding.recPlayingMovies.setLayoutManager(new GridLayoutManager(getContext(), spanCount));
-            int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.grid_layout_margin);
-            mBinding.recPlayingMovies.addItemDecoration(new GridSpacingItemDecoration(spanCount, spacingInPixels, true, 0));
-        }
 
         mNetworkIntentFilter = new IntentFilter();
         mNetworkIntentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
@@ -130,11 +130,7 @@ public class PlayingFragment extends Fragment implements LoaderManager.LoaderCal
             try {
                 updateViews(false);
                 MovieStructure[] movieStructures = JsonUtility.getMoviesDataFromJson(data);
-
-                mAdapter = new MovieAdapter(getActivity(), movieStructures);
-
-
-
+                mAdapter.populateDate(movieStructures);
                 mBinding.recPlayingMovies.setAdapter(mAdapter);
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -197,7 +193,7 @@ public class PlayingFragment extends Fragment implements LoaderManager.LoaderCal
         @Override
         public void onReceive(Context context, Intent intent) {
             if(NetworkUtility.isNetworkAvailable(context)) {
-                getActivity().getSupportLoaderManager().initLoader(mLoaderId, null, PlayingFragment.this);
+                getActivity().getSupportLoaderManager().initLoader(mLoaderId, null, MovieFragment.this);
             } else {
                 showError(getString(R.string.error_message_internet));
             }

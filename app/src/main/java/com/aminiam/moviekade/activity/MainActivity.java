@@ -2,7 +2,6 @@ package com.aminiam.moviekade.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -18,7 +17,7 @@ import android.view.View;
 
 import com.aminiam.moviekade.R;
 import com.aminiam.moviekade.fragment.BookmarkFragment;
-import com.aminiam.moviekade.fragment.PlayingFragment;
+import com.aminiam.moviekade.fragment.MovieFragment;
 import com.aminiam.moviekade.utility.NetworkUtility;
 
 import static com.aminiam.moviekade.R.id.navigationView;
@@ -58,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
         if(savedInstanceState != null) {
             mCurrentTag = savedInstanceState.getString(BUNDLE_KEY);
         }
+        Log.d(LOG_TAG, "mCurrentTag= " + mCurrentTag);
 
         setContentView(R.layout.activity_main);
 
@@ -72,9 +72,7 @@ public class MainActivity extends AppCompatActivity {
         mNavigationView = (NavigationView) findViewById(navigationView);
 
         initNav();
-        Log.d(LOG_TAG, "num_1");
         loadFragment();
-        Log.d(LOG_TAG, "num_5");
     }
 
     private void initNav() {
@@ -153,19 +151,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadFragment() {
-        Log.d(LOG_TAG, "num_2");
         mNavigationView.getMenu().getItem(mNavItemIndex).setChecked(true);
         getSupportActionBar().setTitle(titles[mNavItemIndex]);
-        Log.d(LOG_TAG, "num_3");
 
         if(getSupportFragmentManager().findFragmentByTag(mCurrentTag) != null) {
             mDrawerLayout.closeDrawers();
             return;
         }
-        Log.d(LOG_TAG, "num_4");
 
         Fragment fragment = getCorrespondingFragment();
-//        PlayingFragment fragment = new PlayingFragment();
+//        MovieFragment fragment = new MovieFragment();
         Bundle args = new Bundle();
         args.putString(PATH_KEY, mPath);
         args.putInt(LOADER_ID_KEY, mLoaderId);
@@ -184,7 +179,7 @@ public class MainActivity extends AppCompatActivity {
             case 4: {
                 return new BookmarkFragment();
             } default: {
-                return new PlayingFragment();
+                return new MovieFragment();
             }
         }
     }
@@ -199,8 +194,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
-        super.onSaveInstanceState(outState, outPersistentState);
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
         outState.putString(BUNDLE_KEY, mCurrentTag);
     }
 }
