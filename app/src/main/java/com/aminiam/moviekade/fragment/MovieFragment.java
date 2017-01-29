@@ -1,10 +1,6 @@
 package com.aminiam.moviekade.fragment;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -23,6 +19,7 @@ import com.aminiam.moviekade.adapter.MovieAdapter;
 import com.aminiam.moviekade.databinding.FragmentMovieBinding;
 import com.aminiam.moviekade.other.GridSpacingItemDecoration;
 import com.aminiam.moviekade.other.MovieStructure;
+import com.aminiam.moviekade.other.UiUpdaterListener;
 import com.aminiam.moviekade.utility.JsonUtility;
 import com.aminiam.moviekade.utility.NetworkUtility;
 import com.aminiam.moviekade.utility.Utility;
@@ -32,20 +29,28 @@ import org.json.JSONException;
 import java.io.IOException;
 import java.net.URL;
 
-public class MovieFragment extends Fragment implements LoaderManager.LoaderCallbacks<String>, View.OnClickListener {
+public class MovieFragment extends Fragment implements LoaderManager.LoaderCallbacks<String> {
     private static final String LOG_TAG = MovieFragment.class.getSimpleName();
 
     private MovieAdapter mAdapter;
-    private Toast mToast;
     private String mPath;
     private int mLoaderId;
+    private Toast mToast;
 
     private FragmentMovieBinding mBinding;
-    private NetworkReceiver mNetworkReceiver;
-    private IntentFilter mNetworkIntentFilter;
+    private UiUpdaterListener mListener;
 
     public MovieFragment() {
-        // Required empty public constructor
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            mListener = (UiUpdaterListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.getClass().getName() + " must implements UiUpdaterListener");
+        }
     }
 
     @Override
@@ -60,7 +65,6 @@ public class MovieFragment extends Fragment implements LoaderManager.LoaderCallb
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mBinding = FragmentMovieBinding.inflate(inflater, container, false);
-        mBinding.btnTryAgain.setOnClickListener(this);
 
         mAdapter = new MovieAdapter(getActivity());
         int spanCount = Utility.calculateNoOfColumns(getActivity());
@@ -75,28 +79,11 @@ public class MovieFragment extends Fragment implements LoaderManager.LoaderCallb
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        mNetworkIntentFilter = new IntentFilter();
-        mNetworkIntentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
-        mNetworkReceiver = new NetworkReceiver();
-
         if(NetworkUtility.isNetworkAvailable(getContext())) {
             getActivity().getSupportLoaderManager().initLoader(mLoaderId, null, this);
         } else {
-            showError(getString(R.string.error_message_internet));
+            mListener.error(getString(R.string.error_message_internet));
         }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        getActivity().registerReceiver(mNetworkReceiver, mNetworkIntentFilter);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        getActivity().unregisterReceiver(mNetworkReceiver);
     }
 
     @Override
@@ -104,7 +91,8 @@ public class MovieFragment extends Fragment implements LoaderManager.LoaderCallb
         return new AsyncTaskLoader<String>(getActivity()) {
             @Override
             protected void onStartLoading() {
-                updateViews(true);
+//                updateViews(true);
+                mListener.updateViews(true);
                 forceLoad();
             }
 
@@ -115,7 +103,6 @@ public class MovieFragment extends Fragment implements LoaderManager.LoaderCallb
                     return NetworkUtility.getResponseFromHttpUrl(url);
                 } catch (IOException e) {
                     e.printStackTrace();
-//                    showError(getResources().getString(R.string.error_message));
                     return null;
                 }
             }
@@ -125,14 +112,15 @@ public class MovieFragment extends Fragment implements LoaderManager.LoaderCallb
     @Override
     public void onLoadFinished(Loader<String> loader, String data) {
         if (data == null) {
+            String errorMessage = getResources().getString(R.string.error_message_failed);
             if(!NetworkUtility.isNetworkAvailable(getActivity())) {
-                showError(getString(R.string.error_message_internet));
-            } else {
-                showError(getResources().getString(R.string.error_message_failed));
+                getString(R.string.error_message_internet);
             }
+            mListener.error(errorMessage);
+            showToast(errorMessage);
         } else {
             try {
-                updateViews(false);
+                mListener.updateViews(false);
                 MovieStructure[] movieStructures = JsonUtility.getMoviesDataFromJson(data);
                 mAdapter.populateDate(movieStructures);
                 mBinding.recPlayingMovies.setAdapter(mAdapter);
@@ -146,44 +134,6 @@ public class MovieFragment extends Fragment implements LoaderManager.LoaderCallb
     public void onLoaderReset(Loader loader) {
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btnTryAgain: {
-                if(NetworkUtility.isNetworkAvailable(getActivity())) {
-                    getActivity().getSupportLoaderManager().initLoader(mLoaderId, null, this);
-                } else {
-                    showToast(getString(R.string.error_message_internet));
-                }
-                break;
-            }
-        }
-    }
-
-    private void updateViews(boolean isLoading) {
-        if (isLoading) {
-            mBinding.loadingIndicator.setVisibility(View.VISIBLE);
-            mBinding.recPlayingMovies.setVisibility(View.INVISIBLE);
-        } else {
-            mBinding.loadingIndicator.setVisibility(View.INVISIBLE);
-            mBinding.recPlayingMovies.setVisibility(View.VISIBLE);
-        }
-        mBinding.lneError.setVisibility(View.INVISIBLE);
-    }
-
-    private void showError(String errMessage) {
-        int iconResource = R.drawable.ic_alert;
-        if (errMessage.equals(getString(R.string.error_message_internet))) {
-            iconResource = R.drawable.ic_wifi_off;
-        }
-        mBinding.loadingIndicator.setVisibility(View.INVISIBLE);
-        mBinding.recPlayingMovies.setVisibility(View.INVISIBLE);
-        mBinding.lneError.setVisibility(View.VISIBLE);
-
-        mBinding.txtError.setText(errMessage);
-        mBinding.imgErrorIcon.setImageResource(iconResource);
-    }
-
     private void showToast(String message) {
         if(mToast != null) {
             mToast.cancel();
@@ -192,22 +142,7 @@ public class MovieFragment extends Fragment implements LoaderManager.LoaderCallb
         mToast.show();
     }
 
-    private class NetworkReceiver extends BroadcastReceiver {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if(NetworkUtility.isNetworkAvailable(context)) {
-                getActivity().getSupportLoaderManager().initLoader(mLoaderId, null, MovieFragment.this);
-            } else {
-                showError(getString(R.string.error_message_internet));
-            }
-        }
+    public void initLoader() {
+        getActivity().getSupportLoaderManager().initLoader(mLoaderId, null, MovieFragment.this);
     }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-//        getActivity().getSupportLoaderManager().destroyLoader(mLoaderId);
-    }
-
 }
