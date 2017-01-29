@@ -19,8 +19,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
     private MovieStructure[] mMovieStructures;
     private Context mContext;
 
-    public MovieAdapter(Context context, MovieStructure[] movieStructures) {
-        mMovieStructures = movieStructures;
+    public MovieAdapter(Context context) {
         mContext = context;
     }
 
@@ -33,6 +32,9 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 
     @Override
     public void onBindViewHolder(MovieViewHolder holder, int position) {
+        if(mMovieStructures == null) {
+            return;
+        }
         String posterName = mMovieStructures[position].posterName;
         String title = mMovieStructures[position].title;
         double averageVote = mMovieStructures[position].averageVote;
@@ -57,5 +59,10 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
             txtTitle = (TextView) itemView.findViewById(R.id.txtTitle);
             txtAverageVote = (TextView) itemView.findViewById(R.id.txtAverageVote);
         }
+    }
+
+    public void populateDate(MovieStructure[] movieStructures) {
+        mMovieStructures = movieStructures;
+        notifyDataSetChanged();
     }
 }

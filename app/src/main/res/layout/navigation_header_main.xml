@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="fitXY"
-        android:src="@drawable/navigation_drawer_header_bg"/>
+        android:background="#273243"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -18,8 +18,8 @@
         android:layout_marginStart="30dp"
         android:layout_alignParentLeft="true"
         android:layout_marginBottom="30dp"
-        android:textColor="@color/windowBackground"
-        android:fontFamily="monospace"
+        android:textColor="#a1a1a1"
+        android:fontFamily="sans-serif"
         android:layout_alignParentStart="true" />
 
 </RelativeLayout>
