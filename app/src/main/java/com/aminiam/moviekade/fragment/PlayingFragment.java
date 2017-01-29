@@ -68,6 +68,12 @@ public class PlayingFragment extends Fragment implements LoaderManager.LoaderCal
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        if(savedInstanceState == null) {
+            int spanCount = Utility.calculateNoOfColumns(getActivity());
+            mBinding.recPlayingMovies.setLayoutManager(new GridLayoutManager(getContext(), spanCount));
+            int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.grid_layout_margin);
+            mBinding.recPlayingMovies.addItemDecoration(new GridSpacingItemDecoration(spanCount, spacingInPixels, true, 0));
+        }
 
         mNetworkIntentFilter = new IntentFilter();
         mNetworkIntentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
@@ -124,11 +130,11 @@ public class PlayingFragment extends Fragment implements LoaderManager.LoaderCal
             try {
                 updateViews(false);
                 MovieStructure[] movieStructures = JsonUtility.getMoviesDataFromJson(data);
-                int spanCount = Utility.calculateNoOfColumns(getActivity());
+
                 mAdapter = new MovieAdapter(getActivity(), movieStructures);
-                mBinding.recPlayingMovies.setLayoutManager(new GridLayoutManager(getContext(), spanCount));
-                int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.grid_layout_margin);
-                mBinding.recPlayingMovies.addItemDecoration(new GridSpacingItemDecoration(spanCount, spacingInPixels, true, 0));
+
+
+
                 mBinding.recPlayingMovies.setAdapter(mAdapter);
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -201,7 +207,7 @@ public class PlayingFragment extends Fragment implements LoaderManager.LoaderCal
     @Override
     public void onStop() {
         super.onStop();
-        getActivity().getSupportLoaderManager().destroyLoader(mLoaderId);
+//        getActivity().getSupportLoaderManager().destroyLoader(mLoaderId);
     }
 
 }

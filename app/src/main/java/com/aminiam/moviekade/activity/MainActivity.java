@@ -12,6 +12,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -23,6 +24,7 @@ import com.aminiam.moviekade.utility.NetworkUtility;
 import static com.aminiam.moviekade.R.id.navigationView;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String LOG_TAG = MainActivity.class.getSimpleName();
 
     public static final String PATH_KEY = "path_key";
     public static final String LOADER_ID_KEY = "loader_id_key";
@@ -70,7 +72,9 @@ public class MainActivity extends AppCompatActivity {
         mNavigationView = (NavigationView) findViewById(navigationView);
 
         initNav();
+        Log.d(LOG_TAG, "num_1");
         loadFragment();
+        Log.d(LOG_TAG, "num_5");
     }
 
     private void initNav() {
@@ -149,13 +153,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadFragment() {
+        Log.d(LOG_TAG, "num_2");
         mNavigationView.getMenu().getItem(mNavItemIndex).setChecked(true);
         getSupportActionBar().setTitle(titles[mNavItemIndex]);
+        Log.d(LOG_TAG, "num_3");
 
         if(getSupportFragmentManager().findFragmentByTag(mCurrentTag) != null) {
             mDrawerLayout.closeDrawers();
             return;
         }
+        Log.d(LOG_TAG, "num_4");
 
         Fragment fragment = getCorrespondingFragment();
 //        PlayingFragment fragment = new PlayingFragment();
