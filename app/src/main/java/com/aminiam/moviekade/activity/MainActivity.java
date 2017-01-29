@@ -1,26 +1,23 @@
 package com.aminiam.moviekade.activity;
 
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.aminiam.moviekade.R;
+import com.aminiam.moviekade.databinding.ActivityMainBinding;
 import com.aminiam.moviekade.fragment.BookmarkFragment;
 import com.aminiam.moviekade.fragment.MovieFragment;
 import com.aminiam.moviekade.utility.NetworkUtility;
-
-import static com.aminiam.moviekade.R.id.navigationView;
 
 public class MainActivity extends AppCompatActivity {
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
@@ -43,9 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG_BOOKMARK = "bookmark";
     private String mCurrentTag = TAG_NOW_PLAYING;
 
-    private NavigationView mNavigationView;
-    private DrawerLayout mDrawerLayout;
-    private Toolbar mToolbar;
+    private ActivityMainBinding mBinding;
 
     private String[] titles;
     private static int mNavItemIndex = 0;
@@ -53,30 +48,22 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         if(savedInstanceState != null) {
             mCurrentTag = savedInstanceState.getString(BUNDLE_KEY);
         }
-        Log.d(LOG_TAG, "mCurrentTag= " + mCurrentTag);
 
         setContentView(R.layout.activity_main);
-
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
-        mNavigationView = (NavigationView) findViewById(R.id.navigationView);
-
-        setSupportActionBar(mToolbar);
+        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        setSupportActionBar(mBinding.appBarMain.toolbar);
 
         titles = getResources().getStringArray(R.array.titles);
-
-        mNavigationView = (NavigationView) findViewById(navigationView);
 
         initNav();
         loadFragment();
     }
 
     private void initNav() {
-        mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+        mBinding.navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
@@ -110,11 +97,11 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     } case R.id.navAbout: {
                         startActivity(new Intent(MainActivity.this, AboutActivity.class));
-                        mDrawerLayout.closeDrawers();
+                        mBinding.drawerLayout.closeDrawers();
                         return true;
                     } case R.id.navSetting: {
                         startActivity(new Intent(MainActivity.this, SettingActivity.class));
-                        mDrawerLayout.closeDrawers();
+                        mBinding.drawerLayout.closeDrawers();
                         return true;
                     } default: {
                         mNavItemIndex = 0;
@@ -134,8 +121,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
-                mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
+        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, mBinding.drawerLayout,
+                mBinding.appBarMain.toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
             @Override
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
@@ -146,16 +133,16 @@ public class MainActivity extends AppCompatActivity {
                 super.onDrawerOpened(drawerView);
             }
         };
-        mDrawerLayout.addDrawerListener(actionBarDrawerToggle);
+        mBinding.drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
     }
 
     private void loadFragment() {
-        mNavigationView.getMenu().getItem(mNavItemIndex).setChecked(true);
+        mBinding.navigationView.getMenu().getItem(mNavItemIndex).setChecked(true);
         getSupportActionBar().setTitle(titles[mNavItemIndex]);
 
         if(getSupportFragmentManager().findFragmentByTag(mCurrentTag) != null) {
-            mDrawerLayout.closeDrawers();
+            mBinding.drawerLayout.closeDrawers();
             return;
         }
 
@@ -170,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.replace(R.id.frmContent, fragment, mCurrentTag);
         fragmentTransaction.commit();
 
-        mDrawerLayout.closeDrawers();
+        mBinding.drawerLayout.closeDrawers();
         invalidateOptionsMenu();
     }
 
@@ -186,8 +173,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if(mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
-            mDrawerLayout.closeDrawers();
+        if(mBinding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            mBinding.drawerLayout.closeDrawers();
             return;
         }
         super.onBackPressed();
@@ -198,4 +185,5 @@ public class MainActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
         outState.putString(BUNDLE_KEY, mCurrentTag);
     }
+
 }

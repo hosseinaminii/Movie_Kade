@@ -79,7 +79,11 @@ public class MovieFragment extends Fragment implements LoaderManager.LoaderCallb
         mNetworkIntentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
         mNetworkReceiver = new NetworkReceiver();
 
-        getActivity().getSupportLoaderManager().initLoader(mLoaderId, null, this);
+        if(NetworkUtility.isNetworkAvailable(getContext())) {
+            getActivity().getSupportLoaderManager().initLoader(mLoaderId, null, this);
+        } else {
+            showError(getString(R.string.error_message_internet));
+        }
     }
 
     @Override
