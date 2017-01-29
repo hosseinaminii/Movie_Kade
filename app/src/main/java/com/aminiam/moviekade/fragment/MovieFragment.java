@@ -20,7 +20,7 @@ import android.widget.Toast;
 import com.aminiam.moviekade.R;
 import com.aminiam.moviekade.activity.MainActivity;
 import com.aminiam.moviekade.adapter.MovieAdapter;
-import com.aminiam.moviekade.databinding.FragmentPlayingBinding;
+import com.aminiam.moviekade.databinding.FragmentMovieBinding;
 import com.aminiam.moviekade.other.GridSpacingItemDecoration;
 import com.aminiam.moviekade.other.MovieStructure;
 import com.aminiam.moviekade.utility.JsonUtility;
@@ -40,7 +40,7 @@ public class MovieFragment extends Fragment implements LoaderManager.LoaderCallb
     private String mPath;
     private int mLoaderId;
 
-    private FragmentPlayingBinding mBinding;
+    private FragmentMovieBinding mBinding;
     private NetworkReceiver mNetworkReceiver;
     private IntentFilter mNetworkIntentFilter;
 
@@ -59,7 +59,7 @@ public class MovieFragment extends Fragment implements LoaderManager.LoaderCallb
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mBinding = FragmentPlayingBinding.inflate(inflater, container, false);
+        mBinding = FragmentMovieBinding.inflate(inflater, container, false);
         mBinding.btnTryAgain.setOnClickListener(this);
 
         mAdapter = new MovieAdapter(getActivity());
