@@ -61,7 +61,7 @@
                 android:layout_below="@+id/txtError"
                 android:layout_gravity="center"
                 android:layout_marginTop="30dp"
-                android:background="?colorAccent"
+                android:background="@drawable/click_effect"
                 android:text="Try Again"
                 android:textAllCaps="false" />
 
