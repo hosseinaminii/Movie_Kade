@@ -18,9 +18,11 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 
     private MovieStructure[] mMovieStructures;
     private Context mContext;
+    private MovieClickListener mListener;
 
-    public MovieAdapter(Context context) {
+    public MovieAdapter(Context context, MovieClickListener listener) {
         mContext = context;
+        mListener = listener;
     }
 
     @Override
@@ -41,6 +43,13 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         Picasso.with(mContext).load(NetworkUtility.buildPosterPath(posterName)).into(holder.imgPosterPath);
         holder.txtTitle.setText(title);
         holder.txtAverageVote.setText(String.format(mContext.getString(R.string.average_vote), averageVote));
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListener.onMoveClick();
+            }
+        });
     }
 
     @Override
@@ -64,5 +73,9 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
     public void populateDate(MovieStructure[] movieStructures) {
         mMovieStructures = movieStructures;
         notifyDataSetChanged();
+    }
+
+    public interface MovieClickListener {
+        void onMoveClick();
     }
 }

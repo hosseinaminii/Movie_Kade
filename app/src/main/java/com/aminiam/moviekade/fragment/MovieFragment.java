@@ -1,6 +1,7 @@
 package com.aminiam.moviekade.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 
 import com.aminiam.moviekade.R;
 import com.aminiam.moviekade.activity.MainActivity;
+import com.aminiam.moviekade.activity.MovieDetailActivity;
 import com.aminiam.moviekade.adapter.MovieAdapter;
 import com.aminiam.moviekade.databinding.FragmentMovieBinding;
 import com.aminiam.moviekade.other.GridSpacingItemDecoration;
@@ -29,7 +31,8 @@ import org.json.JSONException;
 import java.io.IOException;
 import java.net.URL;
 
-public class MovieFragment extends Fragment implements LoaderManager.LoaderCallbacks<String> {
+public class MovieFragment extends Fragment implements LoaderManager.LoaderCallbacks<String>,
+        MovieAdapter.MovieClickListener{
     private static final String LOG_TAG = MovieFragment.class.getSimpleName();
 
     private MovieAdapter mAdapter;
@@ -40,8 +43,7 @@ public class MovieFragment extends Fragment implements LoaderManager.LoaderCallb
     private FragmentMovieBinding mBinding;
     private UiUpdaterListener mListener;
 
-    public MovieFragment() {
-    }
+    public MovieFragment() {}
 
     @Override
     public void onAttach(Context context) {
@@ -66,7 +68,7 @@ public class MovieFragment extends Fragment implements LoaderManager.LoaderCallb
                              Bundle savedInstanceState) {
         mBinding = FragmentMovieBinding.inflate(inflater, container, false);
 
-        mAdapter = new MovieAdapter(getActivity());
+        mAdapter = new MovieAdapter(getActivity(), this);
         int spanCount = Utility.calculateNoOfColumns(getActivity());
         mBinding.recPlayingMovies.setLayoutManager(new GridLayoutManager(getContext(), spanCount));
         int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.grid_layout_margin);
@@ -91,7 +93,6 @@ public class MovieFragment extends Fragment implements LoaderManager.LoaderCallb
         return new AsyncTaskLoader<String>(getActivity()) {
             @Override
             protected void onStartLoading() {
-//                updateViews(true);
                 mListener.updateViews(true);
                 forceLoad();
             }
@@ -134,6 +135,11 @@ public class MovieFragment extends Fragment implements LoaderManager.LoaderCallb
     public void onLoaderReset(Loader loader) {
     }
 
+    @Override
+    public void onMoveClick() {
+        startActivity(new Intent(getActivity(), MovieDetailActivity.class));
+    }
+
     private void showToast(String message) {
         if(mToast != null) {
             mToast.cancel();
@@ -145,4 +151,6 @@ public class MovieFragment extends Fragment implements LoaderManager.LoaderCallb
     public void initLoader() {
         getActivity().getSupportLoaderManager().initLoader(mLoaderId, null, MovieFragment.this);
     }
+
+   
 }

@@ -3,7 +3,7 @@
     package="com.aminiam.moviekade">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -19,7 +19,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.SettingActivity" />
-        <activity android:name=".activity.AboutActivity"></activity>
+        <activity android:name=".activity.AboutActivity" />
+        <activity android:name=".activity.MovieDetailActivity"></activity>
     </application>
 
 </manifest>
