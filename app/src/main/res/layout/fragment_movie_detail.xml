@@ -1,5 +1,6 @@
 <layout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:custom="http://schemas.android.com/apk/res-auto">
 
     <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -125,23 +126,23 @@
                     android:textSize="16sp"
                     android:fontFamily="sans-serif-re"/>
 
-                <TextView
-                    android:id="@+id/txtOverview"
+                <com.aminiam.moviekade.custom_view.ExpandableTextView
+                    android:id="@+id/collapseTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/cardPoster"
-                    android:layout_marginTop="30dp"
-                    android:text="A ticking-time-bomb insomniac and a slippery soap salesman channel primal male aggression into a shocking new form of therapy. Their concept "/>
+                    android:layout_marginTop="20dp"
+                    android:layout_below="@+id/cardPoster"
+                    custom:maxLines="3"
+                    custom:button_textPrimary="@string/expand"
+                    custom:button_textSecondary="@string/collapse"
+                    custom:text="A ticking-time-bomb insomniac and a slippery soap salesman channel primal male aggreA ticking-time-bomb insomniac and a slippery soap salesman channel primal male aggreA ticking-time-bomb insomniac and a slippery soap salesman channel primal male aggreA ticking-time-bomb insomniac and a slippery soap salesman channel primal male aggreA ticking-time-bomb insomniac and a slippery soap salesman channel primal male aggression into a shocking new form of therapy. Their concept " />
 
-                <TextView
+                <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="READ MORE"
-                    android:textColor="@color/colorAccent"
-                    android:layout_below="@id/txtOverview"
+                    android:layout_below="@id/collapseTextView"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="10dp"
-                    android:textStyle="bold"/>
+                    android:src="@drawable/ic_movie_popular"/>
 
             </RelativeLayout>
 

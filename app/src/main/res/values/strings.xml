@@ -21,4 +21,6 @@
     <string name="average_vote">%1$.1f/10</string>
 
     <string name="hello_blank_fragment">Hello blank Fragment</string>
+    <string name="expand">EXPAND</string>
+    <string name="collapse">Collapse</string>
 </resources>

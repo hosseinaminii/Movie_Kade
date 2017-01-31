@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ExpandableTextView">
+        <attr name="text" format="string" />
+        <attr name="maxLines" format="integer" />
+        <attr name="button_textPrimary" format="string" />
+        <attr name="button_textSecondary" format="string" />
+        <attr name="buttonColor" format="color" />
+    </declare-styleable>
+</resources>
