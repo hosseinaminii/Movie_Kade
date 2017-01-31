@@ -8,5 +8,6 @@
     <color name="poster_text_background">#7b000000</color>
     <color name="poster_background">#758a94</color>
     <color name="colorHighlight">#088a9e</color>
-
+    <color name="light_gray">#a8a8a8</color>
+    <color name="dark_green">#1e8c55</color>
 </resources>
