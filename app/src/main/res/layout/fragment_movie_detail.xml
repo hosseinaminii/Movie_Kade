@@ -1,16 +1,18 @@
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true">
+        android:fitsSystemWindows="true"
+        tools:context=".activity.MovieDetailActivity">
 
         <android.support.design.widget.AppBarLayout
             android:id="@+id/appBar"
-            style="@style/AppTheme"
             android:layout_width="match_parent"
             android:layout_height="250dp"
-            android:fitsSystemWindows="true">
+            android:fitsSystemWindows="true"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
             <android.support.design.widget.CollapsingToolbarLayout
                 android:id="@+id/collapsingToolbar"
@@ -23,17 +25,20 @@
                 app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
                 <ImageView
+                    android:id="@+id/imgToolbarImage"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/backdrop"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/backdrop"
                     android:fitsSystemWindows="true"
-                    app:layout_collapseParallaxMultiplier=".7"
-                    app:layout_collapseMode="parallax" />
+                    app:layout_collapseMode="parallax"
+                    app:layout_collapseParallaxMultiplier=".7" />
 
                 <android.support.v7.widget.Toolbar
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                     app:layout_collapseMode="pin" />
 
             </android.support.design.widget.CollapsingToolbarLayout>
@@ -57,5 +62,13 @@
             </LinearLayout>
 
         </android.support.v4.widget.NestedScrollView>
+
+        <android.support.design.widget.FloatingActionButton
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:src="@drawable/ic_movie_popular"
+            app:layout_anchor="@id/appBar"
+            app:layout_anchorGravity="bottom|end" />
     </android.support.design.widget.CoordinatorLayout>
 </layout>
