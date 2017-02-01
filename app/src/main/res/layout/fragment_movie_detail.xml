@@ -1,6 +1,6 @@
 <layout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:custom="http://schemas.android.com/apk/res-auto">
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -53,9 +53,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp">
+                android:layout_height="wrap_content">
 
                 <android.support.v7.widget.CardView
                     android:id="@+id/cardPoster"
@@ -63,6 +61,8 @@
                     android:layout_height="210dp"
                     android:layout_marginTop="10dp"
                     android:elevation="5dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginStart="15dp"
                     app:cardCornerRadius="2dp">
 
                     <ImageView
@@ -82,68 +82,76 @@
                     android:layout_marginTop="50dp"
                     android:layout_toEndOf="@+id/cardPoster"
                     android:layout_toRightOf="@+id/cardPoster"
+                    android:fontFamily="sans-serif-re"
                     android:text="Moana"
                     android:textColor="@android:color/white"
-                    android:textSize="24sp"
-                    android:fontFamily="sans-serif-re"/>
+                    android:textSize="24sp" />
 
                 <TextView
                     android:id="@+id/txtGenre"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_below="@+id/txtTitle"
                     android:layout_marginLeft="15dp"
                     android:layout_marginStart="15dp"
                     android:layout_toEndOf="@+id/cardPoster"
                     android:layout_toRightOf="@+id/cardPoster"
-                    android:layout_below="@+id/txtTitle"
+                    android:fontFamily="sans-serif-re"
                     android:text="Action"
                     android:textColor="@color/light_gray"
-                    android:textSize="16sp"
-                    android:fontFamily="sans-serif-re"/>
+                    android:textSize="16sp" />
 
                 <ImageView
                     android:id="@+id/imgCheck"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:src="@drawable/ic_check"
+                    android:layout_alignBottom="@+id/cardPoster"
                     android:layout_marginLeft="15dp"
                     android:layout_marginStart="15dp"
                     android:layout_toEndOf="@+id/cardPoster"
                     android:layout_toRightOf="@+id/cardPoster"
-                    android:layout_alignBottom="@+id/cardPoster"/>
+                    app:srcCompat="@drawable/ic_check" />
 
                 <TextView
                     android:id="@+id/txtStatus"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/cardPoster"
                     android:layout_marginLeft="10dp"
                     android:layout_marginStart="10dp"
                     android:layout_toEndOf="@+id/imgCheck"
                     android:layout_toRightOf="@+id/imgCheck"
-                    android:layout_alignBottom="@+id/cardPoster"
+                    android:fontFamily="sans-serif-re"
                     android:text="Released"
                     android:textColor="@color/light_gray"
-                    android:textSize="16sp"
-                    android:fontFamily="sans-serif-re"/>
+                    android:textSize="16sp" />
 
                 <com.aminiam.moviekade.custom_view.ExpandableTextView
-                    android:id="@+id/collapseTextView"
+                    android:id="@+id/ExpandableTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
                     android:layout_below="@+id/cardPoster"
-                    custom:maxLines="3"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
                     custom:button_textPrimary="@string/expand"
                     custom:button_textSecondary="@string/collapse"
+                    custom:maxLines="3"
                     custom:text="A ticking-time-bomb insomniac and a slippery soap salesman channel primal male aggreA ticking-time-bomb insomniac and a slippery soap salesman channel primal male aggreA ticking-time-bomb insomniac and a slippery soap salesman channel primal male aggreA ticking-time-bomb insomniac and a slippery soap salesman channel primal male aggreA ticking-time-bomb insomniac and a slippery soap salesman channel primal male aggression into a shocking new form of therapy. Their concept " />
+
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/moreDataPager"
+                    android:layout_width="match_parent"
+                    android:layout_below="@+id/ExpandableTextView"
+                    android:layout_height="120dp" />
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/collapseTextView"
-                    android:layout_centerHorizontal="true"
-                    android:src="@drawable/ic_movie_popular"/>
-
+                    app:srcCompat="@drawable/ic_favorite_off"
+                    android:layout_below="@+id/moreDataPager"
+                    android:tint="@color/colorAccent"
+                    android:layout_centerHorizontal="true"/>
             </RelativeLayout>
 
         </android.support.v4.widget.NestedScrollView>
@@ -152,7 +160,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/activity_horizontal_margin"
-            android:src="@drawable/ic_favorite_off"
+            app:srcCompat="@drawable/ic_favorite_off"
             app:layout_anchor="@id/appBar"
             app:layout_anchorGravity="bottom|end" />
     </android.support.design.widget.CoordinatorLayout>
