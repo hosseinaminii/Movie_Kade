@@ -145,13 +145,13 @@
                     android:layout_below="@+id/ExpandableTextView"
                     android:layout_height="120dp" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/ic_favorite_off"
-                    android:layout_below="@+id/moreDataPager"
-                    android:tint="@color/colorAccent"
-                    android:layout_centerHorizontal="true"/>
+                <com.aminiam.moviekade.custom_view.DotIndicator
+                    android:id="@+id/moreDateIndicator"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_below="@+id/moreDataPager" />
+
+
             </RelativeLayout>
 
         </android.support.v4.widget.NestedScrollView>

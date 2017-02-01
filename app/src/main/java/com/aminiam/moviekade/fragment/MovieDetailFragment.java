@@ -7,7 +7,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,6 +47,23 @@ public class MovieDetailFragment extends Fragment {
         mDataContnets[3] = "2017-06-10";
         mDataContnets[4] = "www.website.com";
         mDataContnets[5] = "15000000";
+
+        mBinding.moreDataPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                Log.d(LOG_TAG, "positionOffset: " + positionOffset);
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                mBinding.moreDateIndicator.setActiveDot(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
         return mBinding.getRoot();
     }
