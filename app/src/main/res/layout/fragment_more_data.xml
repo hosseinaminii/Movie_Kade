@@ -26,12 +26,8 @@
 
             <TextView
                 android:id="@+id/txt1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:gravity="center"
-                android:text="1:45"
-                android:textSize="15dp" />
+                style="@style/mor_detail_text"
+                tools:text="1:45" />
 
         </LinearLayout>
 
@@ -50,12 +46,8 @@
 
             <TextView
                 android:id="@+id/txt2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:gravity="center"
-                android:text="en"
-                android:textSize="15dp" />
+                style="@style/mor_detail_text"
+                tools:text="en"/>
 
         </LinearLayout>
 
@@ -74,12 +66,8 @@
 
             <TextView
                 android:id="@+id/txt3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:gravity="center"
-                android:text="Adoult"
-                android:textSize="15dp" />
+                style="@style/mor_detail_text"
+                tools:text="Adoult" />
 
         </LinearLayout>
 

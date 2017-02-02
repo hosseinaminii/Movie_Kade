@@ -10,6 +10,6 @@
     <color name="colorHighlight">#088a9e</color>
     <color name="light_gray">#a8a8a8</color>
     <color name="dark_green">#1e8c55</color>
-    <color name="dot_indicator_deactivate">#252525</color>
+    <color name="dot_indicator_deactivate">#181818</color>
     <color name="dot_indicator_active">@color/colorAccent</color>
 </resources>

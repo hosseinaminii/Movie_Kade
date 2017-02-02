@@ -13,8 +13,6 @@ import com.aminiam.moviekade.R;
 public class DotIndicator extends LinearLayout {
     private static final String LOG_TAG = DotIndicator.class.getSimpleName();
 
-    private int mWidth;
-    private int mHeight;
     private int mActiveColor;
     private int mDeactivateColor;
     private int mDotCount;
@@ -65,24 +63,24 @@ public class DotIndicator extends LinearLayout {
         setWillNotDraw(false);
         mActivePaint = new Paint();
         mActivePaint.setColor(mActiveColor);
+        mActivePaint.setStyle(Paint.Style.FILL);
+        mActivePaint.setAntiAlias(true);
 
         mDeactivatePaint = new Paint();
         mDeactivatePaint.setColor(mDeactivateColor);
-
+        mDeactivatePaint.setStyle(Paint.Style.FILL);
+        mDeactivatePaint.setAntiAlias(true);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        mWidth = getWidth();
-        mHeight = getHeight();
-
-        float startX = (mWidth / 2) - (((mDotSize + mDotMargin) * (mDotCount-1)) / 2);
+        float startX = (getWidth() / 2) - (((mDotSize + mDotMargin) * (mDotCount-1)) / 2);
 
         for (int i = 0; i < mDotCount; i++) {
-            Paint paint;
+            Paint paint = mActivePaint;
             if(i == mActiveDot) {
-                paint = mActivePaint;
+                mActivePaint.setAlpha(255);
             } else {
                 paint = mDeactivatePaint;
             }
@@ -93,7 +91,53 @@ public class DotIndicator extends LinearLayout {
 
     public void setActiveDot(int position) {
         mActiveDot = position;
+        refresh();
+    }
+
+    public int getActiveDot() {
+        return mActiveDot;
+    }
+
+    public void setActiveColor(int color) {
+        mActiveColor = color;
+        refresh();
+    }
+
+    public int getActiveColor() {
+       return mActiveColor;
+    }
+
+    public void setDoutCount(int value) {
+        mDotCount = value;
+        refresh();
+    }
+
+    public int getDoutCount() {
+        return mDotCount;
+    }
+
+    public void setDotSize(int value) {
+        mDotSize = value;
+        refresh();
+    }
+
+    public int getDotSize() {
+        return mDotSize;
+    }
+
+    public void setDotMargin(int value) {
+        mDotMargin = value;
+        refresh();
+    }
+
+    public int getDotMargin() {
+        return mDotMargin;
+    }
+
+
+    private void refresh() {
         requestLayout();
         invalidate();
     }
+
 }

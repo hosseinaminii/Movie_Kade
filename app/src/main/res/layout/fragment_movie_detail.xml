@@ -59,10 +59,10 @@
                     android:id="@+id/cardPoster"
                     android:layout_width="150dp"
                     android:layout_height="210dp"
-                    android:layout_marginTop="10dp"
-                    android:elevation="5dp"
                     android:layout_marginLeft="15dp"
                     android:layout_marginStart="15dp"
+                    android:layout_marginTop="10dp"
+                    android:elevation="5dp"
                     app:cardCornerRadius="2dp">
 
                     <ImageView
@@ -131,9 +131,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/cardPoster"
-                    android:layout_marginTop="20dp"
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
+                    android:layout_marginTop="20dp"
                     custom:button_textPrimary="@string/expand"
                     custom:button_textSecondary="@string/collapse"
                     custom:maxLines="3"
@@ -142,15 +142,17 @@
                 <android.support.v4.view.ViewPager
                     android:id="@+id/moreDataPager"
                     android:layout_width="match_parent"
-                    android:layout_below="@+id/ExpandableTextView"
-                    android:layout_height="120dp" />
+                    android:layout_height="120dp"
+                    android:layout_below="@+id/ExpandableTextView" />
 
                 <com.aminiam.moviekade.custom_view.DotIndicator
                     android:id="@+id/moreDateIndicator"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="20dp"
+                    custom:activeColor="?colorAccent"
+                    custom:deactivateColor="@color/dot_indicator_deactivate"
+                    custom:dotCount="2"
                     android:layout_below="@+id/moreDataPager" />
-
 
             </RelativeLayout>
 
@@ -160,8 +162,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/activity_horizontal_margin"
-            app:srcCompat="@drawable/ic_favorite_off"
             app:layout_anchor="@id/appBar"
-            app:layout_anchorGravity="bottom|end" />
+            app:layout_anchorGravity="bottom|end"
+            app:srcCompat="@drawable/ic_favorite_off" />
     </android.support.design.widget.CoordinatorLayout>
 </layout>
