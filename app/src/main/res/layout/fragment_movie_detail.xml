@@ -163,6 +163,7 @@
                     android:background="@color/trailers_border" />
 
                 <LinearLayout
+                    android:id="@+id/lneTrailer"
                     android:layout_width="match_parent"
                     android:layout_height="170dp"
                     android:orientation="vertical"
@@ -184,7 +185,23 @@
                         android:background="@color/trailers_background" />
                 </LinearLayout>
 
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/reviewPager"
+                    android:layout_width="match_parent"
+                    android:layout_height="130dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_below="@+id/lneTrailer" />
 
+                <TextView
+                    android:id="@+id/txtReviewPageNumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/reviewPager"
+                    android:layout_centerHorizontal="true"
+                    android:fontFamily="sans-serif-thin"
+                    android:textStyle="italic"/>
 
 
             </RelativeLayout>
