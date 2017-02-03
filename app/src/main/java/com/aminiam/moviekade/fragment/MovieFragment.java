@@ -1,7 +1,6 @@
 package com.aminiam.moviekade.fragment;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -16,9 +15,9 @@ import android.widget.Toast;
 
 import com.aminiam.moviekade.R;
 import com.aminiam.moviekade.activity.MainActivity;
-import com.aminiam.moviekade.activity.MovieDetailActivity;
 import com.aminiam.moviekade.adapter.MovieAdapter;
 import com.aminiam.moviekade.databinding.FragmentMovieBinding;
+import com.aminiam.moviekade.other.Callback;
 import com.aminiam.moviekade.other.GridSpacingItemDecoration;
 import com.aminiam.moviekade.other.MovieStructure;
 import com.aminiam.moviekade.other.UiUpdaterListener;
@@ -136,8 +135,8 @@ public class MovieFragment extends Fragment implements LoaderManager.LoaderCallb
     }
 
     @Override
-    public void onMoveClick() {
-        startActivity(new Intent(getActivity(), MovieDetailActivity.class));
+    public void onMovieClick(long movieId) {
+        ((Callback) getActivity()).onItemSelected(movieId);
     }
 
     private void showToast(String message) {
@@ -151,6 +150,4 @@ public class MovieFragment extends Fragment implements LoaderManager.LoaderCallb
     public void initLoader() {
         getActivity().getSupportLoaderManager().initLoader(mLoaderId, null, MovieFragment.this);
     }
-
-   
 }

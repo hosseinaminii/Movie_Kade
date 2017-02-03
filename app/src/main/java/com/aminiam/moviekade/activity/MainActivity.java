@@ -22,14 +22,16 @@ import com.aminiam.moviekade.R;
 import com.aminiam.moviekade.databinding.ActivityMainBinding;
 import com.aminiam.moviekade.fragment.BookmarkFragment;
 import com.aminiam.moviekade.fragment.MovieFragment;
+import com.aminiam.moviekade.other.Callback;
 import com.aminiam.moviekade.other.UiUpdaterListener;
 import com.aminiam.moviekade.utility.NetworkUtility;
 
-public class MainActivity extends AppCompatActivity implements UiUpdaterListener, View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements UiUpdaterListener, View.OnClickListener, Callback {
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
 
     public static final String PATH_KEY = "path_key";
     public static final String LOADER_ID_KEY = "loader_id_key";
+    public static final String MOVIE_ID_KEY = "movie_id_key";
 
     private static final int PLAYING_FRAGMENT_LOADER_ID = 9000;
     private static final int POPULAR_FRAGMENT_LOADER_ID = 9001;
@@ -240,7 +242,7 @@ public class MainActivity extends AppCompatActivity implements UiUpdaterListener
     }
 
     private void showToast(String message) {
-        if(mToast != null) {
+        if (mToast != null) {
             mToast.cancel();
         }
         mToast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
@@ -279,6 +281,13 @@ public class MainActivity extends AppCompatActivity implements UiUpdaterListener
             }
         }
         mBinding.appBarMain.lneError.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void onItemSelected(long movieId) {
+        Intent intent = new Intent(this, MovieDetailActivity.class);
+        intent.putExtra(MOVIE_ID_KEY, movieId);
+        startActivity(intent);
     }
 
     private class NetworkReceiver extends BroadcastReceiver {

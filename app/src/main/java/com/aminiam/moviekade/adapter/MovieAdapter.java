@@ -43,13 +43,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         Picasso.with(mContext).load(NetworkUtility.buildPosterPath(posterName)).into(holder.imgPosterPath);
         holder.txtTitle.setText(title);
         holder.txtAverageVote.setText(String.format(mContext.getString(R.string.average_vote), averageVote));
-
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mListener.onMoveClick();
-            }
-        });
     }
 
     @Override
@@ -57,7 +50,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         return mMovieStructures != null ? mMovieStructures.length : 0;
     }
 
-    class MovieViewHolder extends RecyclerView.ViewHolder {
+    class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         ImageView imgPosterPath;
         TextView txtTitle;
         TextView txtAverageVote;
@@ -67,6 +60,14 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
             imgPosterPath = (ImageView) itemView.findViewById(R.id.imgPosterPath);
             txtTitle = (TextView) itemView.findViewById(R.id.txtTitle);
             txtAverageVote = (TextView) itemView.findViewById(R.id.txtAverageVote);
+
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            long movieId = mMovieStructures[getAdapterPosition()].id;
+            mListener.onMovieClick(movieId);
         }
     }
 
@@ -76,6 +77,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
     }
 
     public interface MovieClickListener {
-        void onMoveClick();
+        void onMovieClick(long movieId);
     }
 }

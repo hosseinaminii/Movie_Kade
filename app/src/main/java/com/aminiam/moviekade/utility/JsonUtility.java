@@ -11,6 +11,7 @@ public class JsonUtility {
     private static final String LOG_TAG = JsonUtility.class.getSimpleName();
 
     private static final String ARR_RESULT = "results";
+    private static final String ID = "id";
     private static final String POSTER_PATH = "poster_path";
     private static final String ORIGINAL_TITLE = "original_title";
     private static final String AVERAGE_VOTE = "vote_average";
@@ -33,10 +34,12 @@ public class JsonUtility {
             MovieStructure movieStructure = new MovieStructure();
             JSONObject movieJsonObject = results.getJSONObject(i);
 
+            long id = movieJsonObject.getLong(ID);
             String title = movieJsonObject.getString(ORIGINAL_TITLE);
             String posterPath = movieJsonObject.getString(POSTER_PATH);
             double averageVote = movieJsonObject.getDouble(AVERAGE_VOTE);
 
+            movieStructure.id = id;
             movieStructure.title = title;
             movieStructure.posterName = posterPath;
             movieStructure.averageVote = averageVote;

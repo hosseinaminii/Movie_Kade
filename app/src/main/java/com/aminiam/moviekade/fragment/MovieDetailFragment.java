@@ -2,6 +2,7 @@ package com.aminiam.moviekade.fragment;
 
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -9,11 +10,13 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.aminiam.moviekade.R;
+import com.aminiam.moviekade.activity.MainActivity;
 import com.aminiam.moviekade.databinding.FragmentMovieDetailBinding;
 
 public class MovieDetailFragment extends Fragment {
@@ -23,6 +26,7 @@ public class MovieDetailFragment extends Fragment {
     public static final String MORE_DATA_CONTENT_KEY = "more_data_content_key";
     public static final String REVIEW_KEY = "review_key";
 
+    private long mMovieId;
     private static final int NUM_PAGES = 2;
 
     private String[] mDataContents = new String[6];
@@ -31,6 +35,14 @@ public class MovieDetailFragment extends Fragment {
     private FragmentMovieDetailBinding mBinding;
 
     public MovieDetailFragment() {setHasOptionsMenu(true);}
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Bundle args = getArguments();
+        mMovieId = args.getLong(MainActivity.MOVIE_ID_KEY);
+        Log.d(LOG_TAG, "MovieDetailFragment- " + mMovieId);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
