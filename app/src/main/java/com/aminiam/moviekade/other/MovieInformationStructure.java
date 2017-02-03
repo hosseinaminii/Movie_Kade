@@ -14,5 +14,5 @@ public class MovieInformationStructure {
     public String releaseDate;
     public String website;
     public long revenue;
-    public ArrayList<String> videos;
+    public ArrayList<String> trailers = new ArrayList<>();
 }

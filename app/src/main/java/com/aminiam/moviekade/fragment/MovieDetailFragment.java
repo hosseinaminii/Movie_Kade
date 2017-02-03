@@ -12,6 +12,7 @@ import android.support.v4.content.Loader;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,7 @@ import android.view.ViewGroup;
 
 import com.aminiam.moviekade.R;
 import com.aminiam.moviekade.activity.MainActivity;
+import com.aminiam.moviekade.adapter.TrailerAdapter;
 import com.aminiam.moviekade.databinding.FragmentMovieDetailBinding;
 import com.aminiam.moviekade.other.MovieInformationStructure;
 import com.aminiam.moviekade.utility.JsonUtility;
@@ -44,6 +46,7 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
     private String[] mReviews = new String[10];
 
     private FragmentMovieDetailBinding mBinding;
+    private TrailerAdapter mTrailerAdatper;
 
     public MovieDetailFragment() {
         setHasOptionsMenu(true);
@@ -61,6 +64,12 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
                              Bundle savedInstanceState) {
         mBinding = FragmentMovieDetailBinding.inflate(inflater, container, false);
         setupToolbar("This is Title");
+
+        mTrailerAdatper = new TrailerAdapter(getActivity());
+        mBinding.recTrailer.setAdapter(mTrailerAdatper);
+        mBinding.recTrailer.setLayoutManager(new LinearLayoutManager(getContext(),
+                LinearLayoutManager.HORIZONTAL, false));
+        mBinding.recTrailer.setAdapter(mTrailerAdatper);
 
         return mBinding.getRoot();
     }
@@ -174,7 +183,6 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
             mBinding.moreDataPager.setAdapter(mMoreDataPagerAdapter);
             mBinding.reviewPager.setAdapter(mReviewPagerAdapter);
             mBinding.txtReviewPageNumber.setText(String.format(getString(R.string.review_page_number), 1, mReviews.length));
-
             mBinding.moreDataPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
                 public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -203,6 +211,10 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
                 public void onPageScrollStateChanged(int state) {
                 }
             });
+
+            mTrailerAdatper.populateData(movieInformationStructure.trailers);
+
+
 
         } catch (JSONException e) {
             e.printStackTrace();

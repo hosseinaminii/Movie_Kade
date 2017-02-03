@@ -93,6 +93,15 @@ public class JsonUtility {
         movieInformationStructure.website = website;
         movieInformationStructure.revenue = revenue;
 
+        JSONObject trailers = jsonObject.getJSONObject(ARRAY_VIDEOS);
+        JSONArray trailersResults = trailers.getJSONArray(ARRAY_RESULT);
+        for(int i = 0; i < trailersResults.length(); i++) {
+            JSONObject videoObject = (JSONObject) trailersResults.get(i);
+
+            String trailerKey = videoObject.getString(VIDEO_KEY);
+            movieInformationStructure.trailers.add(trailerKey);
+        }
+
         return movieInformationStructure;
     }
 
