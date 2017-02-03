@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.util.DisplayMetrics;
 
+import com.aminiam.moviekade.R;
+
 public class Utility {
     public static int calculateNoOfColumns(Context context) {
         if(context == null) {
@@ -19,5 +21,22 @@ public class Utility {
         DisplayMetrics metrics = resources.getDisplayMetrics();
         float dp = px / ((float)metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
         return dp;
+    }
+
+    public static String convertMinToHour(Context context, int timeInMin) {
+        int hour = timeInMin / 60;
+        int min = timeInMin % 60;
+
+        String strHour = String.valueOf(hour);
+        String strMin = String.valueOf(min);
+
+        if(hour < 10) {
+            strHour = "0" + strHour;
+        }
+        if(min < 10) {
+            strMin = "0" + min;
+        }
+
+        return String.format(context.getString(R.string.time), strHour, strMin);
     }
 }

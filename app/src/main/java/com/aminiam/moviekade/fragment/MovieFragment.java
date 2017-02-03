@@ -147,6 +147,7 @@ public class MovieFragment extends Fragment implements LoaderManager.LoaderCallb
         mToast.show();
     }
 
+    // TODO: Probably Delete
     public void initLoader() {
         getActivity().getSupportLoaderManager().initLoader(mLoaderId, null, MovieFragment.this);
     }

@@ -1,12 +1,14 @@
 package com.aminiam.moviekade.fragment;
 
-
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.AsyncTaskLoader;
+import android.support.v4.content.Loader;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -18,15 +20,24 @@ import android.view.ViewGroup;
 import com.aminiam.moviekade.R;
 import com.aminiam.moviekade.activity.MainActivity;
 import com.aminiam.moviekade.databinding.FragmentMovieDetailBinding;
+import com.aminiam.moviekade.other.MovieInformationStructure;
+import com.aminiam.moviekade.utility.JsonUtility;
+import com.aminiam.moviekade.utility.NetworkUtility;
 
-public class MovieDetailFragment extends Fragment {
+import org.json.JSONException;
+
+import java.io.IOException;
+import java.net.URL;
+
+public class MovieDetailFragment extends Fragment implements LoaderManager.LoaderCallbacks<String> {
     private static final String LOG_TAG = MovieDetailFragment.class.getSimpleName();
 
+    private static final int MODVIE_DETAIL_LOADER_ID = 9999;
     public static final String MORE_DATA_ICON_KEY = "more_data_icon_key";
     public static final String MORE_DATA_CONTENT_KEY = "more_data_content_key";
     public static final String REVIEW_KEY = "review_key";
 
-    private long mMovieId;
+    private long mMovieId = -1;
     private static final int NUM_PAGES = 2;
 
     private String[] mDataContents = new String[6];
@@ -34,14 +45,15 @@ public class MovieDetailFragment extends Fragment {
 
     private FragmentMovieDetailBinding mBinding;
 
-    public MovieDetailFragment() {setHasOptionsMenu(true);}
+    public MovieDetailFragment() {
+        setHasOptionsMenu(true);
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle args = getArguments();
         mMovieId = args.getLong(MainActivity.MOVIE_ID_KEY);
-        Log.d(LOG_TAG, "MovieDetailFragment- " + mMovieId);
     }
 
     @Override
@@ -50,61 +62,18 @@ public class MovieDetailFragment extends Fragment {
         mBinding = FragmentMovieDetailBinding.inflate(inflater, container, false);
         setupToolbar("This is Title");
 
-        PagerAdapter mMoreDataPagerAdapter = new MoreDataAdapter(getActivity().getSupportFragmentManager());
-        PagerAdapter mReviewPagerAdapter = new ReviewAdapter(getActivity().getSupportFragmentManager());
-
-        mBinding.moreDataPager.setAdapter(mMoreDataPagerAdapter);
-        mBinding.reviewPager.setAdapter(mReviewPagerAdapter);
-
-        mDataContents[0] = "1:45";
-        mDataContents[1] = "en";
-        mDataContents[2] = "Adoult";
-        mDataContents[3] = "2017-06-10";
-        mDataContents[4] = "www.website.com";
-        mDataContents[5] = "15000000";
-        mReviews[0] = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Hello ";
-        mReviews[1] = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. ";
-        mReviews[2] = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. ";
-        mReviews[3] = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. ";
-        mReviews[4] = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. ";
-        mReviews[5] = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. ";
-        mReviews[6] = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. ";
-        mReviews[7] = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. ";
-        mReviews[8] = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. ";
-        mReviews[9] = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. ";
-
-        mBinding.txtReviewPageNumber.setText(String.format(getString(R.string.review_page_number), 1, mReviews.length));
-
-        mBinding.moreDataPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
-
-            @Override
-            public void onPageSelected(int position) {
-                mBinding.moreDateIndicator.setActiveDot(position);
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {}
-        });
-        mBinding.reviewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
-
-            @Override
-            public void onPageSelected(int position) {
-                mBinding.txtReviewPageNumber.setText(String.format(getString(R.string.review_page_number), position + 1, mReviews.length));
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {}
-        });
-
         return mBinding.getRoot();
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Log.d(LOG_TAG, "onActivityCreated");
+        getActivity().getSupportLoaderManager().initLoader(MODVIE_DETAIL_LOADER_ID, null, this);
+    }
+
     private void setupToolbar(final String title) {
-        ((AppCompatActivity)getActivity()).setSupportActionBar(mBinding.toolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(mBinding.toolbar);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mBinding.collapsingToolbar.setTitle(" ");
 
@@ -130,10 +99,126 @@ public class MovieDetailFragment extends Fragment {
         });
     }
 
+    @Override
+    public Loader<String> onCreateLoader(int id, Bundle args) {
+        Log.d(LOG_TAG, "onCreateLoader");
+        return new AsyncTaskLoader<String>(getActivity()) {
+            @Override
+            protected void onStartLoading() {
+                super.onStartLoading();
+                forceLoad();
+            }
+
+            @Override
+            public String loadInBackground() {
+                if(mMovieId == -1) {
+                    return null;
+                }
+                URL url = NetworkUtility.getMovieDataUrl(mMovieId);
+                try {
+                    return NetworkUtility.getResponseFromHttpUrl(url);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+        };
+    }
+
+    @Override
+    public void onLoadFinished(Loader<String> loader, String data) {
+        if(data == null) {
+            return;
+        }
+        try {
+            mReviews[0] = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Hello ";
+            mReviews[1] = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. ";
+            mReviews[2] = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. ";
+            mReviews[3] = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. ";
+            mReviews[4] = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. ";
+            mReviews[5] = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. ";
+            mReviews[6] = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. ";
+            mReviews[7] = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. ";
+            mReviews[8] = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. ";
+            mReviews[9] = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. ";
+
+            String[] dataParams = new String[6];
+
+            MovieInformationStructure movieInformationStructure =
+                    JsonUtility.getMovieInformationFromJson(getActivity(), data);
+
+            String title = movieInformationStructure.title;
+            String status = movieInformationStructure.status;
+            String overview = movieInformationStructure.overview;
+            String runtime = movieInformationStructure.runtime;
+            String language = movieInformationStructure.language;
+            boolean adult = movieInformationStructure.adult;
+            String releaseDate = movieInformationStructure.releaseDate;
+            String website = movieInformationStructure.website;
+            long revenue = movieInformationStructure.revenue;
+
+            mBinding.txtTitle.setText(title);
+            mBinding.txtStatus.setText(status);
+            mBinding.expOverview.setContent(overview);
+            dataParams[0] = runtime;
+            dataParams[1] = language;
+            dataParams[2] = adult ? "YES" : "NO";
+            dataParams[3] = releaseDate;
+            dataParams[4] = website;
+            dataParams[5] = String.valueOf(revenue);
+
+            PagerAdapter mMoreDataPagerAdapter =
+                    new MoreDataAdapter(getActivity().getSupportFragmentManager(), dataParams);
+            PagerAdapter mReviewPagerAdapter = new ReviewAdapter(getActivity().getSupportFragmentManager());
+
+            mBinding.moreDataPager.setAdapter(mMoreDataPagerAdapter);
+            mBinding.reviewPager.setAdapter(mReviewPagerAdapter);
+            mBinding.txtReviewPageNumber.setText(String.format(getString(R.string.review_page_number), 1, mReviews.length));
+
+            mBinding.moreDataPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                @Override
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                }
+
+                @Override
+                public void onPageSelected(int position) {
+                    mBinding.moreDateIndicator.setActiveDot(position);
+                }
+
+                @Override
+                public void onPageScrollStateChanged(int state) {
+                }
+            });
+            mBinding.reviewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                @Override
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                }
+
+                @Override
+                public void onPageSelected(int position) {
+                    mBinding.txtReviewPageNumber.setText(String.format(getString(R.string.review_page_number), position + 1, mReviews.length));
+                }
+
+                @Override
+                public void onPageScrollStateChanged(int state) {
+                }
+            });
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onLoaderReset(Loader<String> loader) {}
+
     private class MoreDataAdapter extends FragmentStatePagerAdapter {
 
-        public MoreDataAdapter(FragmentManager fm) {
+        String[] mParams = new String[6];
+
+        public MoreDataAdapter(FragmentManager fm, String[] params) {
             super(fm);
+            mParams = params;
         }
 
         @Override
@@ -141,16 +226,16 @@ public class MovieDetailFragment extends Fragment {
             int icon1 = R.drawable.ic_clock;
             int icon2 = R.drawable.ic_translate;
             int icon3 = R.drawable.ic_block;
-            String content1 = mDataContents[0];
-            String content2 = mDataContents[1];
-            String content3 = mDataContents[2];
-            if(position == 1) {
+            String content1 = mParams[0];
+            String content2 = mParams[1];
+            String content3 = mParams[2];
+            if (position == 1) {
                 icon1 = R.drawable.ic_calendar;
                 icon2 = R.drawable.ic_web;
                 icon3 = R.drawable.ic_cash;
-                content1 = mDataContents[3];
-                content2 = mDataContents[4];
-                content3 = mDataContents[5];
+                content1 = mParams[3];
+                content2 = mParams[4];
+                content3 = mParams[5];
             }
 
             int[] icons = {icon1, icon2, icon3};
@@ -172,7 +257,9 @@ public class MovieDetailFragment extends Fragment {
 
     private class ReviewAdapter extends FragmentStatePagerAdapter {
 
-        public ReviewAdapter(FragmentManager fm) { super(fm); }
+        public ReviewAdapter(FragmentManager fm) {
+            super(fm);
+        }
 
         @Override
         public Fragment getItem(int position) {

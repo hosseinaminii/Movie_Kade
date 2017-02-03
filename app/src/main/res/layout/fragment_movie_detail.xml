@@ -127,7 +127,7 @@
                     android:textSize="16sp" />
 
                 <com.aminiam.moviekade.custom_view.ExpandableTextView
-                    android:id="@+id/ExpandableTextView"
+                    android:id="@+id/expOverview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/cardPoster"
@@ -136,14 +136,13 @@
                     android:layout_marginTop="20dp"
                     custom:button_textPrimary="@string/expand"
                     custom:button_textSecondary="@string/collapse"
-                    custom:maxLines="3"
-                    custom:text="A ticking-time-bomb insomniac and a slippery soap salesman channel primal male aggreA ticking-time-bomb insomniac and a slippery soap salesman channel primal male aggreA ticking-time-bomb insomniac and a slippery soap salesman channel primal male aggreA ticking-time-bomb insomniac and a slippery soap salesman channel primal male aggreA ticking-time-bomb insomniac and a slippery soap salesman channel primal male aggression into a shocking new form of therapy. Their concept " />
+                    custom:maxLines="3" />
 
                 <android.support.v4.view.ViewPager
                     android:id="@+id/moreDataPager"
                     android:layout_width="match_parent"
                     android:layout_height="120dp"
-                    android:layout_below="@+id/ExpandableTextView" />
+                    android:layout_below="@+id/expOverview" />
 
                 <com.aminiam.moviekade.custom_view.DotIndicator
                     android:id="@+id/moreDateIndicator"

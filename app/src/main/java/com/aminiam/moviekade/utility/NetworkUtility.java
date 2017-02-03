@@ -28,6 +28,7 @@ public class NetworkUtility {
     public static final String TOP_RATE_PATH = "top_rated";
     public static final String POPULAR_PATH = "popular";
     public static final String UPCOMING_PATH = "upcoming";
+    private static final String APPEND_TO_RESPONSE = "append_to_response";
     private static final String API_KEY_PARAM = "api_key";
 
     /**
@@ -40,9 +41,28 @@ public class NetworkUtility {
                 .appendPath(MOVIE_PATH)
                 .appendPath(collectionPath)
                 .appendQueryParameter(API_KEY_PARAM, BuildConfig.THE_MOVIE_DB_API_KEY).build();
-        Log.d(LOG_TAG, moviesQueryUri.toString());
         try {
             return new URL(moviesQueryUri.toString());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * Create URL for getting a specific movie data from api
+     * @param movieId is the ID of specific movie
+     *@return URL
+     */
+    public static URL getMovieDataUrl(long movieId) {
+        Uri movieDetailQueryUri = Uri.parse(DB_MOVIE_BASE_URL).buildUpon()
+                .appendPath(MOVIE_PATH)
+                .appendPath(String.valueOf(movieId))
+                .appendQueryParameter(API_KEY_PARAM, BuildConfig.THE_MOVIE_DB_API_KEY)
+                .appendQueryParameter(APPEND_TO_RESPONSE, "movies").build();
+        Log.d(LOG_TAG, movieDetailQueryUri.toString());
+        try {
+            return new URL(movieDetailQueryUri.toString());
         } catch (MalformedURLException e) {
             e.printStackTrace();
             return null;

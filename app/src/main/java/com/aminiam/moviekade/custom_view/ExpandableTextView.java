@@ -74,13 +74,14 @@ public class ExpandableTextView extends LinearLayout implements View.OnClickList
         mMaxLines = maxLines;
         mTxtContent.setMaxLines(mMaxLines);
 
-        requestLayout();
-        invalidate();
+        refresh();
     }
 
     public void setContent(String content) {
         mContent = content;
         mTxtContent.setText(mContent);
+
+        refresh();
     }
 
     public String getContent() {
@@ -92,14 +93,13 @@ public class ExpandableTextView extends LinearLayout implements View.OnClickList
     }
 
     public void setCollapsed(boolean isCollapsed) {
-        if(isCollapsed) {
+        if (isCollapsed) {
             mTxtContent.setMaxLines(mMaxLines);
         } else {
             mTxtContent.setMaxLines(mTxtContent.getLineCount());
         }
 
-        requestLayout();
-        invalidate();
+        refresh();
     }
 
     public boolean isCollapsed() {
@@ -108,11 +108,10 @@ public class ExpandableTextView extends LinearLayout implements View.OnClickList
 
     public void setButtonPrimaryText(String value) {
         mButtonPrimaryText = value;
-        if(mIsCollapsed) {
+        if (mIsCollapsed) {
             mButton.setText(mButtonPrimaryText);
 
-            requestLayout();
-            invalidate();
+            refresh();
         }
     }
 
@@ -122,11 +121,10 @@ public class ExpandableTextView extends LinearLayout implements View.OnClickList
 
     public void setButtonSecondaryText(String value) {
         mButtonSecondaryText = value;
-        if(!isCollapsed()) {
+        if (!isCollapsed()) {
             mButton.setText(mButtonSecondaryText);
 
-            requestLayout();
-            invalidate();
+            refresh();
         }
     }
 
@@ -134,8 +132,7 @@ public class ExpandableTextView extends LinearLayout implements View.OnClickList
         mButtonColor = color;
         mButton.setTextColor(mButtonColor);
 
-        requestLayout();
-        invalidate();
+        refresh();
     }
 
     public int getButtonColor() {
@@ -153,17 +150,21 @@ public class ExpandableTextView extends LinearLayout implements View.OnClickList
         }
 
         mIsCollapsed = !mIsCollapsed;
-        invalidate();
-        requestLayout();
+        refresh();
     }
 
-    private void expandTextView(TextView tv){
+    private void expandTextView(TextView tv) {
         ObjectAnimator animation = ObjectAnimator.ofInt(tv, "maxLines", tv.getLineCount());
         animation.setDuration(200).start();
     }
 
-    private void collapseTextView(TextView tv){
+    private void collapseTextView(TextView tv) {
         ObjectAnimator animation = ObjectAnimator.ofInt(tv, "maxLines", mMaxLines);
         animation.setDuration(200).start();
+    }
+
+    private void refresh() {
+        invalidate();
+        requestLayout();
     }
 }
