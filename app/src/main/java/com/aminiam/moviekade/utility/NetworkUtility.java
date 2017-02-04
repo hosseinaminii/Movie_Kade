@@ -59,7 +59,7 @@ public class NetworkUtility {
                 .appendPath(MOVIE_PATH)
                 .appendPath(String.valueOf(movieId))
                 .appendQueryParameter(API_KEY_PARAM, BuildConfig.THE_MOVIE_DB_API_KEY)
-                .appendQueryParameter(APPEND_TO_RESPONSE, "videos").build();
+                .appendQueryParameter(APPEND_TO_RESPONSE, "videos,reviews").build();
         Log.d(LOG_TAG, movieDetailQueryUri.toString());
         try {
             return new URL(movieDetailQueryUri.toString());
@@ -138,7 +138,6 @@ public class NetworkUtility {
     }
 
     public static String buildTrailerImagePath(String imageKey) {
-        Log.d(LOG_TAG, "http://img.youtube.com/vi/" + imageKey + "/0.jpg");
         return "http://img.youtube.com/vi/" + imageKey +"/0.jpg";
     }
 

@@ -15,4 +15,5 @@ public class MovieInformationStructure {
     public String website;
     public long revenue;
     public ArrayList<String> trailers = new ArrayList<>();
+    public String[][] reviews;
 }

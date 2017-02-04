@@ -53,20 +53,23 @@ public class JsonUtility {
         return movieStructureList;
     }
 
-    private static String TITLE = "title";
-    private static String ARRAY_GENRES = "genres";
-    private static String GENER_NAME = "name";
-    private static String STATUS = "status";
-    private static String OVERVIEW = "overview";
-    private static String RUNTIME = "runtime";
-    private static String LANGUAGE = "original_language";
-    private static String ADULT = "adult";
-    private static String RELEASE_DATE = "release_date";
-    private static String WEBSITE = "homepage";
-    private static String REVENU = "revenue";
-    private static String ARRAY_VIDEOS = "videos";
-    private static String VIDEO_KEY = "key";
-
+    private final static String TITLE = "title";
+    private final static String ARRAY_GENRES = "genres";
+    private final static String GENER_NAME = "name";
+    private final static String STATUS = "status";
+    private final static String OVERVIEW = "overview";
+    private final static String RUNTIME = "runtime";
+    private final static String LANGUAGE = "original_language";
+    private final static String ADULT = "adult";
+    private final static String RELEASE_DATE = "release_date";
+    private final static String WEBSITE = "homepage";
+    private final static String REVENU = "revenue";
+    private final static String VIDEOS = "videos";
+    private final static String VIDEO_KEY = "key";
+    private final static String REVIEWS = "reviews";
+    private final static String REVIEW_AUTHOR = "author";
+    private final static String REVIEW_CONTENT = "content";
+final
     public static MovieInformationStructure getMovieInformationFromJson(Context context, String movieInfoJsonStr)throws JSONException {
         MovieInformationStructure movieInformationStructure = new MovieInformationStructure();
         JSONObject jsonObject = new JSONObject(movieInfoJsonStr);
@@ -93,14 +96,27 @@ public class JsonUtility {
         movieInformationStructure.website = website;
         movieInformationStructure.revenue = revenue;
 
-        JSONObject trailers = jsonObject.getJSONObject(ARRAY_VIDEOS);
-        JSONArray trailersResults = trailers.getJSONArray(ARRAY_RESULT);
-        for(int i = 0; i < trailersResults.length(); i++) {
-            JSONObject videoObject = (JSONObject) trailersResults.get(i);
+        JSONObject trailersObject = jsonObject.getJSONObject(VIDEOS);
+        JSONArray trailers = trailersObject.getJSONArray(ARRAY_RESULT);
+        for(int i = 0; i < trailers.length(); i++) {
+            JSONObject video = (JSONObject) trailers.get(i);
 
-            String trailerKey = videoObject.getString(VIDEO_KEY);
-            movieInformationStructure.trailers.add(trailerKey);
+            String key = video.getString(VIDEO_KEY);
+            movieInformationStructure.trailers.add(key);
         }
+
+        JSONObject reviewsObject = jsonObject.getJSONObject(REVIEWS);
+        JSONArray reviews = reviewsObject.getJSONArray(ARRAY_RESULT);
+        String[][] reviewsArray = new String[reviews.length()][2];
+        for(int i = 0; i < reviews.length(); i++) {
+            JSONObject review = reviews.getJSONObject(i);
+
+            String author = review.getString(REVIEW_AUTHOR);
+            String content = review.getString(REVIEW_CONTENT);
+            reviewsArray[i][0] = author;
+            reviewsArray[i][1] = content;
+        }
+        movieInformationStructure.reviews = reviewsArray;
 
         return movieInformationStructure;
     }

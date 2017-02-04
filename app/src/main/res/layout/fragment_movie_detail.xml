@@ -196,6 +196,29 @@
                     android:layout_marginLeft="15dp"
                     android:layout_below="@+id/lneTrailer" />
 
+                <ImageView
+                    android:id="@+id/imgReview"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_below="@+id/lneTrailer"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="25dp"
+                    android:visibility="invisible"
+                    app:srcCompat="@drawable/ic_review"/>
+
+                <TextView
+                    android:id="@+id/txtNoReview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textSize="20dp"
+                    android:fontFamily="sans-serif-thin"
+                    android:textStyle="italic"
+                    android:layout_below="@+id/imgReview"
+                    android:text="@string/no_review_available"
+                    android:visibility="invisible"/>
+
                 <TextView
                     android:id="@+id/txtReviewPageNumber"
                     android:layout_width="wrap_content"

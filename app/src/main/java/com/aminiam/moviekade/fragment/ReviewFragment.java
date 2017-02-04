@@ -8,12 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.aminiam.moviekade.R;
 import com.aminiam.moviekade.databinding.FragmentReviewBinding;
 
 public class ReviewFragment extends Fragment {
 
     private FragmentReviewBinding mBinding;
-    private String mReview;
+    private String mReviewContent;
+    private String mReviewAuthor;
 
     public ReviewFragment() {}
 
@@ -22,8 +24,9 @@ public class ReviewFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         Bundle bundle = getArguments();
-        if(bundle.containsKey(MovieDetailFragment.REVIEW_KEY)) {
-            mReview = bundle.getString(MovieDetailFragment.REVIEW_KEY);
+        if(bundle.containsKey(MovieDetailFragment.REVIEW_CONTENT_KEY)) {
+            mReviewContent = bundle.getString(MovieDetailFragment.REVIEW_CONTENT_KEY);
+            mReviewAuthor = bundle.getString(MovieDetailFragment.REVIEW_AUTHOR_KEY);
         }
     }
 
@@ -32,7 +35,8 @@ public class ReviewFragment extends Fragment {
                              Bundle savedInstanceState) {
         mBinding = FragmentReviewBinding.inflate(inflater, container, false);
 
-        mBinding.txtReview.setText(mReview);
+        mBinding.txtReview.setText(mReviewContent);
+        mBinding.txtAuthor.setText(String.format(getString(R.string.review_author), mReviewAuthor));
 
         return mBinding.getRoot();
     }

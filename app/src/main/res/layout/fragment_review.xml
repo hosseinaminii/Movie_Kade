@@ -1,23 +1,37 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <FrameLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context="com.aminiam.moviekade.fragment.ReviewFragment">
 
-            <TextView
-                android:id="@+id/txtReview"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:maxLines="4"
-                android:ellipsize="end"
-                android:fontFamily="sans-serif-thin"
-                android:lineSpacingExtra="5dp"
-                android:textStyle="italic"
-                android:gravity="center"
-                android:text="@string/hello_blank_fragment" />
+        <TextView
+            android:id="@+id/txtAuthor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:fontFamily="sans-serif-thin"
+            android:maxLines="1"
+            android:textColor="#ffdf8d"
+            android:textStyle="italic"
+            tools:text="Hossein Amini" />
 
-    </FrameLayout>
+        <TextView
+            android:id="@+id/txtReview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/txtAuthor"
+            android:layout_gravity="center"
+            android:ellipsize="end"
+            android:fontFamily="sans-serif-thin"
+            android:gravity="center"
+            android:lineSpacingExtra="5dp"
+            android:maxLines="4"
+            android:textStyle="italic"
+            tools:text="@string/hello_blank_fragment"
+            android:visibility="visible"/>
+
+    </RelativeLayout>
 </layout>

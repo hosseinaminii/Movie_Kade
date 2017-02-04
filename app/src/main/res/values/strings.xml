@@ -24,5 +24,7 @@
     <string name="trailers">Trailers</string>
     <string name="review_page_number">%1$d/%2$d</string>
     <string name="time">%1$s:%2$s</string>
+    <string name="review_author">%1$s:</string>
+    <string name="no_review_available">No Review Available!</string>
 
 </resources>

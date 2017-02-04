@@ -34,16 +34,14 @@ import java.net.URL;
 public class MovieDetailFragment extends Fragment implements LoaderManager.LoaderCallbacks<String> {
     private static final String LOG_TAG = MovieDetailFragment.class.getSimpleName();
 
-    private static final int MODVIE_DETAIL_LOADER_ID = 9999;
+    private static final int MOVIE_DETAIL_LOADER_ID = 9999;
     public static final String MORE_DATA_ICON_KEY = "more_data_icon_key";
     public static final String MORE_DATA_CONTENT_KEY = "more_data_content_key";
-    public static final String REVIEW_KEY = "review_key";
+    public static final String REVIEW_CONTENT_KEY = "review_content_key";
+    public static final String REVIEW_AUTHOR_KEY = "review_author_key";
 
     private long mMovieId = -1;
     private static final int NUM_PAGES = 2;
-
-    private String[] mDataContents = new String[6];
-    private String[] mReviews = new String[10];
 
     private FragmentMovieDetailBinding mBinding;
     private TrailerAdapter mTrailerAdatper;
@@ -78,7 +76,7 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Log.d(LOG_TAG, "onActivityCreated");
-        getActivity().getSupportLoaderManager().initLoader(MODVIE_DETAIL_LOADER_ID, null, this);
+        getActivity().getSupportLoaderManager().initLoader(MOVIE_DETAIL_LOADER_ID, null, this);
     }
 
     private void setupToolbar(final String title) {
@@ -140,20 +138,10 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
             return;
         }
         try {
-            mReviews[0] = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Hello ";
-            mReviews[1] = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. ";
-            mReviews[2] = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. ";
-            mReviews[3] = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. ";
-            mReviews[4] = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. ";
-            mReviews[5] = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. ";
-            mReviews[6] = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. ";
-            mReviews[7] = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. ";
-            mReviews[8] = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. ";
-            mReviews[9] = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. ";
 
             String[] dataParams = new String[6];
 
-            MovieInformationStructure movieInformationStructure =
+            final MovieInformationStructure movieInformationStructure =
                     JsonUtility.getMovieInformationFromJson(getActivity(), data);
 
             String title = movieInformationStructure.title;
@@ -178,11 +166,13 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
 
             PagerAdapter mMoreDataPagerAdapter =
                     new MoreDataAdapter(getActivity().getSupportFragmentManager(), dataParams);
-            PagerAdapter mReviewPagerAdapter = new ReviewAdapter(getActivity().getSupportFragmentManager());
+            PagerAdapter mReviewPagerAdapter = new ReviewAdapter(
+                    getActivity().getSupportFragmentManager(), movieInformationStructure.reviews);
 
             mBinding.moreDataPager.setAdapter(mMoreDataPagerAdapter);
             mBinding.reviewPager.setAdapter(mReviewPagerAdapter);
-            mBinding.txtReviewPageNumber.setText(String.format(getString(R.string.review_page_number), 1, mReviews.length));
+            mBinding.txtReviewPageNumber.setText(String.format(getString(R.string.review_page_number), 1,
+                    movieInformationStructure.reviews.length));
             mBinding.moreDataPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
                 public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -204,7 +194,8 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
 
                 @Override
                 public void onPageSelected(int position) {
-                    mBinding.txtReviewPageNumber.setText(String.format(getString(R.string.review_page_number), position + 1, mReviews.length));
+                    mBinding.txtReviewPageNumber.setText(String.format(getString(R.string.review_page_number), position + 1,
+                            movieInformationStructure.reviews.length));
                 }
 
                 @Override
@@ -213,8 +204,6 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
             });
 
             mTrailerAdatper.populateData(movieInformationStructure.trailers);
-
-
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -269,14 +258,18 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
 
     private class ReviewAdapter extends FragmentStatePagerAdapter {
 
-        public ReviewAdapter(FragmentManager fm) {
+        String[][] mReviews;
+
+        public ReviewAdapter(FragmentManager fm, String[][] reviews) {
             super(fm);
+            mReviews = reviews;
         }
 
         @Override
         public Fragment getItem(int position) {
             Bundle args = new Bundle();
-            args.putString(REVIEW_KEY, mReviews[position]);
+            args.putString(REVIEW_AUTHOR_KEY, mReviews[position][0]);
+            args.putString(REVIEW_CONTENT_KEY, mReviews[position][1]);
             ReviewFragment reviewFragment = new ReviewFragment();
             reviewFragment.setArguments(args);
             return reviewFragment;
@@ -284,7 +277,13 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
 
         @Override
         public int getCount() {
+            if(mReviews.length == 0) {
+                mBinding.txtNoReview.setVisibility(View.VISIBLE);
+                mBinding.imgReview.setVisibility(View.VISIBLE);
+                mBinding.txtReviewPageNumber.setVisibility(View.INVISIBLE);
+            }
             return mReviews.length;
         }
+
     }
 }
