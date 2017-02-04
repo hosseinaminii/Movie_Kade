@@ -23,18 +23,19 @@ public class JsonUtility {
     /**
      * This method parses JSON from a web response and return an array of MoviesStructure describing
      * data over various movies.
+     *
      * @param moviesJsonStr JSON response from server for fetching movies data
      * @return Array of movieStructure describing movies data
      * @throws JSONException
      */
     public static MovieStructure[] getMoviesDataFromJson(String moviesJsonStr)
-        throws JSONException{
+            throws JSONException {
 
         JSONObject moviesJson = new JSONObject(moviesJsonStr);
         JSONArray results = moviesJson.getJSONArray(ARRAY_RESULT);
 
         MovieStructure[] movieStructureList = new MovieStructure[results.length()];
-        for(int i = 0; i < results.length(); i++) {
+        for (int i = 0; i < results.length(); i++) {
             MovieStructure movieStructure = new MovieStructure();
             JSONObject movieJsonObject = results.getJSONObject(i);
 
@@ -58,7 +59,7 @@ public class JsonUtility {
 
     private final static String TITLE = "title";
     private final static String ARRAY_GENRES = "genres";
-    private final static String GENER_NAME = "name";
+    private final static String GENRE_NAME = "name";
     private final static String STATUS = "status";
     private final static String OVERVIEW = "overview";
     private final static String RUNTIME = "runtime";
@@ -72,8 +73,9 @@ public class JsonUtility {
     private final static String REVIEWS = "reviews";
     private final static String REVIEW_AUTHOR = "author";
     private final static String REVIEW_CONTENT = "content";
-final
-    public static MovieInformationStructure getMovieInformationFromJson(Context context, String movieInfoJsonStr)throws JSONException {
+
+    final
+    public static MovieInformationStructure getMovieInformationFromJson(Context context, String movieInfoJsonStr) throws JSONException {
         MovieInformationStructure movieInformationStructure = new MovieInformationStructure();
         JSONObject jsonObject = new JSONObject(movieInfoJsonStr);
 
@@ -101,7 +103,7 @@ final
 
         JSONObject trailersObject = jsonObject.getJSONObject(VIDEOS);
         JSONArray trailers = trailersObject.getJSONArray(ARRAY_RESULT);
-        for(int i = 0; i < trailers.length(); i++) {
+        for (int i = 0; i < trailers.length(); i++) {
             JSONObject video = (JSONObject) trailers.get(i);
 
             String key = video.getString(VIDEO_KEY);
@@ -111,7 +113,7 @@ final
         JSONObject reviewsObject = jsonObject.getJSONObject(REVIEWS);
         JSONArray reviews = reviewsObject.getJSONArray(ARRAY_RESULT);
         String[][] reviewsArray = new String[reviews.length()][2];
-        for(int i = 0; i < reviews.length(); i++) {
+        for (int i = 0; i < reviews.length(); i++) {
             JSONObject review = reviews.getJSONObject(i);
 
             String author = review.getString(REVIEW_AUTHOR);
@@ -121,7 +123,24 @@ final
         }
         movieInformationStructure.reviews = reviewsArray;
 
+        JSONArray genres = jsonObject.getJSONArray(ARRAY_GENRES);
+        StringBuilder strGenres = new StringBuilder();
+        String divider = ". ";
+        for (int i = 0; i < genres.length(); i++) {
+            JSONObject genre = genres.getJSONObject(i);
+
+            String name = genre.getString(GENRE_NAME);
+
+            if (i == genres.length() - 1) {
+                divider = "";
+            }
+            strGenres.append(name);
+            strGenres.append(divider);
+        }
+        movieInformationStructure.genres = strGenres.toString();
+
         return movieInformationStructure;
     }
+
 
 }

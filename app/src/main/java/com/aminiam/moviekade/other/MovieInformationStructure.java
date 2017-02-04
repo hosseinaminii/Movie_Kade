@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class MovieInformationStructure {
     public long id;
     public String title;
-    public ArrayList<String> geners;
+    public String genres;
     public String status;
     public String overview;
     public String runtime;

@@ -110,7 +110,7 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
                     mBinding.collapsingToolbar.setTitle(title);
                     isShow = true;
                 } else if (isShow) {
-                    mBinding.collapsingToolbar.setTitle(" ");//carefull there should a space between double quote otherwise it wont work
+                    mBinding.collapsingToolbar.setTitle(" ");
                     isShow = false;
                 }
             }
@@ -164,10 +164,12 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
             String releaseDate = movieInformationStructure.releaseDate;
             String website = movieInformationStructure.website;
             long revenue = movieInformationStructure.revenue;
+            String genres = movieInformationStructure.genres;
 
             mBinding.txtTitle.setText(title);
             mBinding.txtStatus.setText(status);
             mBinding.expOverview.setContent(overview);
+            mBinding.txtGenre.setText(genres);
             dataParams[0] = runtime;
             dataParams[1] = language;
             dataParams[2] = adult ? "YES" : "NO";
