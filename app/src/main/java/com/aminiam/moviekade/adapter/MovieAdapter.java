@@ -66,8 +66,11 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 
         @Override
         public void onClick(View v) {
-            long movieId = mMovieStructures[getAdapterPosition()].id;
-            mListener.onMovieClick(movieId);
+            int position = getAdapterPosition();
+            long movieId = mMovieStructures[position].id;
+            String posterPath = mMovieStructures[position].posterName;
+            String backdropPath = mMovieStructures[position].backdropPath;
+            mListener.onMovieClick(movieId, posterPath, backdropPath);
         }
     }
 
@@ -77,6 +80,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
     }
 
     public interface MovieClickListener {
-        void onMovieClick(long movieId);
+        void onMovieClick(long movieId, String posterPath, String backdropPath);
     }
 }

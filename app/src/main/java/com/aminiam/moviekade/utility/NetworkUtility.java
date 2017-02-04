@@ -22,8 +22,6 @@ public class NetworkUtility {
     private static final String DB_MOVIE_BASE_URL = "http://api.themoviedb.org/3/";
 
     private static final String MOVIE_PATH = "movie";
-    private static final String VIDEO_PATH = "trailers";
-    private static final String REVIEW_PATH = "review";
     public static final String NOW_PLAYING_PATH = "now_playing";
     public static final String TOP_RATE_PATH = "top_rated";
     public static final String POPULAR_PATH = "popular";
@@ -135,6 +133,10 @@ public class NetworkUtility {
 
     public static String buildPosterPath(String imageName) {
         return "http://image.tmdb.org/t/p/w342/".concat(imageName);
+    }
+
+    public static String buildBackdropPath(String imageName) {
+        return "http://image.tmdb.org/t/p/w500/".concat(imageName);
     }
 
     public static String buildTrailerImagePath(String imageKey) {

@@ -18,6 +18,7 @@ public class JsonUtility {
     private static final String POSTER_PATH = "poster_path";
     private static final String ORIGINAL_TITLE = "original_title";
     private static final String AVERAGE_VOTE = "vote_average";
+    private static final String BACKDROP_PATH = "backdrop_path";
 
     /**
      * This method parses JSON from a web response and return an array of MoviesStructure describing
@@ -40,11 +41,13 @@ public class JsonUtility {
             long id = movieJsonObject.getLong(ID);
             String title = movieJsonObject.getString(ORIGINAL_TITLE);
             String posterPath = movieJsonObject.getString(POSTER_PATH);
+            String backdropPath = movieJsonObject.getString(BACKDROP_PATH);
             double averageVote = movieJsonObject.getDouble(AVERAGE_VOTE);
 
             movieStructure.id = id;
             movieStructure.title = title;
             movieStructure.posterName = posterPath;
+            movieStructure.backdropPath = backdropPath;
             movieStructure.averageVote = averageVote;
 
             movieStructureList[i] = movieStructure;

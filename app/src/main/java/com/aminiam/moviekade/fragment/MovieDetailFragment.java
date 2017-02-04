@@ -25,6 +25,7 @@ import com.aminiam.moviekade.databinding.FragmentMovieDetailBinding;
 import com.aminiam.moviekade.other.MovieInformationStructure;
 import com.aminiam.moviekade.utility.JsonUtility;
 import com.aminiam.moviekade.utility.NetworkUtility;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 
@@ -41,6 +42,8 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
     public static final String REVIEW_AUTHOR_KEY = "review_author_key";
 
     private long mMovieId = -1;
+    private String mMoviePoster;
+    private String mMovieBackdrop;
     private static final int NUM_PAGES = 2;
 
     private FragmentMovieDetailBinding mBinding;
@@ -55,6 +58,8 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
         super.onCreate(savedInstanceState);
         Bundle args = getArguments();
         mMovieId = args.getLong(MainActivity.MOVIE_ID_KEY);
+        mMoviePoster = args.getString(MainActivity.MOVIE_POSTER_KEY);
+        mMovieBackdrop = args.getString(MainActivity.MOVIE_BACKDROP_KEY);
     }
 
     @Override
@@ -62,6 +67,12 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
                              Bundle savedInstanceState) {
         mBinding = FragmentMovieDetailBinding.inflate(inflater, container, false);
         setupToolbar("This is Title");
+
+        Picasso.with(getActivity()).load(NetworkUtility.buildBackdropPath(mMovieBackdrop)).into(
+                mBinding.imgToolbarImage);
+
+        Picasso.with(getActivity()).load(NetworkUtility.buildPosterPath(mMoviePoster)).into(
+                mBinding.imgPoster);
 
         mTrailerAdatper = new TrailerAdapter(getActivity());
         mBinding.recTrailer.setAdapter(mTrailerAdatper);

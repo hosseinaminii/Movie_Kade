@@ -14,9 +14,15 @@ public class MovieDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_movie_detail);
 
         if(savedInstanceState == null) {
-            long movieId = getIntent().getExtras().getLong(MainActivity.MOVIE_ID_KEY);
+            Bundle bundle = getIntent().getExtras();
+            long movieId = bundle.getLong(MainActivity.MOVIE_ID_KEY);
+            String poster = bundle.getString(MainActivity.MOVIE_POSTER_KEY);
+            String backdrop = bundle.getString(MainActivity.MOVIE_BACKDROP_KEY);
+
             Bundle args = new Bundle();
             args.putLong(MainActivity.MOVIE_ID_KEY, movieId);
+            args.putString(MainActivity.MOVIE_POSTER_KEY, poster);
+            args.putString(MainActivity.MOVIE_BACKDROP_KEY, backdrop);
             MovieDetailFragment movieDetailFragment = new MovieDetailFragment();
             movieDetailFragment.setArguments(args);
 

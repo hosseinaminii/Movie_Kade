@@ -32,6 +32,8 @@ public class MainActivity extends AppCompatActivity implements UiUpdaterListener
     public static final String PATH_KEY = "path_key";
     public static final String LOADER_ID_KEY = "loader_id_key";
     public static final String MOVIE_ID_KEY = "movie_id_key";
+    public static final String MOVIE_POSTER_KEY = "movie_poster_key";
+    public static final String MOVIE_BACKDROP_KEY = "movie_backdrop_key";
 
     private static final int PLAYING_FRAGMENT_LOADER_ID = 9000;
     private static final int POPULAR_FRAGMENT_LOADER_ID = 9001;
@@ -284,9 +286,11 @@ public class MainActivity extends AppCompatActivity implements UiUpdaterListener
     }
 
     @Override
-    public void onItemSelected(long movieId) {
+    public void onItemSelected(long movieId,String posterPath, String backdropPath) {
         Intent intent = new Intent(this, MovieDetailActivity.class);
         intent.putExtra(MOVIE_ID_KEY, movieId);
+        intent.putExtra(MOVIE_POSTER_KEY, posterPath);
+        intent.putExtra(MOVIE_BACKDROP_KEY, backdropPath);
         startActivity(intent);
     }
 
