@@ -28,5 +28,6 @@
     <string name="no_review_available">No Review Available!</string>
     <string name="no_trailer_available">No Trailer Available!</string>
     <string name="reviews">Reviews</string>
+    <string name="released">Released</string>
 
 </resources>

@@ -181,6 +181,10 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
             dataParams[4] = website;
             dataParams[5] = String.valueOf(revenue);
 
+            if(!status.equals(getString(R.string.released))) {
+                mBinding.imgStatus.setImageResource(R.drawable.ic_circle_alert);
+            }
+
             PagerAdapter mMoreDataPagerAdapter =
                     new MoreDataAdapter(getActivity().getSupportFragmentManager(), dataParams);
             PagerAdapter mReviewPagerAdapter = new ReviewAdapter(

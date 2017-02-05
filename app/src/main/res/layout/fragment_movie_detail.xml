@@ -86,7 +86,7 @@
                     android:fontFamily="sans-serif-re"
                     android:text="Moana"
                     android:textColor="@android:color/white"
-                    android:textSize="24sp" />
+                    android:textSize="20dp" />
 
                 <TextView
                     android:id="@+id/txtGenre"
@@ -99,11 +99,10 @@
                     android:layout_toRightOf="@+id/cardPoster"
                     android:fontFamily="sans-serif-re"
                     android:text="Action"
-                    android:textColor="@color/light_gray"
-                    android:textSize="16sp" />
+                    android:textSize="14dp" />
 
                 <ImageView
-                    android:id="@+id/imgCheck"
+                    android:id="@+id/imgStatus"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_alignBottom="@+id/cardPoster"
@@ -118,14 +117,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@+id/cardPoster"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_toEndOf="@+id/imgCheck"
-                    android:layout_toRightOf="@+id/imgCheck"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_toEndOf="@+id/imgStatus"
+                    android:layout_toRightOf="@+id/imgStatus"
                     android:fontFamily="sans-serif-re"
                     android:text="Released"
-                    android:textColor="@color/light_gray"
-                    android:textSize="16sp" />
+                    android:textSize="14dp" />
 
                 <com.aminiam.moviekade.custom_view.ExpandableTextView
                     android:id="@+id/expOverview"
