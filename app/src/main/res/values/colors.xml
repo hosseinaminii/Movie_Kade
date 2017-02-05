@@ -15,4 +15,6 @@
     <color name="dot_indicator_active">@color/colorAccent</color>
     <color name="trailers_background">#1e1e1e</color>
     <color name="trailers_border">#121212</color>
+    <color name="no_trailer_icon">#4d4d4d</color>
+    <color name="no_trailer_text">#696969</color>
 </resources>

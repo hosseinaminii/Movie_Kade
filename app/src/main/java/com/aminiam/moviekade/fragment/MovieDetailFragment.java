@@ -74,7 +74,7 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
         Picasso.with(getActivity()).load(NetworkUtility.buildPosterPath(mMoviePoster)).into(
                 mBinding.imgPoster);
 
-        mTrailerAdatper = new TrailerAdapter(getActivity());
+        mTrailerAdatper = new TrailerAdapter(getActivity(), mBinding.lneNoTrailer);
         mBinding.recTrailer.setAdapter(mTrailerAdatper);
         mBinding.recTrailer.setLayoutManager(new LinearLayoutManager(getContext(),
                 LinearLayoutManager.HORIZONTAL, false));
@@ -119,7 +119,6 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
 
     @Override
     public Loader<String> onCreateLoader(int id, Bundle args) {
-        Log.d(LOG_TAG, "onCreateLoader");
         return new AsyncTaskLoader<String>(getActivity()) {
             @Override
             protected void onStartLoading() {
@@ -226,6 +225,7 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
     @Override
     public void onLoaderReset(Loader<String> loader) {}
 
+    // Adapter for more data
     private class MoreDataAdapter extends FragmentStatePagerAdapter {
 
         String[] mParams = new String[6];
@@ -269,6 +269,7 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
         }
     }
 
+    // Adapter for reviews
     private class ReviewAdapter extends FragmentStatePagerAdapter {
 
         String[][] mReviews;

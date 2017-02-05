@@ -149,10 +149,10 @@
                     android:id="@+id/moreDateIndicator"
                     android:layout_width="match_parent"
                     android:layout_height="20dp"
+                    android:layout_below="@+id/moreDataPager"
                     custom:activeColor="?colorAccent"
                     custom:deactivateColor="@color/dot_indicator_deactivate"
-                    custom:dotCount="2"
-                    android:layout_below="@+id/moreDataPager" />
+                    custom:dotCount="2" />
 
                 <View
                     android:id="@+id/border"
@@ -162,39 +162,71 @@
                     android:layout_marginTop="10dp"
                     android:background="@color/trailers_border" />
 
-                <LinearLayout
+                <RelativeLayout
                     android:id="@+id/lneTrailer"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
-                    android:orientation="vertical"
                     android:layout_below="@+id/border"
-                    android:background="@color/trailers_background">
+                    android:background="@color/trailers_background"
+                    android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/txtTrailer"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
                         android:layout_marginLeft="15dp"
                         android:layout_marginStart="15dp"
                         android:layout_marginTop="5dp"
-                        android:textAppearance="?textAppearanceListItemSmall"
-                        android:text="@string/trailers"/>
+                        android:text="@string/trailers"
+                        android:textAppearance="?textAppearanceListItemSmall" />
 
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/recTrailer"
                         android:layout_width="match_parent"
                         android:layout_height="150dp"
+                        android:layout_below="@+id/txtTrailer"
                         android:background="@color/trailers_background" />
-                </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/lneNoTrailer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/txtTrailer"
+                        android:gravity="center"
+                        android:visibility="invisible"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/imgNoTrailer"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_marginTop="25dp"
+                            app:srcCompat="@drawable/ic_video"/>
+
+                        <TextView
+                            android:id="@+id/txtNoTrailer"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:fontFamily="sans-serif-thin"
+                            android:text="@string/no_trailer_available"
+                            android:textColor="@color/no_trailer_text"
+                            android:textSize="20dp"
+                            android:textStyle="italic" />
+
+                    </LinearLayout>
+                </RelativeLayout>
 
                 <android.support.v4.view.ViewPager
                     android:id="@+id/reviewPager"
                     android:layout_width="match_parent"
                     android:layout_height="130dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginRight="15dp"
+                    android:layout_below="@+id/lneTrailer"
                     android:layout_marginLeft="15dp"
-                    android:layout_below="@+id/lneTrailer" />
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="15dp" />
 
                 <ImageView
                     android:id="@+id/imgReview"
@@ -205,19 +237,19 @@
                     android:layout_marginBottom="5dp"
                     android:layout_marginTop="25dp"
                     android:visibility="invisible"
-                    app:srcCompat="@drawable/ic_review"/>
+                    app:srcCompat="@drawable/ic_review" />
 
                 <TextView
                     android:id="@+id/txtNoReview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:textSize="20dp"
-                    android:fontFamily="sans-serif-thin"
-                    android:textStyle="italic"
                     android:layout_below="@+id/imgReview"
+                    android:fontFamily="sans-serif-thin"
+                    android:gravity="center"
                     android:text="@string/no_review_available"
-                    android:visibility="invisible"/>
+                    android:textSize="20dp"
+                    android:textStyle="italic"
+                    android:visibility="invisible" />
 
                 <TextView
                     android:id="@+id/txtReviewPageNumber"
@@ -226,7 +258,7 @@
                     android:layout_below="@+id/reviewPager"
                     android:layout_centerHorizontal="true"
                     android:fontFamily="sans-serif-thin"
-                    android:textStyle="italic"/>
+                    android:textStyle="italic" />
 
             </RelativeLayout>
 
