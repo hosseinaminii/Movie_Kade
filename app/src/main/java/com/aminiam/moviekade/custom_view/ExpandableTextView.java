@@ -13,6 +13,8 @@ import android.widget.TextView;
 import com.aminiam.moviekade.R;
 
 public class ExpandableTextView extends LinearLayout implements View.OnClickListener {
+    private static final String LOG_TAG = ExpandableTextView.class.getSimpleName();
+
     private boolean mIsCollapsed;
     private String mContent;
     private int mMaxLines;
@@ -58,16 +60,18 @@ public class ExpandableTextView extends LinearLayout implements View.OnClickList
         mIsCollapsed = true;
 
         mTxtContent = new TextView(context);
-        mTxtContent.setText(mContent);
+        mButton = new Button(context);
+
+        setContent(mContent);
         mTxtContent.setMaxLines(mMaxLines);
         addView(mTxtContent);
 
-        mButton = new Button(context);
         mButton.setTextColor(mButtonColor);
         mButton.setBackgroundResource(0);
         mButton.setText(mButtonPrimaryText);
         mButton.setOnClickListener(this);
         addView(mButton);
+
     }
 
     public void setMaxLines(int maxLines) {
@@ -78,10 +82,19 @@ public class ExpandableTextView extends LinearLayout implements View.OnClickList
     }
 
     public void setContent(String content) {
+        mButton.setVisibility(VISIBLE);
         mContent = content;
         mTxtContent.setText(mContent);
 
         refresh();
+
+        mTxtContent.post(new Runnable() {
+            @Override
+            public void run() {
+                if(mTxtContent.getLineCount() <= mMaxLines) { mButton.setVisibility(INVISIBLE);
+                } else { mButton.setVisibility(VISIBLE); }
+            }
+        });
     }
 
     public String getContent() {
@@ -155,12 +168,12 @@ public class ExpandableTextView extends LinearLayout implements View.OnClickList
 
     private void expandTextView(TextView tv) {
         ObjectAnimator animation = ObjectAnimator.ofInt(tv, "maxLines", tv.getLineCount());
-        animation.setDuration(200).start();
+        animation.setDuration(100).start();
     }
 
     private void collapseTextView(TextView tv) {
         ObjectAnimator animation = ObjectAnimator.ofInt(tv, "maxLines", mMaxLines);
-        animation.setDuration(200).start();
+        animation.setDuration(100).start();
     }
 
     private void refresh() {
