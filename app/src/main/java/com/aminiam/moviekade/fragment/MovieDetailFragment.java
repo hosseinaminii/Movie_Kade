@@ -1,5 +1,7 @@
 package com.aminiam.moviekade.fragment;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -13,7 +15,6 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +33,8 @@ import org.json.JSONException;
 import java.io.IOException;
 import java.net.URL;
 
-public class MovieDetailFragment extends Fragment implements LoaderManager.LoaderCallbacks<String> {
+public class MovieDetailFragment extends Fragment implements LoaderManager.LoaderCallbacks<String>,
+        TrailerAdapter.TrailerClickListener {
     private static final String LOG_TAG = MovieDetailFragment.class.getSimpleName();
 
     private static final int MOVIE_DETAIL_LOADER_ID = 9999;
@@ -74,7 +76,7 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
         Picasso.with(getActivity()).load(NetworkUtility.buildPosterPath(mMoviePoster)).into(
                 mBinding.imgPoster);
 
-        mTrailerAdatper = new TrailerAdapter(getActivity(), mBinding.lneNoTrailer);
+        mTrailerAdatper = new TrailerAdapter(getActivity(),this,  mBinding.lneNoTrailer);
         mBinding.recTrailer.setAdapter(mTrailerAdatper);
         mBinding.recTrailer.setLayoutManager(new LinearLayoutManager(getContext(),
                 LinearLayoutManager.HORIZONTAL, false));
@@ -86,7 +88,6 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Log.d(LOG_TAG, "onActivityCreated");
         getActivity().getSupportLoaderManager().initLoader(MOVIE_DETAIL_LOADER_ID, null, this);
     }
 
@@ -224,6 +225,18 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
 
     @Override
     public void onLoaderReset(Loader<String> loader) {}
+
+    @Override
+    public void onTrailerClick(String key) {
+        String youtubeBaseUrl = "http://www.youtube.com/watch?v=";
+        Intent youtubeIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(youtubeBaseUrl + key));
+        Intent webIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(youtubeBaseUrl + key));
+        if(youtubeIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+            startActivity(youtubeIntent);
+        } else {
+            startActivity(webIntent);
+        }
+    }
 
     // Adapter for more data
     private class MoreDataAdapter extends FragmentStatePagerAdapter {

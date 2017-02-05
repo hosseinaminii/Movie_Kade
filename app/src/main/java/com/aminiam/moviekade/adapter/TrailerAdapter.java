@@ -20,10 +20,12 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerV
     private Context mContext;
     private ArrayList<String> mTrailerKeys;
     private LinearLayout mEmptyView;
+    private TrailerClickListener mListener;
 
-    public TrailerAdapter(Context context, LinearLayout emptyView) {
+    public TrailerAdapter(Context context,TrailerClickListener listener, LinearLayout emptyView) {
         mContext = context;
         mEmptyView = emptyView;
+        mListener = listener;
     }
 
     @Override
@@ -53,7 +55,7 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerV
         mEmptyView.setVisibility(mTrailerKeys.size() == 0 ? View.VISIBLE : View.INVISIBLE);
     }
 
-    public class TrailerViewHolder extends RecyclerView.ViewHolder {
+    public class TrailerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         ImageView mImgTrailer;
 
@@ -61,6 +63,17 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerV
             super(itemView);
 
             mImgTrailer = (ImageView) itemView.findViewById(R.id.imgTrailer);
+            itemView.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View v) {
+            String key = mTrailerKeys.get(getAdapterPosition());
+            mListener.onTrailerClick(key);
+        }
+    }
+
+    public interface TrailerClickListener {
+        void onTrailerClick(String key);
     }
 }
