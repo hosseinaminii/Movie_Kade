@@ -55,7 +55,7 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerV
         mEmptyView.setVisibility(mTrailerKeys.size() == 0 ? View.VISIBLE : View.INVISIBLE);
     }
 
-    public class TrailerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    class TrailerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         ImageView mImgTrailer;
 

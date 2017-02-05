@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.aminiam.moviekade.R;
+import com.aminiam.moviekade.activity.AllReviewActivity;
 import com.aminiam.moviekade.activity.MainActivity;
 import com.aminiam.moviekade.adapter.TrailerAdapter;
 import com.aminiam.moviekade.databinding.FragmentMovieDetailBinding;
@@ -34,7 +35,7 @@ import java.io.IOException;
 import java.net.URL;
 
 public class MovieDetailFragment extends Fragment implements LoaderManager.LoaderCallbacks<String>,
-        TrailerAdapter.TrailerClickListener {
+        TrailerAdapter.TrailerClickListener, View.OnClickListener {
     private static final String LOG_TAG = MovieDetailFragment.class.getSimpleName();
 
     private static final int MOVIE_DETAIL_LOADER_ID = 9999;
@@ -42,11 +43,13 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
     public static final String MORE_DATA_CONTENT_KEY = "more_data_content_key";
     public static final String REVIEW_CONTENT_KEY = "review_content_key";
     public static final String REVIEW_AUTHOR_KEY = "review_author_key";
+    public static final String ALL_REVIEWS_KEY = "all_reviews_key";
 
     private long mMovieId = -1;
     private String mMoviePoster;
     private String mMovieBackdrop;
     private static final int NUM_PAGES = 2;
+    private String[][] mReviews;
 
     private FragmentMovieDetailBinding mBinding;
     private TrailerAdapter mTrailerAdatper;
@@ -165,6 +168,7 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
             String website = movieInformationStructure.website;
             long revenue = movieInformationStructure.revenue;
             String genres = movieInformationStructure.genres;
+            mReviews = movieInformationStructure.reviews;
 
             mBinding.txtTitle.setText(title);
             mBinding.txtStatus.setText(status);
@@ -180,12 +184,12 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
             PagerAdapter mMoreDataPagerAdapter =
                     new MoreDataAdapter(getActivity().getSupportFragmentManager(), dataParams);
             PagerAdapter mReviewPagerAdapter = new ReviewAdapter(
-                    getActivity().getSupportFragmentManager(), movieInformationStructure.reviews);
+                    getActivity().getSupportFragmentManager(), mReviews);
 
             mBinding.moreDataPager.setAdapter(mMoreDataPagerAdapter);
             mBinding.reviewPager.setAdapter(mReviewPagerAdapter);
             mBinding.txtReviewPageNumber.setText(String.format(getString(R.string.review_page_number), 1,
-                    movieInformationStructure.reviews.length));
+                    mReviews.length));
             mBinding.moreDataPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
                 public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -208,7 +212,7 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
                 @Override
                 public void onPageSelected(int position) {
                     mBinding.txtReviewPageNumber.setText(String.format(getString(R.string.review_page_number), position + 1,
-                            movieInformationStructure.reviews.length));
+                            mReviews.length));
                 }
 
                 @Override
@@ -217,6 +221,7 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
             });
 
             mTrailerAdatper.populateData(movieInformationStructure.trailers);
+            mBinding.txtReadMore.setOnClickListener(this);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -235,6 +240,20 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
             startActivity(youtubeIntent);
         } else {
             startActivity(webIntent);
+        }
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.txtReadMore: {
+                Intent intent = new Intent(getActivity(), AllReviewActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(ALL_REVIEWS_KEY, mReviews);
+                intent.putExtras(bundle);
+                startActivity(intent);
+                break;
+            }
         }
     }
 
@@ -308,6 +327,7 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
                 mBinding.txtNoReview.setVisibility(View.VISIBLE);
                 mBinding.imgReview.setVisibility(View.VISIBLE);
                 mBinding.txtReviewPageNumber.setVisibility(View.INVISIBLE);
+                mBinding.txtReadMore.setVisibility(View.INVISIBLE);
             }
             return mReviews.length;
         }
