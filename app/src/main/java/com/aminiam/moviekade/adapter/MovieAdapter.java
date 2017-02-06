@@ -40,7 +40,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         String posterName = mMovieStructures[position].posterName;
         String title = mMovieStructures[position].title;
         double averageVote = mMovieStructures[position].averageVote;
-        Picasso.with(mContext).load(NetworkUtility.buildPosterPath(posterName)).into(holder.imgPosterPath);
+        Picasso.with(mContext).load(NetworkUtility.buildPosterPath(posterName))
+                .placeholder(R.drawable.thumbnail_plceholder).into(holder.imgPosterPath);
         holder.txtTitle.setText(title);
         holder.txtAverageVote.setText(String.format(mContext.getString(R.string.average_vote), averageVote));
     }

@@ -41,7 +41,7 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerV
 
         String trailerKey = mTrailerKeys.get(position);
         Picasso.with(mContext).load(NetworkUtility.buildTrailerImagePath(trailerKey))
-                .into(holder.mImgTrailer);
+                .placeholder(R.drawable.img_vido_holer).into(holder.mImgTrailer);
     }
 
     @Override

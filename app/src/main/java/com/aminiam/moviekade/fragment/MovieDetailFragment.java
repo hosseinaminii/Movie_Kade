@@ -73,11 +73,12 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
         mBinding = FragmentMovieDetailBinding.inflate(inflater, container, false);
         setupToolbar("This is Title");
 
-        Picasso.with(getActivity()).load(NetworkUtility.buildBackdropPath(mMovieBackdrop)).into(
+        Picasso.with(getActivity()).load(NetworkUtility.buildBackdropPath(mMovieBackdrop))
+                .placeholder(R.drawable.toolbar_plceholder).into(
                 mBinding.imgToolbarImage);
 
-        Picasso.with(getActivity()).load(NetworkUtility.buildPosterPath(mMoviePoster)).into(
-                mBinding.imgPoster);
+        Picasso.with(getActivity()).load(NetworkUtility.buildPosterPath(mMoviePoster))
+                .placeholder(R.drawable.thumbnail_plceholder).into(mBinding.imgPoster);
 
         mTrailerAdatper = new TrailerAdapter(getActivity(),this,  mBinding.lneNoTrailer);
         mBinding.recTrailer.setAdapter(mTrailerAdatper);
