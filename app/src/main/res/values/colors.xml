@@ -18,4 +18,5 @@
     <color name="no_trailer_icon">#4d4d4d</color>
     <color name="no_trailer_text">#696969</color>
     <color name="orange">#b66616</color>
+    <color name="light_yellow">#ffdf8d</color>
 </resources>

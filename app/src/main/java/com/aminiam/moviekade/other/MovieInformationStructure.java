@@ -12,7 +12,7 @@ public class MovieInformationStructure {
     public String language;
     public boolean adult;
     public String releaseDate;
-    public String website;
+    public int voteCount;
     public long revenue;
     public ArrayList<String> trailers = new ArrayList<>();
     public String[][] reviews;

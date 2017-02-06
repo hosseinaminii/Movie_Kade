@@ -165,7 +165,7 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
             String language = movieInformationStructure.language;
             boolean adult = movieInformationStructure.adult;
             String releaseDate = movieInformationStructure.releaseDate;
-            String website = movieInformationStructure.website;
+            int voteCOunt = movieInformationStructure.voteCount;
             long revenue = movieInformationStructure.revenue;
             String genres = movieInformationStructure.genres;
             mReviews = movieInformationStructure.reviews;
@@ -178,7 +178,7 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
             dataParams[1] = language;
             dataParams[2] = adult ? "YES" : "NO";
             dataParams[3] = releaseDate;
-            dataParams[4] = website;
+            dataParams[4] = String.valueOf(voteCOunt);
             dataParams[5] = String.valueOf(revenue);
 
             if(!status.equals(getString(R.string.released))) {
@@ -281,7 +281,7 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
             String content3 = mParams[2];
             if (position == 1) {
                 icon1 = R.drawable.ic_calendar;
-                icon2 = R.drawable.ic_web;
+                icon2 = R.drawable.ic_star;
                 icon3 = R.drawable.ic_cash;
                 content1 = mParams[3];
                 content2 = mParams[4];

@@ -66,8 +66,8 @@ public class JsonUtility {
     private final static String LANGUAGE = "original_language";
     private final static String ADULT = "adult";
     private final static String RELEASE_DATE = "release_date";
-    private final static String WEBSITE = "homepage";
-    private final static String REVENU = "revenue";
+    private final static String VOTE_COUNT = "vote_count";
+    private final static String REVENUE = "revenue";
     private final static String VIDEOS = "videos";
     private final static String VIDEO_KEY = "key";
     private final static String REVIEWS = "reviews";
@@ -87,8 +87,8 @@ public class JsonUtility {
         String language = jsonObject.getString(LANGUAGE);
         boolean adult = jsonObject.getBoolean(ADULT);
         String releaseDate = jsonObject.getString(RELEASE_DATE);
-        String website = jsonObject.getString(WEBSITE);
-        long revenue = jsonObject.getLong(REVENU);
+        int voteCount = jsonObject.getInt(VOTE_COUNT);
+        long revenue = jsonObject.getLong(REVENUE);
 
         movieInformationStructure.id = id;
         movieInformationStructure.title = title;
@@ -98,7 +98,7 @@ public class JsonUtility {
         movieInformationStructure.language = language;
         movieInformationStructure.adult = adult;
         movieInformationStructure.releaseDate = releaseDate;
-        movieInformationStructure.website = website;
+        movieInformationStructure.voteCount = voteCount;
         movieInformationStructure.revenue = revenue;
 
         JSONObject trailersObject = jsonObject.getJSONObject(VIDEOS);

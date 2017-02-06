@@ -13,7 +13,7 @@
             android:ellipsize="end"
             android:fontFamily="sans-serif-thin"
             android:maxLines="1"
-            android:textColor="#ffdf8d"
+            android:textColor="@color/light_yellow"
             android:textStyle="italic"
             tools:text="Hossein Amini" />
 
