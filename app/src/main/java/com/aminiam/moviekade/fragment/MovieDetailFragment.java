@@ -284,7 +284,6 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
     @Override
     public void onStop() {
         super.onStop();
-        Log.d(LOG_TAG, "onStop");
         mActiveIndicatorNum = 0;
     }
 
