@@ -135,8 +135,8 @@ public class MovieFragment extends Fragment implements LoaderManager.LoaderCallb
     }
 
     @Override
-    public void onMovieClick(long movieId,String posterPath, String backdropPath) {
-        ((Callback) getActivity()).onItemSelected(movieId, posterPath, backdropPath);
+    public void onMovieClick(long movieId,String movieTitle, String posterPath, String backdropPath) {
+        ((Callback) getActivity()).onItemSelected(movieId,movieTitle, posterPath, backdropPath);
     }
 
     private void showToast(String message) {

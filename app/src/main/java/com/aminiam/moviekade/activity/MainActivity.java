@@ -14,6 +14,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -32,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements UiUpdaterListener
     public static final String PATH_KEY = "path_key";
     public static final String LOADER_ID_KEY = "loader_id_key";
     public static final String MOVIE_ID_KEY = "movie_id_key";
+    public static final String MOVIE_TITLE_KEY = "movie_title_key";
     public static final String MOVIE_POSTER_KEY = "movie_poster_key";
     public static final String MOVIE_BACKDROP_KEY = "movie_backdrop_key";
 
@@ -286,9 +288,10 @@ public class MainActivity extends AppCompatActivity implements UiUpdaterListener
     }
 
     @Override
-    public void onItemSelected(long movieId,String posterPath, String backdropPath) {
+    public void onItemSelected(long movieId, String movieTitle, String posterPath, String backdropPath) {
         Intent intent = new Intent(this, MovieDetailActivity.class);
         intent.putExtra(MOVIE_ID_KEY, movieId);
+        intent.putExtra(MOVIE_TITLE_KEY, movieTitle);
         intent.putExtra(MOVIE_POSTER_KEY, posterPath);
         intent.putExtra(MOVIE_BACKDROP_KEY, backdropPath);
         startActivity(intent);

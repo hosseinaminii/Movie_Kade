@@ -49,6 +49,7 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
     private static final String DATA_INDICATOR_KEY = "data_indicator_key";
 
     private long mMovieId = -1;
+    private String mMovieTitle;
     private String mMoviePoster;
     private String mMovieBackdrop;
     private static final int NUM_PAGES = 2;
@@ -67,6 +68,7 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
         super.onCreate(savedInstanceState);
         Bundle args = getArguments();
         mMovieId = args.getLong(MainActivity.MOVIE_ID_KEY);
+        mMovieTitle = args.getString(MainActivity.MOVIE_TITLE_KEY);
         mMoviePoster = args.getString(MainActivity.MOVIE_POSTER_KEY);
         mMovieBackdrop = args.getString(MainActivity.MOVIE_BACKDROP_KEY);
     }
@@ -75,7 +77,7 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mBinding = FragmentMovieDetailBinding.inflate(inflater, container, false);
-        setupToolbar("This is Title");
+        setupToolbar(mMovieTitle);
 
         Picasso.with(getActivity()).load(NetworkUtility.buildBackdropPath(mMovieBackdrop))
                 .placeholder(R.drawable.toolbar_plceholder).into(
@@ -113,10 +115,10 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
     }
 
     private void setupToolbar(final String title) {
+        Log.d(LOG_TAG, "title= " + title + " mMovieTitle= " + mMovieTitle);
         ((AppCompatActivity) getActivity()).setSupportActionBar(mBinding.toolbar);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mBinding.collapsingToolbar.setTitle(" ");
-
 
         mBinding.appBar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             boolean isShow = false;

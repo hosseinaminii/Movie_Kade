@@ -16,11 +16,13 @@ public class MovieDetailActivity extends AppCompatActivity {
         if(savedInstanceState == null) {
             Bundle bundle = getIntent().getExtras();
             long movieId = bundle.getLong(MainActivity.MOVIE_ID_KEY);
+            String movieTitle = bundle.getString(MainActivity.MOVIE_TITLE_KEY);
             String poster = bundle.getString(MainActivity.MOVIE_POSTER_KEY);
             String backdrop = bundle.getString(MainActivity.MOVIE_BACKDROP_KEY);
 
             Bundle args = new Bundle();
             args.putLong(MainActivity.MOVIE_ID_KEY, movieId);
+            args.putString(MainActivity.MOVIE_TITLE_KEY, movieTitle);
             args.putString(MainActivity.MOVIE_POSTER_KEY, poster);
             args.putString(MainActivity.MOVIE_BACKDROP_KEY, backdrop);
             MovieDetailFragment movieDetailFragment = new MovieDetailFragment();
