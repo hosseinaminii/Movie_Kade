@@ -38,12 +38,14 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
         TrailerAdapter.TrailerClickListener, View.OnClickListener {
     private static final String LOG_TAG = MovieDetailFragment.class.getSimpleName();
 
-    private static final int MOVIE_DETAIL_LOADER_ID = 9999;
     public static final String MORE_DATA_ICON_KEY = "more_data_icon_key";
     public static final String MORE_DATA_CONTENT_KEY = "more_data_content_key";
     public static final String REVIEW_CONTENT_KEY = "review_content_key";
     public static final String REVIEW_AUTHOR_KEY = "review_author_key";
     public static final String ALL_REVIEWS_KEY = "all_reviews_key";
+
+    private static final int MOVIE_DETAIL_LOADER_ID = 9999;
+    private static final String DATA_INDICATOR_KEY = "data_indicator_key";
 
     private long mMovieId = -1;
     private String mMoviePoster;
@@ -85,6 +87,10 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
         mBinding.recTrailer.setLayoutManager(new LinearLayoutManager(getContext(),
                 LinearLayoutManager.HORIZONTAL, false));
         mBinding.recTrailer.setAdapter(mTrailerAdatper);
+
+        if(savedInstanceState != null) {
+            mBinding.moreDateIndicator.setActiveDot(savedInstanceState.getInt(DATA_INDICATOR_KEY));
+        }
 
         return mBinding.getRoot();
     }
@@ -262,6 +268,12 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
                 break;
             }
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(DATA_INDICATOR_KEY, mBinding.moreDateIndicator.getActiveDot());
     }
 
     // Adapter for more data
