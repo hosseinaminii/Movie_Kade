@@ -67,26 +67,26 @@ public class MoreDataFragment extends Fragment implements View.OnClickListener{
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.lne1: {
-                String message = "Length: " + mContent1;
+                String message = String.format(getString(R.string.movie_length), mContent1) ;
                 if(mIcon1 == R.drawable.ic_calendar) {
-                     message = "Release date: " + mContent1;
+                     message = String.format(getString(R.string.movie_released_data), mContent1);
                 }
                 showSnackbar(message);
                 break;
             }
             case R.id.lne2: {
-                String message = "Language: " + mContent2;
+                String message = String.format(getString(R.string.movie_language), mContent2);
                 if(mIcon2 == R.drawable.ic_star) {
-                    message = "Vote Count: " + mContent2;
+                    message = String.format(getString(R.string.movie_vote_count), mContent2);
                 }
                 showSnackbar(message);
                 break;
             }
             case R.id.lne3: {
-                String message = "Adult: " + mContent3;
+                String message = String.format(getString(R.string.movie_vote_adult), mContent3);
 
                 if(mIcon3 == R.drawable.ic_cash) {
-                    message = "Budget: " + mContent3;
+                    message = String.format(getString(R.string.movie_vote_budget), mContent3);
                 }
                 showSnackbar(message);
                 break;

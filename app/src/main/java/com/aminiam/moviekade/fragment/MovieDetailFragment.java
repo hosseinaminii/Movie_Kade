@@ -103,7 +103,6 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
     @Override
     public void onResume() {
         super.onResume();
-        Log.d(LOG_TAG, "Active dot= " + mActiveIndicatorNum);
         mBinding.moreDateIndicator.setActiveDot(mActiveIndicatorNum);
     }
 
@@ -115,7 +114,6 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
     }
 
     private void setupToolbar(final String title) {
-        Log.d(LOG_TAG, "title= " + title + " mMovieTitle= " + mMovieTitle);
         ((AppCompatActivity) getActivity()).setSupportActionBar(mBinding.toolbar);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mBinding.collapsingToolbar.setTitle(" ");

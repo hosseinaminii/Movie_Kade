@@ -29,5 +29,11 @@
     <string name="no_trailer_available">No Trailer Available!</string>
     <string name="reviews">Reviews</string>
     <string name="released">Released</string>
+    <string name="movie_length">Length: %1$s</string>
+    <string name="movie_released_data">Release Date: %1$s</string>
+    <string name="movie_language">Language: %1$s</string>
+    <string name="movie_vote_count">Vote Count: %1$s</string>
+    <string name="movie_vote_adult">Adult: %1$s</string>
+    <string name="movie_vote_budget">Budget: %1$s</string>
 
 </resources>
