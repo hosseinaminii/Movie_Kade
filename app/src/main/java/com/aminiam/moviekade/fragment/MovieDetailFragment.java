@@ -15,6 +15,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,6 +53,7 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
     private String mMovieBackdrop;
     private static final int NUM_PAGES = 2;
     private String[][] mReviews;
+    private int mActiveIndicatorNum = 0;
 
     private FragmentMovieDetailBinding mBinding;
     private TrailerAdapter mTrailerAdatper;
@@ -87,18 +89,27 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
         mBinding.recTrailer.setLayoutManager(new LinearLayoutManager(getContext(),
                 LinearLayoutManager.HORIZONTAL, false));
         mBinding.recTrailer.setAdapter(mTrailerAdatper);
+        mBinding.moreDateIndicator.setActiveDot(0);
 
         if(savedInstanceState != null) {
-            mBinding.moreDateIndicator.setActiveDot(savedInstanceState.getInt(DATA_INDICATOR_KEY));
+            mActiveIndicatorNum = savedInstanceState.getInt(DATA_INDICATOR_KEY);
         }
 
         return mBinding.getRoot();
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        Log.d(LOG_TAG, "Active dot= " + mActiveIndicatorNum);
+        mBinding.moreDateIndicator.setActiveDot(mActiveIndicatorNum);
+    }
+
+    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         getActivity().getSupportLoaderManager().initLoader(MOVIE_DETAIL_LOADER_ID, null, this);
+
     }
 
     private void setupToolbar(final String title) {
@@ -268,6 +279,13 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
                 break;
             }
         }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.d(LOG_TAG, "onStop");
+        mActiveIndicatorNum = 0;
     }
 
     @Override
