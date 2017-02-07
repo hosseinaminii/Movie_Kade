@@ -16,4 +16,5 @@ public class MovieInformationStructure {
     public long revenue;
     public ArrayList<String> trailers = new ArrayList<>();
     public String[][] reviews;
+    public float voteAverage;
 }

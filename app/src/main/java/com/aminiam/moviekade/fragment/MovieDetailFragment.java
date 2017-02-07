@@ -166,20 +166,22 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
             String language = movieInformationStructure.language;
             boolean adult = movieInformationStructure.adult;
             String releaseDate = movieInformationStructure.releaseDate;
-            int voteCOunt = movieInformationStructure.voteCount;
+            int voteCount = movieInformationStructure.voteCount;
             long revenue = movieInformationStructure.revenue;
             String genres = movieInformationStructure.genres;
             mReviews = movieInformationStructure.reviews;
+            float voteAverage = movieInformationStructure.voteAverage;
 
             mBinding.txtTitle.setText(title);
             mBinding.txtStatus.setText(status);
             mBinding.expOverview.setContent(overview);
             mBinding.txtGenre.setText(genres);
+            mBinding.voteAverage.setRating(voteAverage / 2);
             dataParams[0] = runtime;
             dataParams[1] = language;
             dataParams[2] = adult ? "YES" : "NO";
             dataParams[3] = releaseDate;
-            dataParams[4] = String.valueOf(voteCOunt);
+            dataParams[4] = String.valueOf(voteCount);
             dataParams[5] = String.valueOf(revenue);
 
             if(!status.equals(getString(R.string.released))) {

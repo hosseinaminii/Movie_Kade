@@ -73,6 +73,7 @@ public class JsonUtility {
     private final static String REVIEWS = "reviews";
     private final static String REVIEW_AUTHOR = "author";
     private final static String REVIEW_CONTENT = "content";
+    private final static String VOTE_AVERAGE = "vote_average";
 
     final
     public static MovieInformationStructure getMovieInformationFromJson(Context context, String movieInfoJsonStr) throws JSONException {
@@ -89,6 +90,7 @@ public class JsonUtility {
         String releaseDate = jsonObject.getString(RELEASE_DATE);
         int voteCount = jsonObject.getInt(VOTE_COUNT);
         long revenue = jsonObject.getLong(REVENUE);
+        float voteAverage = (float) jsonObject.getDouble(VOTE_AVERAGE);
 
         movieInformationStructure.id = id;
         movieInformationStructure.title = title;
@@ -100,6 +102,7 @@ public class JsonUtility {
         movieInformationStructure.releaseDate = releaseDate;
         movieInformationStructure.voteCount = voteCount;
         movieInformationStructure.revenue = revenue;
+        movieInformationStructure.voteAverage = voteAverage;
 
         JSONObject trailersObject = jsonObject.getJSONObject(VIDEOS);
         JSONArray trailers = trailersObject.getJSONArray(ARRAY_RESULT);
@@ -141,6 +144,5 @@ public class JsonUtility {
 
         return movieInformationStructure;
     }
-
 
 }

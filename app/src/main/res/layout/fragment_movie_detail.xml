@@ -110,6 +110,7 @@
                     android:layout_marginStart="15dp"
                     android:layout_toEndOf="@+id/cardPoster"
                     android:layout_toRightOf="@+id/cardPoster"
+                    android:layout_marginBottom="20dp"
                     app:srcCompat="@drawable/ic_check" />
 
                 <TextView
@@ -122,8 +123,20 @@
                     android:layout_toEndOf="@+id/imgStatus"
                     android:layout_toRightOf="@+id/imgStatus"
                     android:fontFamily="sans-serif-re"
+                    android:layout_marginBottom="20dp"
                     android:text="Released"
                     android:textSize="14dp" />
+
+                <RatingBar
+                    android:id="@+id/voteAverage"
+                    style="?android:attr/ratingBarStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/cardPoster"
+                    android:layout_alignLeft="@+id/imgStatus"
+                    android:layout_alignStart="@+id/imgStatus"
+                    android:numStars="5"
+                    android:isIndicator="false" />
 
                 <com.aminiam.moviekade.custom_view.ExpandableTextView
                     android:id="@+id/expOverview"
