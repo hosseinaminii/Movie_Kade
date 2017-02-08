@@ -30,7 +30,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.MainActivity" />
         </activity>
-        <activity android:name=".activity.AllReviewActivity"></activity>
+        <activity android:name=".activity.AllReviewActivity"
+            android:theme="@style/TransparentStatusBar"></activity>
     </application>
 
 </manifest>
