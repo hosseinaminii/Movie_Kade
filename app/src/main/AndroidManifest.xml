@@ -13,7 +13,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".activity.MainActivity"
-            android:launchMode="singleInstance">
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,8 +22,10 @@
         </activity>
         <activity android:name=".activity.SettingActivity" />
         <activity android:name=".activity.AboutActivity" />
-        <activity android:name=".activity.MovieDetailActivity"
-            android:parentActivityName=".activity.MainActivity">
+        <activity
+            android:name=".activity.MovieDetailActivity"
+            android:parentActivityName=".activity.MainActivity"
+            android:theme="@style/TransparentStatusBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.MainActivity" />
