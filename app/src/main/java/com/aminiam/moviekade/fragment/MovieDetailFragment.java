@@ -22,10 +22,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.aminiam.moviekade.R;
-import com.aminiam.moviekade.activity.AllReviewActivity;
 import com.aminiam.moviekade.activity.MainActivity;
 import com.aminiam.moviekade.adapter.TrailerAdapter;
 import com.aminiam.moviekade.databinding.FragmentMovieDetailBinding;
+import com.aminiam.moviekade.other.AllReviewsListener;
 import com.aminiam.moviekade.other.MovieInformationStructure;
 import com.aminiam.moviekade.utility.JsonUtility;
 import com.aminiam.moviekade.utility.NetworkUtility;
@@ -87,14 +87,14 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
         Picasso.with(getActivity()).load(NetworkUtility.buildPosterPath(mMoviePoster))
                 .placeholder(R.drawable.thumbnail_plceholder).into(mBinding.imgPoster);
 
-        mTrailerAdatper = new TrailerAdapter(getActivity(),this,  mBinding.lneNoTrailer);
+        mTrailerAdatper = new TrailerAdapter(getActivity(), this, mBinding.lneNoTrailer);
         mBinding.recTrailer.setAdapter(mTrailerAdatper);
         mBinding.recTrailer.setLayoutManager(new LinearLayoutManager(getContext(),
                 LinearLayoutManager.HORIZONTAL, false));
         mBinding.recTrailer.setAdapter(mTrailerAdatper);
         mBinding.moreDateIndicator.setActiveDot(0);
 
-        if(savedInstanceState != null) {
+        if (savedInstanceState != null) {
             mActiveIndicatorNum = savedInstanceState.getInt(DATA_INDICATOR_KEY);
         }
 
@@ -151,7 +151,7 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
 
             @Override
             public String loadInBackground() {
-                if(mMovieId == -1) {
+                if (mMovieId == -1) {
                     return null;
                 }
                 URL url = NetworkUtility.getMovieDataUrl(mMovieId);
@@ -167,7 +167,7 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
 
     @Override
     public void onLoadFinished(Loader<String> loader, String data) {
-        if(data == null) {
+        if (data == null) {
             return;
         }
         try {
@@ -202,7 +202,7 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
             dataParams[4] = String.valueOf(voteCount);
             dataParams[5] = String.valueOf(revenue);
 
-            if(!status.equals(getString(R.string.released))) {
+            if (!status.equals(getString(R.string.released))) {
                 mBinding.imgStatus.setImageResource(R.drawable.ic_circle_alert);
             }
 
@@ -254,14 +254,15 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
     }
 
     @Override
-    public void onLoaderReset(Loader<String> loader) {}
+    public void onLoaderReset(Loader<String> loader) {
+    }
 
     @Override
     public void onTrailerClick(String key) {
         String youtubeBaseUrl = "http://www.youtube.com/watch?v=";
         Intent youtubeIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(youtubeBaseUrl + key));
         Intent webIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(youtubeBaseUrl + key));
-        if(youtubeIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+        if (youtubeIntent.resolveActivity(getActivity().getPackageManager()) != null) {
             startActivity(youtubeIntent);
         } else {
             startActivity(webIntent);
@@ -272,11 +273,7 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.txtReadMore: {
-                Intent intent = new Intent(getActivity(), AllReviewActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(ALL_REVIEWS_KEY, mReviews);
-                intent.putExtras(bundle);
-                startActivity(intent);
+                ((AllReviewsListener)getActivity()).onReadMoreClick(mReviews);
                 break;
             }
         }
@@ -296,7 +293,7 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == android.R.id.home) {
+        if (item.getItemId() == android.R.id.home) {
             NavUtils.navigateUpFromSameTask(getActivity());
         }
         return super.onOptionsItemSelected(item);
@@ -368,7 +365,7 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
 
         @Override
         public int getCount() {
-            if(mReviews.length == 0) {
+            if (mReviews.length == 0) {
                 mBinding.txtNoReview.setVisibility(View.VISIBLE);
                 mBinding.imgReview.setVisibility(View.VISIBLE);
                 mBinding.txtReviewPageNumber.setVisibility(View.INVISIBLE);

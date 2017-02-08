@@ -1,12 +1,17 @@
 package com.aminiam.moviekade.activity;
 
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
 import com.aminiam.moviekade.R;
+import com.aminiam.moviekade.fragment.AllReviewFragment;
 import com.aminiam.moviekade.fragment.MovieDetailFragment;
+import com.aminiam.moviekade.other.AllReviewsListener;
 
-public class MovieDetailActivity extends AppCompatActivity {
+import static com.aminiam.moviekade.fragment.MovieDetailFragment.ALL_REVIEWS_KEY;
+
+public class MovieDetailActivity extends AppCompatActivity implements AllReviewsListener{
     private static final String LOG_TAG = MovieDetailActivity.class.getSimpleName();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,5 +37,17 @@ public class MovieDetailActivity extends AppCompatActivity {
                     movieDetailFragment).commit();
         }
 
+    }
+
+    @Override
+    public void onReadMoreClick(String[][] reviews) {
+        AllReviewFragment allReviewFragment = new AllReviewFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(ALL_REVIEWS_KEY, reviews);
+        allReviewFragment.setArguments(bundle);
+        FragmentTransaction transition = getSupportFragmentManager().beginTransaction();
+        transition.replace(R.id.fragment_container, allReviewFragment);
+        transition.addToBackStack(null);
+        transition.commit();
     }
 }
