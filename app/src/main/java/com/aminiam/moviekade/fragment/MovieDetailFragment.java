@@ -16,6 +16,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -207,12 +208,13 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
             }
 
             PagerAdapter mMoreDataPagerAdapter =
-                    new MoreDataAdapter(getActivity().getSupportFragmentManager(), dataParams);
+                    new MoreDataAdapter(getChildFragmentManager(), dataParams);
             PagerAdapter mReviewPagerAdapter = new ReviewAdapter(
-                    getActivity().getSupportFragmentManager(), mReviews);
+                    getChildFragmentManager(), mReviews);
 
             mBinding.moreDataPager.setAdapter(mMoreDataPagerAdapter);
             mBinding.reviewPager.setAdapter(mReviewPagerAdapter);
+            Log.d(LOG_TAG, "Height= " + mBinding.reviewPager.getHeight());
             mBinding.txtReviewPageNumber.setText(String.format(getString(R.string.review_page_number), 1,
                     mReviews.length));
             mBinding.moreDataPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
