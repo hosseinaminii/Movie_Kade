@@ -81,24 +81,12 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
         mBinding = FragmentMovieDetailBinding.inflate(inflater, container, false);
         setupToolbar(mMovieTitle);
 
-        Picasso.with(getActivity()).load(NetworkUtility.buildBackdropPath(mMovieBackdrop))
-                .placeholder(R.drawable.toolbar_plceholder).into(
-                mBinding.imgToolbarImage);
-
-        Picasso.with(getActivity()).load(NetworkUtility.buildPosterPath(mMoviePoster))
-                .placeholder(R.drawable.thumbnail_plceholder).into(mBinding.imgPoster);
-
-        mTrailerAdatper = new TrailerAdapter(getActivity(), this, mBinding.lneNoTrailer);
-        mBinding.recTrailer.setAdapter(mTrailerAdatper);
-        mBinding.recTrailer.setLayoutManager(new LinearLayoutManager(getContext(),
-                LinearLayoutManager.HORIZONTAL, false));
-        mBinding.recTrailer.setAdapter(mTrailerAdatper);
-        mBinding.moreDateIndicator.setActiveDot(0);
+        loadImages();
+        prepareTrailer();
 
         if (savedInstanceState != null) {
             mActiveIndicatorNum = savedInstanceState.getInt(DATA_INDICATOR_KEY);
         }
-
         return mBinding.getRoot();
     }
 
@@ -141,6 +129,27 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
         });
     }
 
+    /**
+     * Load Thumbnail and backdrop images
+     */
+    private void loadImages() {
+        Picasso.with(getActivity()).load(NetworkUtility.buildBackdropPath(mMovieBackdrop))
+                .placeholder(R.drawable.toolbar_plceholder).into(
+                mBinding.imgToolbarImage);
+
+        Picasso.with(getActivity()).load(NetworkUtility.buildPosterPath(mMoviePoster))
+                .placeholder(R.drawable.thumbnail_plceholder).into(mBinding.imgPoster);
+    }
+
+    private void prepareTrailer() {
+        mTrailerAdatper = new TrailerAdapter(getActivity(), this, mBinding.lneNoTrailer);
+        mBinding.recTrailer.setAdapter(mTrailerAdatper);
+        mBinding.recTrailer.setLayoutManager(new LinearLayoutManager(getContext(),
+                LinearLayoutManager.HORIZONTAL, false));
+        mBinding.recTrailer.setAdapter(mTrailerAdatper);
+        mBinding.moreDateIndicator.setActiveDot(0);
+    }
+
     @Override
     public Loader<String> onCreateLoader(int id, Bundle args) {
         return new AsyncTaskLoader<String>(getActivity()) {
@@ -173,9 +182,7 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
         }
         try {
 
-            String[] dataParams = new String[6];
-
-            final MovieInformationStructure movieInformationStructure =
+            MovieInformationStructure movieInformationStructure =
                     JsonUtility.getMovieInformationFromJson(getActivity(), data);
 
             String title = movieInformationStructure.title;
@@ -196,27 +203,30 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
             mBinding.expOverview.setContent(overview);
             mBinding.txtGenre.setText(genres);
             mBinding.voteAverage.setRating(voteAverage / 2);
-            dataParams[0] = runtime;
-            dataParams[1] = language;
-            dataParams[2] = adult ? "YES" : "NO";
-            dataParams[3] = releaseDate;
-            dataParams[4] = String.valueOf(voteCount);
-            dataParams[5] = String.valueOf(revenue);
 
+            // Set status Image
             if (!status.equals(getString(R.string.released))) {
                 mBinding.imgStatus.setImageResource(R.drawable.ic_circle_alert);
             }
 
-            PagerAdapter mMoreDataPagerAdapter =
-                    new MoreDataAdapter(getChildFragmentManager(), dataParams);
-            PagerAdapter mReviewPagerAdapter = new ReviewAdapter(
+            String[] moreDataParams = new String[6];
+            moreDataParams[0] = runtime;
+            moreDataParams[1] = language;
+            moreDataParams[2] = adult ? "YES" : "NO";
+            moreDataParams[3] = releaseDate;
+            moreDataParams[4] = String.valueOf(voteCount);
+            moreDataParams[5] = String.valueOf(revenue);
+
+            PagerAdapter moreDataPagerAdapter =
+                    new MoreDataAdapter(getChildFragmentManager(), moreDataParams);
+            PagerAdapter reviewPagerAdapter = new ReviewAdapter(
                     getChildFragmentManager(), mReviews);
 
-            mBinding.moreDataPager.setAdapter(mMoreDataPagerAdapter);
-            mBinding.reviewPager.setAdapter(mReviewPagerAdapter);
-            Log.d(LOG_TAG, "Height= " + mBinding.reviewPager.getHeight());
+            mBinding.moreDataPager.setAdapter(moreDataPagerAdapter);
+            mBinding.reviewPager.setAdapter(reviewPagerAdapter);
             mBinding.txtReviewPageNumber.setText(String.format(getString(R.string.review_page_number), 1,
                     mReviews.length));
+
             mBinding.moreDataPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
                 public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -275,7 +285,7 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.txtReadMore: {
-                ((AllReviewsListener)getActivity()).onReadMoreClick(mReviews);
+                ((AllReviewsListener) getActivity()).onReadMoreClick(mReviews);
                 break;
             }
         }
