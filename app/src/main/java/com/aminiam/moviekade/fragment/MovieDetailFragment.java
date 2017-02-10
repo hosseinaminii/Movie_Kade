@@ -16,7 +16,6 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,6 +27,7 @@ import com.aminiam.moviekade.adapter.TrailerAdapter;
 import com.aminiam.moviekade.databinding.FragmentMovieDetailBinding;
 import com.aminiam.moviekade.other.AllReviewsListener;
 import com.aminiam.moviekade.other.MovieInformationStructure;
+import com.aminiam.moviekade.other.UiUpdaterListener;
 import com.aminiam.moviekade.utility.JsonUtility;
 import com.aminiam.moviekade.utility.NetworkUtility;
 import com.squareup.picasso.Picasso;
@@ -94,6 +94,9 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
     public void onResume() {
         super.onResume();
         mBinding.moreDateIndicator.setActiveDot(mActiveIndicatorNum);
+        if(!NetworkUtility.isNetworkAvailable(getActivity())) {
+            ((UiUpdaterListener)getActivity()).error(getString(R.string.error_message_internet));
+        }
     }
 
     @Override
@@ -386,5 +389,9 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
             return mReviews.length;
         }
 
+    }
+
+    public void initLoader() {
+        getActivity().getSupportLoaderManager().initLoader(MOVIE_DETAIL_LOADER_ID, null, this);
     }
 }

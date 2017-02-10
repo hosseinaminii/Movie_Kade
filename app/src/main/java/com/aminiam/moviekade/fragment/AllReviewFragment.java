@@ -5,7 +5,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,6 +19,7 @@ public class AllReviewFragment extends Fragment {
 
     private FragmentAllReviewBinding mBinding;
     private String[][] mReviews;
+    ReviewAdapter mAdapter;
 
     public AllReviewFragment() {
     }
@@ -39,11 +39,12 @@ public class AllReviewFragment extends Fragment {
         mBinding = FragmentAllReviewBinding.inflate(inflater, container, false);
         setupToolbar(getString(R.string.reviews));
 
-        ReviewAdapter adapter = new ReviewAdapter(getActivity());
+        mAdapter = new ReviewAdapter(getActivity());
 
         mBinding.recReview.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mBinding.recReview.setAdapter(adapter);
-        adapter.populateData(mReviews);
+        mBinding.recReview.setAdapter(mAdapter);
+
+        showReviews();
 
         return mBinding.getRoot();
     }
@@ -57,10 +58,13 @@ public class AllReviewFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == android.R.id.home) {
-            Log.d(LOG_TAG, "onOptionsItemSelected");
             getFragmentManager().popBackStack();
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void showReviews() {
+        mAdapter.populateData(mReviews);
     }
 }
