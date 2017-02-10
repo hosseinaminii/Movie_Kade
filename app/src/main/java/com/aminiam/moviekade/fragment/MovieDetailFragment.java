@@ -181,6 +181,7 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
     @Override
     public void onLoadFinished(Loader<String> loader, String data) {
         if (data == null) {
+            ((UiUpdaterListener)getActivity()).error(getString(R.string.error_message_failed));
             return;
         }
         try {
