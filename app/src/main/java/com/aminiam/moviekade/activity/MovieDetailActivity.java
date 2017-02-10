@@ -11,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Toast;
 
 import com.aminiam.moviekade.R;
 import com.aminiam.moviekade.databinding.ActivityMovieDetailBinding;
@@ -22,7 +23,8 @@ import com.aminiam.moviekade.utility.NetworkUtility;
 
 import static com.aminiam.moviekade.fragment.MovieDetailFragment.ALL_REVIEWS_KEY;
 
-public class MovieDetailActivity extends AppCompatActivity implements AllReviewsListener, UiUpdaterListener {
+public class MovieDetailActivity extends AppCompatActivity implements AllReviewsListener,
+        UiUpdaterListener, View.OnClickListener {
     private static final String LOG_TAG = MovieDetailActivity.class.getSimpleName();
 
     private static String TAG_DETAIL = "detail";
@@ -37,6 +39,7 @@ public class MovieDetailActivity extends AppCompatActivity implements AllReviews
     private String mMovieTitle;
     private String mPoster;
     private String mBackdrop;
+    private Toast mToast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +70,8 @@ public class MovieDetailActivity extends AppCompatActivity implements AllReviews
         mNetworkReceiver = new NetworkReceiver();
         mNetworkIntentFilter = new IntentFilter();
         mNetworkIntentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+
+        mBinding.btnTryAgain.setOnClickListener(this);
     }
 
     @Override
@@ -113,7 +118,25 @@ public class MovieDetailActivity extends AppCompatActivity implements AllReviews
 
     @Override
     public void updateViews(boolean isLoading) {
+        mBinding.lneError.setVisibility(View.INVISIBLE);
+        mBinding.fragmentContainer.setVisibility(View.VISIBLE);
+    }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btnTryAgain: {
+                if (NetworkUtility.isNetworkAvailable(this)) {
+                    Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+                    if (!(currentFragment instanceof AllReviewFragment)) {
+                        ((MovieDetailFragment) currentFragment).initLoader();
+                    }
+                } else {
+                    showToast(getString(R.string.error_message_internet));
+                }
+                break;
+            }
+        }
     }
 
     private class NetworkReceiver extends BroadcastReceiver {
@@ -123,17 +146,25 @@ public class MovieDetailActivity extends AppCompatActivity implements AllReviews
 
             if (NetworkUtility.isNetworkAvailable(context)) {
                 Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-                if(!(currentFragment instanceof AllReviewFragment)) {
+                if (!(currentFragment instanceof AllReviewFragment)) {
                     mBinding.lneError.setVisibility(View.INVISIBLE);
                     mBinding.fragmentContainer.setVisibility(View.VISIBLE);
-                    ((MovieDetailFragment)currentFragment).initLoader();
+                    ((MovieDetailFragment) currentFragment).initLoader();
                 }
             } else {
                 Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-                if(!(currentFragment instanceof AllReviewFragment)) {
+                if (!(currentFragment instanceof AllReviewFragment)) {
                     showError(getString(R.string.error_message_internet));
                 }
             }
         }
+    }
+
+    private void showToast(String message) {
+        if (mToast != null) {
+            mToast.cancel();
+        }
+        mToast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
+        mToast.show();
     }
 }

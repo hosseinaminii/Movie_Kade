@@ -20,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.aminiam.moviekade.R;
 import com.aminiam.moviekade.activity.MainActivity;
@@ -57,6 +58,7 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
     private static final int NUM_PAGES = 2;
     private String[][] mReviews;
     private int mActiveIndicatorNum = 0;
+    private Toast mToast;
 
     private FragmentMovieDetailBinding mBinding;
     private TrailerAdapter mTrailerAdatper;
@@ -81,7 +83,9 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
         mBinding = FragmentMovieDetailBinding.inflate(inflater, container, false);
         setupToolbar(mMovieTitle);
 
-        loadImages();
+        // Load poster image
+        Picasso.with(getActivity()).load(NetworkUtility.buildPosterPath(mMoviePoster))
+                .placeholder(R.drawable.thumbnail_plceholder).into(mBinding.imgPoster);
         prepareTrailer();
 
         if (savedInstanceState != null) {
@@ -132,18 +136,6 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
         });
     }
 
-    /**
-     * Load Thumbnail and backdrop images
-     */
-    private void loadImages() {
-        Picasso.with(getActivity()).load(NetworkUtility.buildBackdropPath(mMovieBackdrop))
-                .placeholder(R.drawable.toolbar_plceholder).into(
-                mBinding.imgToolbarImage);
-
-        Picasso.with(getActivity()).load(NetworkUtility.buildPosterPath(mMoviePoster))
-                .placeholder(R.drawable.thumbnail_plceholder).into(mBinding.imgPoster);
-    }
-
     private void prepareTrailer() {
         mTrailerAdatper = new TrailerAdapter(getActivity(), this, mBinding.lneNoTrailer);
         mBinding.recTrailer.setAdapter(mTrailerAdatper);
@@ -182,9 +174,15 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
     public void onLoadFinished(Loader<String> loader, String data) {
         if (data == null) {
             ((UiUpdaterListener)getActivity()).error(getString(R.string.error_message_failed));
+            showToast(getString(R.string.error_message_failed));
             return;
         }
         try {
+            ((UiUpdaterListener)getActivity()).updateViews(false);
+            // load toolbar image
+            Picasso.with(getActivity()).load(NetworkUtility.buildBackdropPath(mMovieBackdrop))
+                    .placeholder(R.drawable.toolbar_plceholder).into(
+                    mBinding.imgToolbarImage);
 
             MovieInformationStructure movieInformationStructure =
                     JsonUtility.getMovieInformationFromJson(getActivity(), data);
@@ -394,5 +392,13 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
 
     public void initLoader() {
         getActivity().getSupportLoaderManager().initLoader(MOVIE_DETAIL_LOADER_ID, null, this);
+    }
+
+    private void showToast(String message) {
+        if (mToast != null) {
+            mToast.cancel();
+        }
+        mToast = Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT);
+        mToast.show();
     }
 }
