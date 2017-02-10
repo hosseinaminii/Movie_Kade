@@ -19,4 +19,6 @@
     <color name="no_trailer_text">#696969</color>
     <color name="orange">#b66616</color>
     <color name="light_yellow">#ffdf8d</color>
+    <color name="land_background">#212121</color>
+    <color name="land_background2">#313131</color>
 </resources>

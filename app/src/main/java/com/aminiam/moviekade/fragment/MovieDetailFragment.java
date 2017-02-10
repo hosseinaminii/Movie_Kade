@@ -59,6 +59,7 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
     private String[][] mReviews;
     private int mActiveIndicatorNum = 0;
     private Toast mToast;
+    private boolean mLandscape;
 
     private FragmentMovieDetailBinding mBinding;
     private TrailerAdapter mTrailerAdatper;
@@ -91,6 +92,8 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
         if (savedInstanceState != null) {
             mActiveIndicatorNum = savedInstanceState.getInt(DATA_INDICATOR_KEY);
         }
+
+        mLandscape = getResources().getBoolean(R.bool.landscape);
         return mBinding.getRoot();
     }
 
@@ -98,8 +101,8 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
     public void onResume() {
         super.onResume();
         mBinding.moreDateIndicator.setActiveDot(mActiveIndicatorNum);
-        if(!NetworkUtility.isNetworkAvailable(getActivity())) {
-            ((UiUpdaterListener)getActivity()).error(getString(R.string.error_message_internet));
+        if (!NetworkUtility.isNetworkAvailable(getActivity())) {
+            ((UiUpdaterListener) getActivity()).error(getString(R.string.error_message_internet));
         }
     }
 
@@ -121,6 +124,13 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
 
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                if (mLandscape) {
+                    if (scrollRange + verticalOffset < 140) {
+                        mBinding.fabFavorite.hide();
+                    } else {
+                        mBinding.fabFavorite.show();
+                    }
+                }
 
                 if (scrollRange == -1) {
                     scrollRange = appBarLayout.getTotalScrollRange();
@@ -173,12 +183,12 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
     @Override
     public void onLoadFinished(Loader<String> loader, String data) {
         if (data == null) {
-            ((UiUpdaterListener)getActivity()).error(getString(R.string.error_message_failed));
+            ((UiUpdaterListener) getActivity()).error(getString(R.string.error_message_failed));
             showToast(getString(R.string.error_message_failed));
             return;
         }
         try {
-            ((UiUpdaterListener)getActivity()).updateViews(false);
+            ((UiUpdaterListener) getActivity()).updateViews(false);
             // load toolbar image
             Picasso.with(getActivity()).load(NetworkUtility.buildBackdropPath(mMovieBackdrop))
                     .placeholder(R.drawable.toolbar_plceholder).into(

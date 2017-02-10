@@ -5,7 +5,7 @@
     <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#212121"
+        android:background="@color/land_background"
         android:fitsSystemWindows="false"
         tools:context=".activity.MovieDetailActivity">
 
@@ -53,15 +53,17 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <android.support.v7.widget.CardView
+                android:id="@+id/cardContent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="32dp"
+                android:layout_marginLeft="18dp"
                 app:cardPreventCornerOverlap="false"
-                android:layout_marginRight="32dp">
+                android:layout_marginRight="18dp">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@color/land_background2"
                     android:descendantFocusability="blocksDescendants">
 
                     <TextView
@@ -168,7 +170,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
                         android:layout_below="@+id/border"
-                        android:background="@color/trailers_background"
+                        android:background="#212121"
                         android:orientation="vertical">
 
                         <TextView
@@ -186,8 +188,7 @@
                             android:id="@+id/recTrailer"
                             android:layout_width="match_parent"
                             android:layout_height="150dp"
-                            android:layout_below="@+id/txtTrailer"
-                            android:background="@color/trailers_background" />
+                            android:layout_below="@+id/txtTrailer" />
 
                         <LinearLayout
                             android:id="@+id/lneNoTrailer"
@@ -238,7 +239,7 @@
                         android:layout_alignTop="@+id/reviewPager"
                         android:layout_marginEnd="15dp"
                         android:layout_marginRight="15dp"
-                        android:background="@color/windowBackground"
+                        android:background="@color/land_background2"
                         android:text="Read More"
                         android:textColor="@color/colorAccent"
                         android:textStyle="bold" />
@@ -300,11 +301,11 @@
         </android.support.v4.widget.NestedScrollView>
 
         <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fabFavorite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/activity_horizontal_margin"
-            app:layout_anchor="@id/appBar"
-            app:layout_anchorGravity="bottom|end"
+            app:layout_anchor="@id/cardContent"
+            app:layout_anchorGravity="top|end"
             app:srcCompat="@drawable/ic_favorite_off" />
     </android.support.design.widget.CoordinatorLayout>
 </layout>
