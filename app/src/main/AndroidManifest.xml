@@ -32,7 +32,11 @@
                 android:value=".activity.MainActivity" />
         </activity>
         <activity android:name=".activity.AllReviewActivity"
-            android:theme="@style/TransparentStatusBar"></activity>
+            android:theme="@style/TransparentStatusBar" />
+        <provider
+            android:authorities="com.aminiam.moviekade.provider"
+            android:name=".data.MovieKadeProvider"
+            android:exported="false" />
     </application>
 
 </manifest>
