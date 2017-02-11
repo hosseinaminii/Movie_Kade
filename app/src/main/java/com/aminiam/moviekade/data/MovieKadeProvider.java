@@ -101,13 +101,11 @@ public class MovieKadeProvider extends ContentProvider{
         int deletedRows;
 
         switch (match) {
-            case FAV_MOVIE_WITH_ID: {
-                long id = ContentUris.parseId(uri);
-
+            case FAV_MOVIE: {
                 deletedRows = database.delete(
                         FavMovies.TABLE_NAME,
-                        FavMovies._ID + " =? ",
-                        new String[]{String.valueOf(id)});
+                        selection,
+                        selectionArgs);
                 break;
             } default: {
                 throw new UnsupportedOperationException("Unknown uri: " + uri);

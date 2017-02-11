@@ -1,7 +1,10 @@
 package com.aminiam.moviekade.fragment;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -16,7 +19,6 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,6 +28,8 @@ import android.widget.Toast;
 import com.aminiam.moviekade.R;
 import com.aminiam.moviekade.activity.MainActivity;
 import com.aminiam.moviekade.adapter.TrailerAdapter;
+import com.aminiam.moviekade.data.MovieKadeContract;
+import com.aminiam.moviekade.data.MovieKadeContract.FavMovies;
 import com.aminiam.moviekade.databinding.FragmentMovieDetailBinding;
 import com.aminiam.moviekade.other.AllReviewsListener;
 import com.aminiam.moviekade.other.MovieInformationStructure;
@@ -57,11 +61,13 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
     private String mMovieTitle;
     private String mMoviePoster;
     private String mMovieBackdrop;
+    private float mAverageVote;
     private static final int NUM_PAGES = 2;
     private String[][] mReviews;
     private int mActiveIndicatorNum = 0;
     private Toast mToast;
     private boolean mLandscape;
+    private boolean mIsFav;
 
     private FragmentMovieDetailBinding mBinding;
     private TrailerAdapter mTrailerAdatper;
@@ -96,6 +102,8 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
         }
 
         mLandscape = getResources().getBoolean(R.bool.landscape);
+        checkIsFab();
+        mBinding.fabFavorite.setOnClickListener(this);
         return mBinding.getRoot();
     }
 
@@ -212,13 +220,13 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
             long revenue = movieInformationStructure.revenue;
             String genres = movieInformationStructure.genres;
             mReviews = movieInformationStructure.reviews;
-            float voteAverage = movieInformationStructure.voteAverage;
+            mAverageVote = movieInformationStructure.voteAverage;
 
             mBinding.txtTitle.setText(title);
             mBinding.txtStatus.setText(status);
             mBinding.expOverview.setContent(overview);
             mBinding.txtGenre.setText(genres);
-            mBinding.voteAverage.setRating(voteAverage / 2);
+            mBinding.voteAverage.setRating(mAverageVote / 2);
 
             // Set status Image
             if (!status.equals(getString(R.string.released))) {
@@ -304,7 +312,86 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
             case R.id.txtReadMore: {
                 ((AllReviewsListener) getActivity()).onReadMoreClick(mReviews);
                 break;
+            }case R.id.fabFavorite: {
+                updateFav();
+                break;
             }
+        }
+    }
+
+    private void updateFav() {
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+
+                if(!mIsFav) {
+                    ContentValues values = new ContentValues();
+                    values.put(MovieKadeContract.FavMovies.COLUMN_MOVIE_ID, String.valueOf(mMovieId));
+                    values.put(MovieKadeContract.FavMovies.COLUMN_TITLE, mMovieTitle);
+                    values.put(MovieKadeContract.FavMovies.COLUMN_AVERAGE_VOTE, mAverageVote);
+                    values.put(MovieKadeContract.FavMovies.COLUMN_POSTER, mMoviePoster);
+                    values.put(MovieKadeContract.FavMovies.COLUMN_BAKC_DROP, mMovieBackdrop);
+
+                    values.put(FavMovies.COLUMN_MOVIE_ID, String.valueOf(mMovieId));
+                    getContext().getContentResolver().insert(
+                            FavMovies.CONTENT_URI,
+                            values);
+                    mIsFav = true;
+                } else {
+                    getContext().getContentResolver().delete(
+                            FavMovies.CONTENT_URI,
+                            FavMovies.COLUMN_MOVIE_ID + " =? ",
+                            new String[] {String .valueOf(mMovieId)});
+                    mIsFav = false;
+                }
+
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+                updateFabIcon();
+            }
+        }.execute();
+    }
+
+    private void checkIsFab() {
+
+        new AsyncTask<Void, Void, Cursor>(){
+            @Override
+            protected Cursor doInBackground(Void... params) {
+
+                String selection = FavMovies.COLUMN_MOVIE_ID + " =? ";
+                String[] selectionArgs = new String[]{String.valueOf(mMovieId)};
+
+                Cursor cursor = getContext().getContentResolver().query(
+                        FavMovies.CONTENT_URI,
+                        null,
+                        selection,
+                        selectionArgs,
+                        null);
+                if(cursor != null) { mIsFav = cursor.moveToNext(); }
+
+                return cursor;
+            }
+
+            @Override
+            protected void onPostExecute(Cursor cursor) {
+                super.onPostExecute(cursor);
+                updateFabIcon();
+                if(cursor != null) {
+                    cursor.close();
+                }
+            }
+        }.execute();
+    }
+
+    private void updateFabIcon() {
+        if (mIsFav) {
+            mBinding.fabFavorite.setImageResource(R.drawable.ic_favorite_on);
+        } else {
+            mBinding.fabFavorite.setImageResource(R.drawable.ic_favorite_off);
         }
     }
 

@@ -21,4 +21,5 @@
     <color name="light_yellow">#ffdf8d</color>
     <color name="land_background">#212121</color>
     <color name="land_background2">#313131</color>
+    <color name="fav_on">#8b2828</color>
 </resources>
