@@ -16,6 +16,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,6 +32,7 @@ import com.aminiam.moviekade.other.MovieInformationStructure;
 import com.aminiam.moviekade.other.UiUpdaterListener;
 import com.aminiam.moviekade.utility.JsonUtility;
 import com.aminiam.moviekade.utility.NetworkUtility;
+import com.aminiam.moviekade.utility.Utility;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
@@ -100,6 +102,8 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
     @Override
     public void onResume() {
         super.onResume();
+        mBinding.reviewPager.getLayoutParams().height = Utility.convertDpToPx(getActivity(), 130);
+        mBinding.moreDataPager.getLayoutParams().height = Utility.convertDpToPx(getActivity(), 120);
         mBinding.moreDateIndicator.setActiveDot(mActiveIndicatorNum);
         if (!NetworkUtility.isNetworkAvailable(getActivity())) {
             ((UiUpdaterListener) getActivity()).error(getString(R.string.error_message_internet));
@@ -236,6 +240,7 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
 
             mBinding.moreDataPager.setAdapter(moreDataPagerAdapter);
             mBinding.reviewPager.setAdapter(reviewPagerAdapter);
+
             mBinding.txtReviewPageNumber.setText(String.format(getString(R.string.review_page_number), 1,
                     mReviews.length));
 
