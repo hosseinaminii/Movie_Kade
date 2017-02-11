@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.database.sqlite.SQLiteDatabase;
 import android.databinding.DataBindingUtil;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
@@ -14,12 +15,12 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
 import com.aminiam.moviekade.R;
+import com.aminiam.moviekade.data.MovieKadeDbHelper;
 import com.aminiam.moviekade.databinding.ActivityMainBinding;
 import com.aminiam.moviekade.fragment.BookmarkFragment;
 import com.aminiam.moviekade.fragment.MovieFragment;
@@ -80,6 +81,9 @@ public class MainActivity extends AppCompatActivity implements UiUpdaterListener
 
         initNav();
         loadFragment();
+
+        MovieKadeDbHelper dbHelper = new MovieKadeDbHelper(this);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
     }
 
     @Override
