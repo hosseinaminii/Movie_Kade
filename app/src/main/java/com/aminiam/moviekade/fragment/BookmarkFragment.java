@@ -12,12 +12,14 @@ import android.support.v7.widget.GridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.aminiam.moviekade.R;
 import com.aminiam.moviekade.adapter.MovieAdapter;
 import com.aminiam.moviekade.data.MovieKadeContract;
 import com.aminiam.moviekade.data.MovieKadeContract.FavMovies;
 import com.aminiam.moviekade.databinding.FragmentBookmarkBinding;
+import com.aminiam.moviekade.other.Callback;
 import com.aminiam.moviekade.other.GridSpacingItemDecoration;
 import com.aminiam.moviekade.other.MovieStructure;
 import com.aminiam.moviekade.other.UiUpdaterListener;
@@ -50,6 +52,7 @@ public class BookmarkFragment extends Fragment implements MovieAdapter.MovieClic
 
     private FragmentBookmarkBinding mBinding;
     private UiUpdaterListener mListener;
+    private Toast mToast;
 
     @Override
     public void onAttach(Context context) {
@@ -89,7 +92,7 @@ public class BookmarkFragment extends Fragment implements MovieAdapter.MovieClic
 
     @Override
     public void onMovieClick(long movieId, String movieTitle, String posterPath, String backdropPath) {
-
+        ((Callback) getActivity()).onItemSelected(movieId,movieTitle, posterPath, backdropPath);
     }
 
     @Override
@@ -104,8 +107,18 @@ public class BookmarkFragment extends Fragment implements MovieAdapter.MovieClic
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, final Cursor data) {
-        if (data == null || data.getCount() <= 0) {
+        if (data == null) {
+            String errorMessage = getResources().getString(R.string.error_message_failed);
+            if(!NetworkUtility.isNetworkAvailable(getActivity())) {
+                getString(R.string.error_message_internet);
+            }
+            mListener.error(errorMessage);
+            showToast(errorMessage);
             return;
+        }
+
+        if(data.getCount() <=0) {
+            mBinding.lneNoFav.setVisibility(View.VISIBLE);
         }
 
         new AsyncTask<Void, Void, MovieStructure[]>() {
@@ -142,5 +155,13 @@ public class BookmarkFragment extends Fragment implements MovieAdapter.MovieClic
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         mAdapter.populateDate(null);
+    }
+
+    private void showToast(String message) {
+        if(mToast != null) {
+            mToast.cancel();
+        }
+        mToast = Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT);
+        mToast.show();
     }
 }
