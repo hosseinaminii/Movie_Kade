@@ -1,9 +1,11 @@
 package com.aminiam.moviekade.fragment;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -27,7 +29,7 @@ import com.aminiam.moviekade.utility.NetworkUtility;
 import com.aminiam.moviekade.utility.Utility;
 
 public class BookmarkFragment extends Fragment implements MovieAdapter.MovieClickListener,
-        LoaderManager.LoaderCallbacks<Cursor> {
+        LoaderManager.LoaderCallbacks<Cursor>, SharedPreferences.OnSharedPreferenceChangeListener {
     private static final String LOG_TAG = BookmarkFragment.class.getSimpleName();
 
     public BookmarkFragment() {}
@@ -53,6 +55,8 @@ public class BookmarkFragment extends Fragment implements MovieAdapter.MovieClic
     private FragmentBookmarkBinding mBinding;
     private UiUpdaterListener mListener;
     private Toast mToast;
+    private String mSort;
+    private boolean mShowInfo;
 
     @Override
     public void onAttach(Context context) {
@@ -69,7 +73,9 @@ public class BookmarkFragment extends Fragment implements MovieAdapter.MovieClic
                              Bundle savedInstanceState) {
         mBinding = FragmentBookmarkBinding.inflate(inflater, container, false);
 
-        mAdapter = new MovieAdapter(getActivity(), this);
+        getPrefData();
+
+        mAdapter = new MovieAdapter(getActivity(),mShowInfo, this);
         int spanCount = Utility.calculateNoOfColumns(getActivity());
         mBinding.recMovies.setLayoutManager(new GridLayoutManager(getContext(), spanCount));
         int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.grid_layout_margin);
@@ -90,6 +96,17 @@ public class BookmarkFragment extends Fragment implements MovieAdapter.MovieClic
         }
     }
 
+    private void getPrefData() {
+        mSort = "DESC";
+        mShowInfo = true;
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        mSort = preferences.getString(getResources().getString(R.string.pref_key_sort_fav),
+                getString(R.string.key_sort_fav_new_old));
+        mShowInfo = preferences.getBoolean(getString(R.string.pref_info_poster_data_key), true);
+
+        preferences.registerOnSharedPreferenceChangeListener(this);
+    }
+
     @Override
     public void onMovieClick(long movieId, String movieTitle, String posterPath, String backdropPath) {
         ((Callback) getActivity()).onItemSelected(movieId,movieTitle, posterPath, backdropPath);
@@ -102,7 +119,7 @@ public class BookmarkFragment extends Fragment implements MovieAdapter.MovieClic
                 PROJECTION,
                 null,
                 null,
-                MovieKadeContract.FavMovies._ID + " DESC");
+                MovieKadeContract.FavMovies._ID + " " + mSort);
     }
 
     @Override
@@ -163,5 +180,32 @@ public class BookmarkFragment extends Fragment implements MovieAdapter.MovieClic
         }
         mToast = Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT);
         mToast.show();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        PreferenceManager.getDefaultSharedPreferences(getActivity())
+                .unregisterOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if(key.equals(getString(R.string.pref_key_sort_fav))) {
+            mSort = sharedPreferences.getString(key, getString(R.string.key_sort_fav_new_old));
+            if (NetworkUtility.isNetworkAvailable(getContext())) {
+                getActivity().getSupportLoaderManager().restartLoader(LOADER_ID, null, this);
+            } else {
+                mListener.error(getString(R.string.error_message_internet));
+            }
+        } else if(key.equals(getString(R.string.pref_info_poster_data_key))) {
+            mShowInfo = sharedPreferences.getBoolean(key, true);
+            mAdapter = new MovieAdapter(getActivity(),mShowInfo, this);
+            if(NetworkUtility.isNetworkAvailable(getContext())) {
+                getActivity().getSupportLoaderManager().initLoader(LOADER_ID, null, this);
+            } else {
+                mListener.error(getString(R.string.error_message_internet));
+            }
+        }
     }
 }

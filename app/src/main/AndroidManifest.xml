@@ -7,10 +7,10 @@
 
     <application
         android:allowBackup="true"
+        android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:hardwareAccelerated="true"
         android:theme="@style/AppTheme">
         <activity
             android:name=".activity.MainActivity"
@@ -21,7 +21,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.SettingActivity" />
+        <activity android:name=".activity.SettingActivity"
+            android:parentActivityName=".activity.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.MainActivity" />
+        </activity>
         <activity android:name=".activity.AboutActivity" />
         <activity
             android:name=".activity.MovieDetailActivity"
@@ -31,11 +36,13 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.MainActivity" />
         </activity>
-        <activity android:name=".activity.AllReviewActivity"
+        <activity
+            android:name=".activity.AllReviewActivity"
             android:theme="@style/TransparentStatusBar" />
+
         <provider
-            android:authorities="com.aminiam.moviekade.provider"
             android:name=".data.MovieKadeProvider"
+            android:authorities="com.aminiam.moviekade.provider"
             android:exported="false" />
     </application>
 
