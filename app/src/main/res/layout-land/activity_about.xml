@@ -24,30 +24,36 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:orientation="horizontal"
             android:gravity="center"
             android:layout_centerVertical="true">
+
 
             <ImageView
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:background="@color/colorAccent"/>
 
-            <TextView
-                android:gravity="center"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-light"
-                android:layout_marginTop="10dp"
-                android:text="Developer: \nHossein Amini"/>
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-light"
+                    android:layout_marginTop="10dp"
+                    android:text="Developer: \nHossein Amini"/>
 
-            <TextView
-                android:gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-light"
-                android:layout_marginTop="10dp"
-                android:text="Website: \nwww.aminiam.com"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-light"
+                    android:layout_marginTop="10dp"
+                    android:text="Website: \nwww.aminiam.com"/>
+            </LinearLayout>
 
         </LinearLayout>
 
