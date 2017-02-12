@@ -9,6 +9,7 @@
         tools:context="com.aminiam.moviekade.activity.SettingActivity">
 
         <android.support.design.widget.AppBarLayout
+            android:id="@+id/appBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:theme="@style/AppTheme">
@@ -21,12 +22,11 @@
 
         </android.support.design.widget.AppBarLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="Setting Activity"
-            android:textSize="30dp" />
+        <fragment
+            android:layout_below="@+id/appBar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:name="com.aminiam.moviekade.fragment.settingFragment"/>
 
     </RelativeLayout>
 </layout>

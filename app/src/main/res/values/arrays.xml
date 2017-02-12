@@ -7,4 +7,13 @@
         <item>@string/nav_up_coming_movies</item>
         <item>@string/nav_bookmark_movies</item>
     </array>
+
+    <array name="sort_fav_array_label">
+        <item>@string/label_sort_fav_new_old</item>
+        <item>@string/label_sort_fav_old_new</item>
+    </array>
+    <array name="sort_fav_array_key">
+        <item>@string/key_sort_fav_new_old</item>
+        <item>@string/key_sort_fav_old_new</item>
+    </array>
 </resources>

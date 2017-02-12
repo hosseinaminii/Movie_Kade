@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="@string/pref_info_poster_data_key"
+        android:summaryOff="Hidden"
+        android:summaryOn="Shown"
+        android:title="@string/show_info_on_poster" />
+
+    <ListPreference
+        android:defaultValue="@string/key_sort_fav_new_old"
+        android:key="PREF_LIST"
+        android:title="@string/title_sort_fav"
+        android:entries="@array/sort_fav_array_label"
+        android:entryValues="@array/sort_fav_array_key" />
+
+</PreferenceScreen>
