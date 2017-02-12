@@ -246,9 +246,21 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
             PagerAdapter reviewPagerAdapter = new ReviewAdapter(
                     getChildFragmentManager(), mReviews);
 
+<<<<<<< Updated upstream
             mBinding.moreDataPager.setAdapter(moreDataPagerAdapter);
             mBinding.reviewPager.setAdapter(reviewPagerAdapter);
 
+||||||| merged common ancestors
+            mBinding.moreDataPager.setAdapter(mMoreDataPagerAdapter);
+            mBinding.reviewPager.setAdapter(mReviewPagerAdapter);
+            Log.d(LOG_TAG, "Height= " + mBinding.reviewPager.getHeight());
+=======
+            mBinding.moreDataPager.setAdapter(mMoreDataPagerAdapter);
+            mBinding.reviewPager.setAdapter(mReviewPagerAdapter);
+
+            Log.d(LOG_TAG, "Height= " + mBinding.reviewPager.getHeight());
+
+>>>>>>> Stashed changes
             mBinding.txtReviewPageNumber.setText(String.format(getString(R.string.review_page_number), 1,
                     mReviews.length));
 
