@@ -71,11 +71,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="15dp"
+                        android:maxWidth="200dp"
                         android:layout_marginStart="15dp"
                         android:layout_toEndOf="@+id/cardPoster"
                         android:layout_toRightOf="@+id/cardPoster"
-                        android:fontFamily="sans-serif-re"
-                        android:text="Moana"
+                        android:fontFamily="sans-serif"
+                        android:text="@string/three_dot"
                         android:layout_marginTop="10dp"
                         android:textColor="@android:color/white"
                         android:textSize="20dp" />
@@ -84,13 +85,16 @@
                         android:id="@+id/txtGenre"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:maxWidth="200dp"
                         android:layout_below="@+id/txtTitle"
                         android:layout_marginLeft="15dp"
                         android:layout_marginStart="15dp"
+                        android:layout_marginEnd="15dp"
+                        android:layout_marginRight="15dp"
                         android:layout_toEndOf="@+id/cardPoster"
                         android:layout_toRightOf="@+id/cardPoster"
-                        android:fontFamily="sans-serif-re"
-                        android:text="Action"
+                        android:fontFamily="sans-serif"
+                        android:text="@string/three_dot"
                         android:textSize="14dp" />
 
                     <ImageView
@@ -115,8 +119,8 @@
                         android:layout_marginStart="5dp"
                         android:layout_toEndOf="@+id/imgStatus"
                         android:layout_toRightOf="@+id/imgStatus"
-                        android:fontFamily="sans-serif-re"
-                        android:text="Released"
+                        android:fontFamily="sans-serif"
+                        android:text="@string/three_dot"
                         android:textSize="14dp" />
 
                     <RatingBar
@@ -306,6 +310,8 @@
             android:layout_height="wrap_content"
             app:layout_anchor="@id/cardContent"
             app:layout_anchorGravity="top|end"
+            android:layout_marginRight="20dp"
+            android:layout_marginEnd="20dp"
             app:srcCompat="@drawable/ic_favorite_off" />
     </android.support.design.widget.CoordinatorLayout>
 </layout>

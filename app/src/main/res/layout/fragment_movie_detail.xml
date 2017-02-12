@@ -83,8 +83,8 @@
                     android:layout_marginTop="50dp"
                     android:layout_toEndOf="@+id/cardPoster"
                     android:layout_toRightOf="@+id/cardPoster"
-                    android:fontFamily="sans-serif-re"
-                    android:text="Moana"
+                    android:fontFamily="sans-serif"
+                    android:text="@string/three_dot"
                     android:textColor="@android:color/white"
                     android:textSize="20dp" />
 
@@ -95,10 +95,12 @@
                     android:layout_below="@+id/txtTitle"
                     android:layout_marginLeft="15dp"
                     android:layout_marginStart="15dp"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginRight="15dp"
                     android:layout_toEndOf="@+id/cardPoster"
                     android:layout_toRightOf="@+id/cardPoster"
-                    android:fontFamily="sans-serif-re"
-                    android:text="Action"
+                    android:fontFamily="sans-serif"
+                    android:text="@string/three_dot"
                     android:textSize="14dp" />
 
                 <ImageView
@@ -122,9 +124,9 @@
                     android:layout_marginStart="5dp"
                     android:layout_toEndOf="@+id/imgStatus"
                     android:layout_toRightOf="@+id/imgStatus"
-                    android:fontFamily="sans-serif-re"
+                    android:fontFamily="sans-serif"
                     android:layout_marginBottom="20dp"
-                    android:text="Released"
+                    android:text="@string/three_dot"
                     android:textSize="14dp" />
 
                 <RatingBar

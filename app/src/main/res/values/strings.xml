@@ -46,4 +46,5 @@
     <string name="label_sort_fav_new_old">New To Old</string>
     <string name="key_sort_fav_old_new">ASC</string>
     <string name="key_sort_fav_new_old">DESC</string>
+    <string name="three_dot">...</string>
 </resources>
