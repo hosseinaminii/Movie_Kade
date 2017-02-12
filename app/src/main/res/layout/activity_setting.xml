@@ -26,7 +26,7 @@
             android:layout_below="@+id/appBar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:name="com.aminiam.moviekade.fragment.settingFragment"/>
+            android:name="com.aminiam.moviekade.fragment.SettingFragment"/>
 
     </RelativeLayout>
 </layout>

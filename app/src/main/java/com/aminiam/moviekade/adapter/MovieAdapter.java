@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.aminiam.moviekade.R;
@@ -19,10 +20,12 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
     private MovieStructure[] mMovieStructures;
     private Context mContext;
     private MovieClickListener mListener;
+    private boolean mShowInfo;
 
-    public MovieAdapter(Context context, MovieClickListener listener) {
+    public MovieAdapter(Context context, boolean showInfo, MovieClickListener listener) {
         mContext = context;
         mListener = listener;
+        mShowInfo = showInfo;
     }
 
     @Override
@@ -53,14 +56,20 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 
     class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         ImageView imgPosterPath;
+        LinearLayout posterInfo;
         TextView txtTitle;
         TextView txtAverageVote;
 
         MovieViewHolder(View itemView) {
             super(itemView);
             imgPosterPath = (ImageView) itemView.findViewById(R.id.imgPosterPath);
+            posterInfo = (LinearLayout) itemView.findViewById(R.id.posterInfo);
             txtTitle = (TextView) itemView.findViewById(R.id.txtTitle);
             txtAverageVote = (TextView) itemView.findViewById(R.id.txtAverageVote);
+
+            if(!mShowInfo) {
+                posterInfo.setVisibility(View.INVISIBLE);
+            }
 
             itemView.setOnClickListener(this);
         }

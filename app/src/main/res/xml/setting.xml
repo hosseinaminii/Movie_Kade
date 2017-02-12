@@ -9,8 +9,8 @@
 
     <ListPreference
         android:defaultValue="@string/key_sort_fav_new_old"
-        android:key="PREF_LIST"
-        android:title="@string/title_sort_fav"
+        android:key="@string/pref_key_sort_fav"
+        android:title="@string/pref_title_sort_fav"
         android:entries="@array/sort_fav_array_label"
         android:entryValues="@array/sort_fav_array_key" />
 

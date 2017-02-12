@@ -38,11 +38,12 @@
     <string name="movie_vote_budget">Budget: %1$s</string>
 
     <string name="pref_info_poster_data_key">info_poster_data</string>
-    <string name="show_info_on_poster">Info on poster</string>
+    <string name="show_info_on_poster">Show Poster Info</string>
 
-    <string name="title_sort_fav">Sort of favorite movies</string>
-    <string name="label_sort_fav_old_new">Old-New</string>
-    <string name="label_sort_fav_new_old">New-Old</string>
-    <string name="key_sort_fav_old_new">from_old_new</string>
-    <string name="key_sort_fav_new_old">from_new_old</string>
+    <string name="pref_title_sort_fav">Favorite Sort</string>
+    <string name="pref_key_sort_fav">sort_movies</string>
+    <string name="label_sort_fav_old_new">Old To New</string>
+    <string name="label_sort_fav_new_old">New To Old</string>
+    <string name="key_sort_fav_old_new">ASC</string>
+    <string name="key_sort_fav_new_old">DESC</string>
 </resources>

@@ -1,7 +1,9 @@
 package com.aminiam.moviekade.fragment;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
@@ -31,13 +33,14 @@ import java.io.IOException;
 import java.net.URL;
 
 public class MovieFragment extends Fragment implements LoaderManager.LoaderCallbacks<String>,
-        MovieAdapter.MovieClickListener{
+        MovieAdapter.MovieClickListener, SharedPreferences.OnSharedPreferenceChangeListener{
     private static final String LOG_TAG = MovieFragment.class.getSimpleName();
 
     private MovieAdapter mAdapter;
     private String mPath;
     private int mLoaderId;
     private Toast mToast;
+    private boolean mShowInfo;
 
     private FragmentMovieBinding mBinding;
     private UiUpdaterListener mListener;
@@ -67,7 +70,11 @@ public class MovieFragment extends Fragment implements LoaderManager.LoaderCallb
                              Bundle savedInstanceState) {
         mBinding = FragmentMovieBinding.inflate(inflater, container, false);
 
-        mAdapter = new MovieAdapter(getActivity(), this);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        mShowInfo = preferences.getBoolean(getString(R.string.pref_info_poster_data_key), true);
+        preferences.registerOnSharedPreferenceChangeListener(this);
+
+        mAdapter = new MovieAdapter(getActivity(),mShowInfo, this);
         int spanCount = Utility.calculateNoOfColumns(getActivity());
         mBinding.recPlayingMovies.setLayoutManager(new GridLayoutManager(getContext(), spanCount));
         int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.grid_layout_margin);
@@ -150,5 +157,25 @@ public class MovieFragment extends Fragment implements LoaderManager.LoaderCallb
     // TODO: Probably Delete
     public void initLoader() {
         getActivity().getSupportLoaderManager().initLoader(mLoaderId, null, MovieFragment.this);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        PreferenceManager.getDefaultSharedPreferences(getActivity())
+                .unregisterOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if(key.equals(getString(R.string.pref_info_poster_data_key))) {
+            mShowInfo = sharedPreferences.getBoolean(key, true);
+            mAdapter = new MovieAdapter(getActivity(),mShowInfo, this);
+            if(NetworkUtility.isNetworkAvailable(getContext())) {
+                getActivity().getSupportLoaderManager().initLoader(mLoaderId, null, this);
+            } else {
+                mListener.error(getString(R.string.error_message_internet));
+            }
+        }
     }
 }
