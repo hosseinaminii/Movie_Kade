@@ -108,6 +108,7 @@ public class MoreDataFragment extends Fragment implements View.OnClickListener{
 
         View sbView = snackbar.getView();
         TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+
         textView.setTextColor(ContextCompat.getColor(getActivity(), R.color.light_yellow));
         snackbar.show();
     }

@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.aminiam.moviekade.R;
+import com.aminiam.moviekade.utility.Utility;
 
 public class ExpandableTextView extends LinearLayout implements View.OnClickListener {
     private static final String LOG_TAG = ExpandableTextView.class.getSimpleName();
@@ -21,6 +22,7 @@ public class ExpandableTextView extends LinearLayout implements View.OnClickList
     private String mButtonPrimaryText;
     private String mButtonSecondaryText;
     private int mButtonColor;
+    private float descTextSize;
 
     private TextView mTxtContent;
     private TextView mButton;
@@ -48,6 +50,7 @@ public class ExpandableTextView extends LinearLayout implements View.OnClickList
             mButtonSecondaryText = typedArray.getString(R.styleable.ExpandableTextView_button_textSecondary);
             mButtonColor = typedArray.getColor(R.styleable.ExpandableTextView_buttonColor,
                     ContextCompat.getColor(context, R.color.colorAccent));
+            descTextSize = typedArray.getDimension(R.styleable.ExpandableTextView_descTextSize, 12);
         } finally {
             typedArray.recycle();
         }
@@ -63,6 +66,7 @@ public class ExpandableTextView extends LinearLayout implements View.OnClickList
         mButton = new Button(context);
 
         setContent(mContent);
+        mTxtContent.setTextSize(Utility.convertPixelsToDp(context, descTextSize));
         mTxtContent.setMaxLines(mMaxLines);
         addView(mTxtContent);
 

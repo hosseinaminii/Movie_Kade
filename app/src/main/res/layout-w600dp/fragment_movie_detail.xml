@@ -11,7 +11,7 @@
         <android.support.design.widget.AppBarLayout
             android:id="@+id/appBar"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
+            android:layout_height="350dp"
             android:fitsSystemWindows="true"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
@@ -58,10 +58,10 @@
 
                 <android.support.v7.widget.CardView
                     android:id="@+id/cardPoster"
-                    android:layout_width="150dp"
-                    android:layout_height="210dp"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginStart="15dp"
+                    android:layout_width="200dp"
+                    android:layout_height="270dp"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginStart="@dimen/activity_horizontal_margin"
                     android:layout_marginTop="10dp"
                     android:elevation="5dp"
                     app:cardCornerRadius="2dp">
@@ -78,38 +78,39 @@
                     android:id="@+id/txtTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginStart="15dp"
+                    android:layout_marginLeft="20dp"
+                    android:maxWidth="300dp"
+                    android:layout_marginStart="20dp"
                     android:layout_marginTop="50dp"
                     android:layout_toEndOf="@+id/cardPoster"
                     android:layout_toRightOf="@+id/cardPoster"
                     android:fontFamily="sans-serif"
                     android:text="@string/three_dot"
                     android:textColor="@android:color/white"
-                    android:textSize="20dp" />
+                    android:textSize="25dp" />
 
                 <TextView
                     android:id="@+id/txtGenre"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/txtTitle"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginStart="15dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp"
                     android:layout_marginEnd="15dp"
                     android:layout_marginRight="15dp"
                     android:layout_toEndOf="@+id/cardPoster"
                     android:layout_toRightOf="@+id/cardPoster"
                     android:fontFamily="sans-serif"
                     android:text="@string/three_dot"
-                    android:textSize="14dp" />
+                    android:textSize="17dp" />
 
                 <ImageView
                     android:id="@+id/imgStatus"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
                     android:layout_alignBottom="@+id/cardPoster"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginStart="15dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp"
                     android:layout_toEndOf="@+id/cardPoster"
                     android:layout_toRightOf="@+id/cardPoster"
                     android:layout_marginBottom="20dp"
@@ -127,7 +128,7 @@
                     android:fontFamily="sans-serif"
                     android:layout_marginBottom="20dp"
                     android:text="@string/three_dot"
-                    android:textSize="14dp" />
+                    android:textSize="17dp" />
 
                 <RatingBar
                     android:id="@+id/voteAverage"
@@ -145,12 +146,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/cardPoster"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginStart="@dimen/activity_horizontal_margin"
                     android:layout_marginTop="20dp"
+                    custom:descTextSize="16dp"
                     custom:button_textPrimary="@string/expand"
                     custom:button_textSecondary="@string/collapse"
-                    custom:descTextSize="14dp"
                     custom:maxLines="3" />
 
                 <android.support.v4.view.ViewPager
@@ -179,7 +182,7 @@
                 <RelativeLayout
                     android:id="@+id/lneTrailer"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
+                    android:layout_height="220dp"
                     android:layout_below="@+id/border"
                     android:background="@color/trailers_background"
                     android:orientation="vertical">
@@ -255,6 +258,7 @@
                     android:layout_marginEnd="15dp"
                     android:background="@color/windowBackground"
                     android:textStyle="bold"
+                    android:textSize="16dp"
                     android:textColor="@color/colorAccent"/>
 
                 <ImageView
@@ -297,7 +301,8 @@
             android:id="@+id/fabFavorite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
             app:layout_anchor="@id/appBar"
             app:layout_anchorGravity="bottom|end"
             app:srcCompat="@drawable/ic_favorite_off" />

@@ -21,8 +21,8 @@
 
             <ImageView
                 android:id="@+id/icon1"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
+                android:layout_width="@dimen/more_date_icon_size"
+                android:layout_height="@dimen/more_date_icon_size"
                 app:srcCompat="@drawable/ic_clock" />
 
             <TextView
@@ -42,8 +42,8 @@
 
             <ImageView
                 android:id="@+id/icon2"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
+                android:layout_width="@dimen/more_date_icon_size"
+                android:layout_height="@dimen/more_date_icon_size"
                 app:srcCompat="@drawable/ic_translate" />
 
             <TextView
@@ -63,8 +63,8 @@
 
             <ImageView
                 android:id="@+id/icon3"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
+                android:layout_width="@dimen/more_date_icon_size"
+                android:layout_height="@dimen/more_date_icon_size"
                 app:srcCompat="@drawable/ic_block" />
 
             <TextView

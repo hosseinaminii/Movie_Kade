@@ -15,6 +15,7 @@
             android:maxLines="1"
             android:textColor="@color/light_yellow"
             android:textStyle="italic"
+            android:textSize="@dimen/review_text_size"
             tools:text="Hossein Amini" />
 
         <TextView
@@ -30,6 +31,7 @@
             android:lineSpacingExtra="5dp"
             android:maxLines="4"
             android:textStyle="italic"
+            android:textSize="@dimen/review_text_size"
             android:visibility="visible"
             tools:text="@string/hello_blank_fragment" />
 
