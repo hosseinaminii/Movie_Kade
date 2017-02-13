@@ -50,7 +50,7 @@ public class ExpandableTextView extends LinearLayout implements View.OnClickList
             mButtonSecondaryText = typedArray.getString(R.styleable.ExpandableTextView_button_textSecondary);
             mButtonColor = typedArray.getColor(R.styleable.ExpandableTextView_buttonColor,
                     ContextCompat.getColor(context, R.color.colorAccent));
-            descTextSize = typedArray.getDimension(R.styleable.ExpandableTextView_descTextSize, 12);
+            descTextSize = typedArray.getDimension(R.styleable.ExpandableTextView_descTextSize, 20);
         } finally {
             typedArray.recycle();
         }

@@ -13,7 +13,7 @@
     <dimen name="more_date_icon_size">35dp</dimen>
     <dimen name="trailer_width">150dp</dimen>
     <dimen name="trailer_height">130dp</dimen>
-    
+    <dimen name="review_margin">16dp</dimen>
 
 
 </resources>
