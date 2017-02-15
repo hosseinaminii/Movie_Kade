@@ -3,6 +3,7 @@ package com.aminiam.moviekade.fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -36,14 +37,18 @@ public class MovieFragment extends Fragment implements LoaderManager.LoaderCallb
         MovieAdapter.MovieClickListener, SharedPreferences.OnSharedPreferenceChangeListener{
     private static final String LOG_TAG = MovieFragment.class.getSimpleName();
 
+    private static final String RECYCLER_POSTION_KEY = "recycler_position_key";
+
     private MovieAdapter mAdapter;
     private String mPath;
     private int mLoaderId;
     private Toast mToast;
     private boolean mShowInfo;
+    private Parcelable mListState;
 
     private FragmentMovieBinding mBinding;
     private UiUpdaterListener mListener;
+    private GridLayoutManager mGridLayoutManager;
 
     public MovieFragment() {}
 
@@ -63,6 +68,7 @@ public class MovieFragment extends Fragment implements LoaderManager.LoaderCallb
         Bundle args = getArguments();
         mPath = args.getString(MainActivity.PATH_KEY);
         mLoaderId = args.getInt(MainActivity.LOADER_ID_KEY);
+
     }
 
     @Override
@@ -76,9 +82,16 @@ public class MovieFragment extends Fragment implements LoaderManager.LoaderCallb
 
         mAdapter = new MovieAdapter(getActivity(),mShowInfo, this);
         int spanCount = Utility.calculateNoOfColumns(getActivity());
-        mBinding.recPlayingMovies.setLayoutManager(new GridLayoutManager(getContext(), spanCount));
+
+        mGridLayoutManager = new GridLayoutManager(getContext(), spanCount);
+        mBinding.recPlayingMovies.setLayoutManager(mGridLayoutManager);
         int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.grid_layout_margin);
         mBinding.recPlayingMovies.addItemDecoration(new GridSpacingItemDecoration(spanCount, spacingInPixels, true, 0));
+
+
+        if(savedInstanceState != null) {
+            mListState = savedInstanceState.getParcelable(RECYCLER_POSTION_KEY);
+        }
 
         return mBinding.getRoot();
     }
@@ -131,6 +144,9 @@ public class MovieFragment extends Fragment implements LoaderManager.LoaderCallb
                 MovieStructure[] movieStructures = JsonUtility.getMoviesDataFromJson(data);
                 mAdapter.populateDate(movieStructures);
                 mBinding.recPlayingMovies.setAdapter(mAdapter);
+                if(mListState != null) {
+                    mGridLayoutManager.onRestoreInstanceState(mListState);
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -177,5 +193,13 @@ public class MovieFragment extends Fragment implements LoaderManager.LoaderCallb
                 mListener.error(getString(R.string.error_message_internet));
             }
         }
+    }
+
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putParcelable(RECYCLER_POSTION_KEY, mBinding.recPlayingMovies.getLayoutManager()
+                .onSaveInstanceState());
+        super.onSaveInstanceState(outState);
     }
 }
