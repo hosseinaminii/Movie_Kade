@@ -9,6 +9,8 @@ import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
@@ -288,12 +290,15 @@ public class MainActivity extends AppCompatActivity implements UiUpdaterListener
 
     @Override
     public void onItemSelected(long movieId, String movieTitle, String posterPath, String backdropPath) {
+        ActivityOptionsCompat activityOptions =
+                             ActivityOptionsCompat.makeSceneTransitionAnimation(this);
         Intent intent = new Intent(this, MovieDetailActivity.class);
         intent.putExtra(MOVIE_ID_KEY, movieId);
         intent.putExtra(MOVIE_TITLE_KEY, movieTitle);
         intent.putExtra(MOVIE_POSTER_KEY, posterPath);
         intent.putExtra(MOVIE_BACKDROP_KEY, backdropPath);
-        startActivity(intent);
+        ActivityCompat.startActivity(this, intent, activityOptions.toBundle());
+//        startActivity(intent);
     }
 
     private class NetworkReceiver extends BroadcastReceiver {

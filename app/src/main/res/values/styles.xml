@@ -12,10 +12,14 @@
     <style name="TransparentStatusBar" parent="AppTheme">
     </style>
 
+    <!-- Toolbar Theme -->
     <style name="ActionBarTheme" parent="Widget.AppCompat.Toolbar">
         <item name="android:background">?attr/colorPrimary</item>
         <item name="popupTheme">@style/Theme.AppCompat.Light</item>
     </style>
+
+    <style name="AppTheme.Main" />
+    <style name="AppTheme.Details" />
 
     <style name="mor_detail_text">
         <item name="android:layout_width">wrap_content</item>
