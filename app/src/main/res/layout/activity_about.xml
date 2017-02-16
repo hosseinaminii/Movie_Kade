@@ -31,7 +31,7 @@
             <ImageView
                 android:layout_width="150dp"
                 android:layout_height="150dp"
-                android:background="@color/colorAccent"/>
+                android:src="@drawable/icon"/>
 
             <TextView
                 android:gravity="center"
@@ -48,6 +48,23 @@
                 android:fontFamily="sans-serif-light"
                 android:layout_marginTop="10dp"
                 android:text="Website: \nwww.aminiam.com"/>
+
+            <TextView
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:layout_marginTop="10dp"
+                android:text="Icon: \nwww.freepik.com"/>
+
+            <TextView
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:layout_marginTop="10dp"
+                android:text="Powered by: \nwww.themoviedb.org"/>
+
 
         </LinearLayout>
 
