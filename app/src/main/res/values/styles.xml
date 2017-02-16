@@ -9,8 +9,6 @@
         <item name="android:windowBackground">@color/windowBackground</item>
         <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
     </style>
-    <style name="TransparentStatusBar" parent="AppTheme">
-    </style>
 
     <!-- Toolbar Theme -->
     <style name="ActionBarTheme" parent="Widget.AppCompat.Toolbar">

@@ -8,7 +8,6 @@ import android.databinding.DataBindingUtil;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
@@ -88,14 +87,20 @@ public class MovieDetailActivity extends AppCompatActivity implements AllReviews
 
     @Override
     public void onReadMoreClick(String[][] reviews) {
-        AllReviewFragment allReviewFragment = new AllReviewFragment();
+
+//        AllReviewFragment allReviewFragment = new AllReviewFragment();
+//        Bundle bundle = new Bundle();
+//        bundle.putSerializable(ALL_REVIEWS_KEY, reviews);
+//        allReviewFragment.setArguments(bundle);
+//        FragmentTransaction transition = getSupportFragmentManager().beginTransaction();
+//        transition.replace(R.id.fragment_container, allReviewFragment, TAG_REVIEW);
+//        transition.addToBackStack(null);
+//        transition.commit();
+        Intent intent = new Intent(this, AllReviewActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable(ALL_REVIEWS_KEY, reviews);
-        allReviewFragment.setArguments(bundle);
-        FragmentTransaction transition = getSupportFragmentManager().beginTransaction();
-        transition.replace(R.id.fragment_container, allReviewFragment, TAG_REVIEW);
-        transition.addToBackStack(null);
-        transition.commit();
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
     private void showError(String errMessage) {

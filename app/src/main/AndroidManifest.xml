@@ -43,8 +43,7 @@
                 android:value=".activity.MainActivity" />
         </activity>
         <activity
-            android:name=".activity.AllReviewActivity"
-            android:theme="@style/TransparentStatusBar" />
+            android:name=".activity.AllReviewActivity" />
 
         <provider
             android:name=".data.MovieKadeProvider"
