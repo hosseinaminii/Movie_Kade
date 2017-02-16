@@ -13,10 +13,10 @@ import org.json.JSONObject;
 public class JsonUtility {
     private static final String LOG_TAG = JsonUtility.class.getSimpleName();
 
+    private final static String TITLE = "title";
     private static final String ARRAY_RESULT = "results";
     private static final String ID = "id";
     private static final String POSTER_PATH = "poster_path";
-    private static final String ORIGINAL_TITLE = "original_title";
     private static final String AVERAGE_VOTE = "vote_average";
     private static final String BACKDROP_PATH = "backdrop_path";
 
@@ -40,7 +40,7 @@ public class JsonUtility {
             JSONObject movieJsonObject = results.getJSONObject(i);
 
             long id = movieJsonObject.getLong(ID);
-            String title = movieJsonObject.getString(ORIGINAL_TITLE);
+            String title = movieJsonObject.getString(TITLE);
             String posterPath = movieJsonObject.getString(POSTER_PATH);
             String backdropPath = movieJsonObject.getString(BACKDROP_PATH);
             double averageVote = movieJsonObject.getDouble(AVERAGE_VOTE);
@@ -57,7 +57,6 @@ public class JsonUtility {
         return movieStructureList;
     }
 
-    private final static String TITLE = "title";
     private final static String ARRAY_GENRES = "genres";
     private final static String GENRE_NAME = "name";
     private final static String STATUS = "status";

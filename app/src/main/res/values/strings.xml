@@ -38,7 +38,7 @@
     <string name="movie_vote_budget">Budget: %1$s</string>
 
     <string name="pref_info_poster_data_key">info_poster_data</string>
-    <string name="show_info_on_poster">Show Poster Info</string>
+    <string name="show_info_on_poster">Show Movie Info</string>
 
     <string name="pref_title_sort_fav">Favorite Sort</string>
     <string name="pref_key_sort_fav">sort_movies</string>
