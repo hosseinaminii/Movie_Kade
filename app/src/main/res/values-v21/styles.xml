@@ -7,6 +7,8 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowBackground">@color/windowBackground</item>
         <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
+        <item name="android:windowContentTransitions">true</item>
+        <item name="android:windowEnterTransition">@transition/window_transition</item>
     </style>
 
     <style name="AppTheme.Main" parent="@style/AppTheme">
@@ -17,6 +19,8 @@
         <item name="android:windowContentTransitions">true</item>
         <item name="android:windowEnterTransition">@transition/detail_window_enter_transition</item>
         <item name="android:windowReturnTransition">@transition/detail_window_return_transition</item>
+        <!--Transparent status bar-->
         <item name="android:windowTranslucentStatus">true</item>
     </style>
+
 </resources>

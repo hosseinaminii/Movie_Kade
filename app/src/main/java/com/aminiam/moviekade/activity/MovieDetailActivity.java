@@ -7,6 +7,8 @@ import android.content.IntentFilter;
 import android.databinding.DataBindingUtil;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -87,20 +89,13 @@ public class MovieDetailActivity extends AppCompatActivity implements AllReviews
 
     @Override
     public void onReadMoreClick(String[][] reviews) {
-
-//        AllReviewFragment allReviewFragment = new AllReviewFragment();
-//        Bundle bundle = new Bundle();
-//        bundle.putSerializable(ALL_REVIEWS_KEY, reviews);
-//        allReviewFragment.setArguments(bundle);
-//        FragmentTransaction transition = getSupportFragmentManager().beginTransaction();
-//        transition.replace(R.id.fragment_container, allReviewFragment, TAG_REVIEW);
-//        transition.addToBackStack(null);
-//        transition.commit();
+        ActivityOptionsCompat activityOptions =
+                ActivityOptionsCompat.makeSceneTransitionAnimation(this);
         Intent intent = new Intent(this, AllReviewActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable(ALL_REVIEWS_KEY, reviews);
         intent.putExtras(bundle);
-        startActivity(intent);
+        ActivityCompat.startActivity(this, intent, activityOptions.toBundle());
     }
 
     private void showError(String errMessage) {

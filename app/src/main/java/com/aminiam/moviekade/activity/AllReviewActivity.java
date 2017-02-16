@@ -26,6 +26,5 @@ public class AllReviewActivity extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction().add(R.id.frmContent, allReviewFragment)
                     .commit();
         }
-
     }
 }

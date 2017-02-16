@@ -58,7 +58,7 @@ public class AllReviewFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == android.R.id.home) {
-            getFragmentManager().popBackStack();
+            getActivity().supportFinishAfterTransition();
             return true;
         }
         return super.onOptionsItemSelected(item);

@@ -154,12 +154,20 @@ public class MainActivity extends AppCompatActivity implements UiUpdaterListener
                         break;
                     }
                     case R.id.navAbout: {
-                        startActivity(new Intent(MainActivity.this, AboutActivity.class));
+                        ActivityOptionsCompat activityOptions =
+                                ActivityOptionsCompat.makeSceneTransitionAnimation(MainActivity.this);
+                        ActivityCompat.startActivity(MainActivity.this,
+                                new Intent(MainActivity.this, AboutActivity.class),
+                                activityOptions.toBundle());
                         mBinding.drawerLayout.closeDrawers();
                         return true;
                     }
                     case R.id.navSetting: {
-                        startActivity(new Intent(MainActivity.this, SettingActivity.class));
+                        ActivityOptionsCompat activityOptions =
+                                ActivityOptionsCompat.makeSceneTransitionAnimation(MainActivity.this);
+
+                        ActivityCompat.startActivity(MainActivity.this, new Intent(MainActivity.this,
+                                SettingActivity.class), activityOptions.toBundle());
                         mBinding.drawerLayout.closeDrawers();
                         return true;
                     }
