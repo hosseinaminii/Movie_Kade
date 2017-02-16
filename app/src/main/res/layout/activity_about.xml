@@ -29,8 +29,8 @@
             android:layout_centerVertical="true">
 
             <ImageView
-                android:layout_width="150dp"
-                android:layout_height="150dp"
+                android:layout_width="@dimen/about_icon_dimen"
+                android:layout_height="@dimen/about_icon_dimen"
                 android:src="@drawable/icon"/>
 
             <TextView
@@ -39,6 +39,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-light"
                 android:layout_marginTop="10dp"
+                android:textSize="@dimen/about_text_size"
                 android:text="Developer: \nHossein Amini"/>
 
             <TextView
@@ -47,6 +48,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-light"
                 android:layout_marginTop="10dp"
+                android:textSize="@dimen/about_text_size"
                 android:text="Website: \nwww.aminiam.com"/>
 
             <TextView
@@ -55,6 +57,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-light"
                 android:layout_marginTop="10dp"
+                android:textSize="@dimen/about_text_size"
                 android:text="Icon: \nwww.freepik.com"/>
 
             <TextView
@@ -63,6 +66,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-light"
                 android:layout_marginTop="10dp"
+                android:textSize="@dimen/about_text_size"
                 android:text="Powered by: \nwww.themoviedb.org"/>
 
 
