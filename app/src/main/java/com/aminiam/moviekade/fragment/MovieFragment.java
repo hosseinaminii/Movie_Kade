@@ -71,6 +71,7 @@ public class MovieFragment extends Fragment implements LoaderManager.LoaderCallb
 
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -88,17 +89,16 @@ public class MovieFragment extends Fragment implements LoaderManager.LoaderCallb
         int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.grid_layout_margin);
         mBinding.recPlayingMovies.addItemDecoration(new GridSpacingItemDecoration(spanCount, spacingInPixels, true, 0));
 
-
-        if(savedInstanceState != null) {
-            mListState = savedInstanceState.getParcelable(RECYCLER_POSTION_KEY);
-        }
-
         return mBinding.getRoot();
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        if(savedInstanceState != null) {
+            mListState = savedInstanceState.getParcelable(RECYCLER_POSTION_KEY);
+        }
 
         if(NetworkUtility.isNetworkAvailable(getContext())) {
             getActivity().getSupportLoaderManager().initLoader(mLoaderId, null, this);
@@ -147,6 +147,7 @@ public class MovieFragment extends Fragment implements LoaderManager.LoaderCallb
                 if(mListState != null) {
                     mGridLayoutManager.onRestoreInstanceState(mListState);
                 }
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -198,8 +199,8 @@ public class MovieFragment extends Fragment implements LoaderManager.LoaderCallb
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putParcelable(RECYCLER_POSTION_KEY, mBinding.recPlayingMovies.getLayoutManager()
-                .onSaveInstanceState());
+        mListState =  mBinding.recPlayingMovies.getLayoutManager().onSaveInstanceState();
+        outState.putParcelable(RECYCLER_POSTION_KEY, mListState);
         super.onSaveInstanceState(outState);
     }
 }
