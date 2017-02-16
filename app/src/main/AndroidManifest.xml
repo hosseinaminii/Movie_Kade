@@ -43,7 +43,12 @@
                 android:value=".activity.MainActivity" />
         </activity>
         <activity
-            android:name=".activity.AllReviewActivity" />
+            android:name=".activity.AllReviewActivity"
+            android:parentActivityName=".activity.MovieDetailActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.MovieDetailActivity" />
+        </activity>
 
         <provider
             android:name=".data.MovieKadeProvider"
