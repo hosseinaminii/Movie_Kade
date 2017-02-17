@@ -21,9 +21,9 @@ public class AboutActivity extends AppCompatActivity {
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_about);
         setSupportActionBar(mBinding.toolbar);
         ActionBar actionBar = getSupportActionBar();
-        mBinding.toolbar.setTitle(R.string.about);
         if(actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setTitle(R.string.about);
         }
     }
 
