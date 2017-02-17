@@ -20,6 +20,7 @@ public class SettingActivity extends AppCompatActivity {
 
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_setting);
         setSupportActionBar(mBinding.toolbar);
+        mBinding.toolbar.setTitle(R.string.settings);
         ActionBar actionBar = getSupportActionBar();
         if(actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
