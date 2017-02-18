@@ -8,7 +8,7 @@
         android:id="@+id/txtInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="MovieKade \nwww.aminam.com"
+        android:text="Movie Kade \nwww.aminam.com"
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="30dp"
         android:layout_marginStart="30dp"
