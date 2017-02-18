@@ -73,6 +73,7 @@ public class ExpandableTextView extends LinearLayout implements View.OnClickList
         mButton.setTextColor(mButtonColor);
         mButton.setBackgroundResource(0);
         mButton.setText(mButtonPrimaryText);
+        mButton.setVisibility(INVISIBLE);
         mButton.setOnClickListener(this);
         addView(mButton);
 
@@ -86,7 +87,6 @@ public class ExpandableTextView extends LinearLayout implements View.OnClickList
     }
 
     public void setContent(String content) {
-        mButton.setVisibility(VISIBLE);
         mContent = content;
         mTxtContent.setText(mContent);
 
@@ -95,8 +95,8 @@ public class ExpandableTextView extends LinearLayout implements View.OnClickList
         mTxtContent.post(new Runnable() {
             @Override
             public void run() {
-                if(mTxtContent.getLineCount() <= mMaxLines) { mButton.setVisibility(INVISIBLE);
-                } else { mButton.setVisibility(VISIBLE); }
+                if(mTxtContent.getLineCount() <= mMaxLines) { mButton.setVisibility(INVISIBLE); }
+                else { mButton.setVisibility(VISIBLE); }
             }
         });
     }
