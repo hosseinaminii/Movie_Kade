@@ -11,6 +11,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.GridLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -162,8 +163,10 @@ public class BookmarkFragment extends Fragment implements MovieAdapter.MovieClic
             @Override
             protected void onPostExecute(MovieStructure[] movieStructures) {
                 super.onPostExecute(movieStructures);
+                mListener.updateViews(false);
                 mAdapter.populateDate(movieStructures);
                 mBinding.recMovies.setAdapter(mAdapter);
+                Log.d(LOG_TAG, "onPostExecute");
             }
         }.execute();
 
@@ -187,6 +190,10 @@ public class BookmarkFragment extends Fragment implements MovieAdapter.MovieClic
         super.onDestroy();
         PreferenceManager.getDefaultSharedPreferences(getActivity())
                 .unregisterOnSharedPreferenceChangeListener(this);
+    }
+
+    public void initLoader() {
+        getActivity().getSupportLoaderManager().initLoader(LOADER_ID, null, BookmarkFragment.this);
     }
 
     @Override

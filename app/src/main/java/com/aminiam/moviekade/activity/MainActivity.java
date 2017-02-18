@@ -106,6 +106,11 @@ public class MainActivity extends AppCompatActivity implements UiUpdaterListener
                             MovieFragment movieFragment = (MovieFragment) currentFragment;
                             movieFragment.initLoader();
                         }
+                    } else {
+                        if (currentFragment != null) {
+                            BookmarkFragment bookmarkFragment = (BookmarkFragment) currentFragment;
+                            bookmarkFragment.initLoader();
+                        }
                     }
                 } else {
                     showToast(getString(R.string.error_message_internet));
@@ -320,6 +325,11 @@ public class MainActivity extends AppCompatActivity implements UiUpdaterListener
                     if (currentFragment != null) {
                         MovieFragment movieFragment = (MovieFragment) currentFragment;
                         movieFragment.initLoader();
+                    }
+                } else {
+                    if (currentFragment != null) {
+                        BookmarkFragment bookmarkFragment = (BookmarkFragment) currentFragment;
+                        bookmarkFragment.initLoader();
                     }
                 }
 
